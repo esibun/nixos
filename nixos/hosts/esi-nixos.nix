@@ -45,7 +45,10 @@
           Environment = "PATH=/run/wrappers/bin:$PATH";
         };
       };
-      lactd.enable = true;
+      lactd = {
+        enable = true;
+        wantedBy = ["multi-user.target"];
+      };
     };
     timers."backup" = {
       wantedBy = ["timers.target"];
