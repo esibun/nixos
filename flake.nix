@@ -11,6 +11,8 @@
       esi-nixos = nixpkgs.lib.nixosSystem {
         modules = [
           ./nixos/common.nix
+          ./nixos/vfio.nix
+          ./nixos/hosts/esi-nixos.nix
         ];
       };
     };
