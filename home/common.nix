@@ -15,6 +15,7 @@
       starship
 
       # Development
+      git
       lazygit
       unstable.neovim
 
