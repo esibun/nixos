@@ -98,6 +98,12 @@ in
       pulseaudio # for pactl
       slurp
     ];
+    pointerCursor = {
+      gtk.enable = true;
+      package = pkgs.capitaine-cursors;
+      name = "capitaine-cursors";
+      size = 64;
+    };
   };
 
   programs.obs-studio = {
