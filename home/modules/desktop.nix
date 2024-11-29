@@ -78,6 +78,7 @@ in
       onlyoffice-bin
 
       # Social Media
+      arrpc # vesktop dependency
       (vesktop.overrideAttrs (final: prev: {
         # Use unstable vesktop but build against stable deps (don't want to build electron!)
         src = unstable.vesktop.src;
