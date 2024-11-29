@@ -26,11 +26,12 @@
       ];
     })
     (xivlauncher.overrideAttrs(final: prev: {
+      version = "1.1.1.4";
       src = pkgs.fetchFromGitHub {
         owner = "rankynbass";
         repo = "XIVLauncher.Core";
-        rev = "rb-v1.1.1.3";
-        hash = "sha256-hh0h4+cRMb+ZECsMc2WuVeyuJSUCMBwqMVazct5/gHY=";
+        rev = "rb-v1.1.1.4";
+        hash = "sha256-SymS6ITzLMU+Si96RVMlAx4XmEQwjL2z9HNDCp43Kks=";
         fetchSubmodules = true;
       };
     }))
