@@ -96,6 +96,9 @@ in
     stateVersion = "23.11";
   };
 
+  # fix for nixpkgs#180175
+  systemd.services.NetworkManager-wait-online.serviceConfig.ExecStart = [ "" "${pkgs.networkmanager}/bin/nm-online -q" ];
+
   time.timeZone = "America/New_York";
 
   users = {
