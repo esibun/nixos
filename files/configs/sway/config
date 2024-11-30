@@ -49,7 +49,8 @@ output DP-2 resolution 1920x1080@144Hz position 3840,0 scale 1
 output HDMI-A-2 disable
 
 # laptop config
-output eDP-2 adaptive_sync on
+# adaptive sync off for now due to refresh issues; to be investigated
+output eDP-2 adaptive_sync off
 
 ### Idle configuration
 #
