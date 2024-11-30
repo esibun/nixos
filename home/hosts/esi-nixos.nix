@@ -15,6 +15,7 @@
       borgbackup
       fcast-receiver
       libnotify
+      qbittorrent
     ];
     username = "esi";
   };
