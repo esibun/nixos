@@ -40,7 +40,6 @@ in
   };
 
   networking = {
-    firewall.enable = false; # todo: probably want this on long term
     networkmanager.enable = true;
   };
 
@@ -73,16 +72,6 @@ in
         enable = true;
         support32Bit = true;
       };
-    };
-    resolved = {
-      enable = true;
-      domains = ["~."];
-      fallbackDns = [""]; # disable fallback
-      dnsovertls = "true";
-      llmnr = "false"; # LLMNR breaks tailscale name resolution
-      extraConfig = ''
-        ResolveUnicastSingleLabel=yes
-      ''; # allow NextDNS to resolve unicast names
     };
     tailscale = {
       enable = true;

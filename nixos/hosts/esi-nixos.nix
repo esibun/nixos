@@ -21,10 +21,6 @@
 
   networking = {
     hostName = "esi-nixos";
-    nameservers = [
-      "45.90.28.0#esi-nixos-353b61.dns.nextdns.io"
-      "45.90.30.0#esi-nixos-353b61.dns.nextdns.io"
-    ];
   };
 
   programs.kdeconnect.enable = true;

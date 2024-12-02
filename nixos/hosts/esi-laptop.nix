@@ -3,10 +3,6 @@
 {
   networking = {
     hostName = "esi-laptop";
-    nameservers = [
-      "45.90.28.0#esi-laptop-353b61.dns.nextdns.io"
-      "45.90.30.0#esi-laptop-353b61.dns.nextdns.io"
-    ];
   };
 
   services = {
