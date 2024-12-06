@@ -8,7 +8,12 @@
 
     # Game Tools
     gamescope
-    lutris
+    (lutris.override {
+      # fix gfl2 (needs ffmpeg libs for H.264)
+      extraLibraries = pkgs: with pkgs; [
+        ffmpeg_4-headless
+      ];
+    })
     mangohud
     (steam.override {
       # gamescope fixes
