@@ -37,10 +37,8 @@
           }
 
           ./nixos/common.nix
+          ./nixos/vfio.nix
           ./nixos/hosts/esi-nixos.nix
-
-          ./nixos/modules/vfio.nix
-          ./nixos/modules/android.nix
 
           home-manager.nixosModules.home-manager {
             home-manager = {
@@ -74,8 +72,6 @@
 
           ./nixos/common.nix
           ./nixos/hosts/esi-laptop.nix
-
-          ./nixos/modules/android.nix
 
           home-manager.nixosModules.home-manager {
             home-manager = {
