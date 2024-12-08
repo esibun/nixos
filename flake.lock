@@ -113,7 +113,28 @@
         "home-manager": "home-manager",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
-        "nixpkgs-unstable": "nixpkgs-unstable"
+        "nixpkgs-unstable": "nixpkgs-unstable",
+        "xivlauncher-rb": "xivlauncher-rb"
+      }
+    },
+    "xivlauncher-rb": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1733659551,
+        "narHash": "sha256-ISfOpz9VpyzxBdf8iTFmg9yAP+ovIluiFqfXvnA/LyQ=",
+        "owner": "drakon64",
+        "repo": "nixos-xivlauncher-rb",
+        "rev": "246eebb1cdd24f3d63457d238bce0e0712ca45a2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "drakon64",
+        "repo": "nixos-xivlauncher-rb",
+        "type": "github"
       }
     }
   },

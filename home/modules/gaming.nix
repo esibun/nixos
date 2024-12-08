@@ -1,9 +1,9 @@
-{pkgs, aagl, ...}:
+{pkgs, inputs, ...}:
 
 {
   home.packages = with pkgs; [
     # Games
-    aagl.packages.${system}.anime-game-launcher
+    inputs.aagl.packages.${system}.anime-game-launcher
     prismlauncher
 
     # Game Tools
@@ -30,16 +30,7 @@
         keyutils
       ];
     })
-    (xivlauncher.overrideAttrs(final: prev: {
-      version = "1.1.1.5";
-      src = pkgs.fetchFromGitHub {
-        owner = "rankynbass";
-        repo = "XIVLauncher.Core";
-        rev = "rb-v1.1.1.5";
-        hash = "sha256-gGTxU80vvZTwUs/ulzrKikSBKIgB0VHFmVtwbOw7x38=";
-        fetchSubmodules = true;
-      };
-    }))
+    inputs.xivlauncher-rb.packages.${system}.default
 
     # Dependencies
     chromium # for cactus watcher

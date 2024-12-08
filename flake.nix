@@ -16,9 +16,14 @@
       url = "github:ezKEa/aagl-gtk-on-nix/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    xivlauncher-rb = {
+      url = "github:drakon64/nixos-xivlauncher-rb";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = {self, nixpkgs, nixpkgs-unstable, nixos-hardware, home-manager, aagl, ...}: {
+  outputs = inputs@{self, nixpkgs, nixpkgs-unstable, ...}: {
     nixosConfigurations = {
       esi-nixos = let
         system = "x86_64-linux";
@@ -40,17 +45,21 @@
           ./nixos/vfio.nix
           ./nixos/hosts/esi-nixos.nix
 
-          home-manager.nixosModules.home-manager {
+          inputs.home-manager.nixosModules.home-manager {
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
               extraSpecialArgs = {
-                inherit aagl;
+                inherit inputs;
               };
               users.esi = import ./home/hosts/esi-nixos.nix;
             };
           }
         ];
+
+        specialArgs = {
+          inherit inputs;
+        };
       };
       esi-laptop = let
         system = "x86_64-linux";
@@ -68,22 +77,26 @@
             ];
           }
 
-          nixos-hardware.nixosModules.framework-16-7040-amd
+          inputs.nixos-hardware.nixosModules.framework-16-7040-amd
 
           ./nixos/common.nix
           ./nixos/hosts/esi-laptop.nix
 
-          home-manager.nixosModules.home-manager {
+          inputs.home-manager.nixosModules.home-manager {
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
               extraSpecialArgs = {
-                inherit aagl;
+                inherit inputs;
               };
               users.esi = import ./home/hosts/esi-laptop.nix;
             };
           }
         ];
+
+        specialArgs = {
+          inherit inputs;
+        };
       };
     };
   };
