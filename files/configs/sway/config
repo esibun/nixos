@@ -304,6 +304,7 @@ exec --no-startup-id 'systemctl --user start sway-session.target'
 
 exec 'arrpc'
 exec 'steam -silent'
+exec 'easyeffects --gapplication-service'
 
 seat seat0 xcursor_theme capitaine-cursors 64
 
