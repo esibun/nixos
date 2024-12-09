@@ -5,6 +5,7 @@
     # Games
     inputs.aagl.packages.${system}.anime-game-launcher
     prismlauncher
+    inputs.xivlauncher-rb.packages.${system}.default
 
     # Game Tools
     gamescope
@@ -30,10 +31,6 @@
         keyutils
       ];
     })
-    inputs.xivlauncher-rb.packages.${system}.default
-
-    # Dependencies
-    chromium # for cactus watcher
 
     # Utilities
     helvum # useful for rerouting game audio
