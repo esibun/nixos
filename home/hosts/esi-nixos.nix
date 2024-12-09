@@ -7,6 +7,7 @@
     ../modules/desktop.nix
     ../modules/gaming.nix
     ../modules/gaming-beatoraja.nix
+    ../modules/vfio.nix
   ];
 
   home = {

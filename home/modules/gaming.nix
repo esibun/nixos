@@ -37,6 +37,5 @@
 
     # Utilities
     helvum # useful for rerouting game audio
-    looking-glass-client
   ];
 }
