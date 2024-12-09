@@ -1,0 +1,10 @@
+pull_request_rules:
+  - name: Automerge GH Actions
+    conditions:
+      - author=github-actions[bot]
+    - label=dependencies
+
+  actions:
+    merge:
+      method: squash
+    delete_head_branch:
