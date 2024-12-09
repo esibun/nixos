@@ -1,7 +1,7 @@
 {pkgs, inputs, ...}:
 
 {
-  home.packages = [
+  home.packages = with pkgs; [
     looking-glass-client
   ];
 }
