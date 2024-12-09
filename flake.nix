@@ -42,7 +42,7 @@
           }
 
           ./nixos/common.nix
-          ./nixos/vfio.nix
+          ./nixos/modules/vfio.nix
           ./nixos/hosts/esi-nixos.nix
 
           inputs.home-manager.nixosModules.home-manager {
