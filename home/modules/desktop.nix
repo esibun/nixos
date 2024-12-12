@@ -4,6 +4,10 @@ let
   custom = {
     swaylock-dpms = pkgs.writeShellScriptBin "swaylock-dpms" (builtins.readFile ../../files/scripts/swaylock-dpms);
   };
+  swaybg = pkgs.fetchurl {
+    url = "https://cdn.donmai.us/original/e8/84/__ganyu_and_furina_genshin_impact_drawn_by_amaki_ruto__e884db2fd44830b36e229dbe49aaac98.png";
+    hash = "sha256-MuTseCMZuPXm4gV6DnTbg9qiVQ99tJny/GPWJmFc7LA=";
+  };
 in
 {
   home = {
@@ -264,6 +268,12 @@ in
         "type:pointer" = {
           accel_profile = "flat";
           pointer_accel = "-0.333";
+        };
+      };
+
+      output = {
+        "*" = {
+          bg = "${swaybg} fill";
         };
       };
 
