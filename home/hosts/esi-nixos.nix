@@ -20,4 +20,20 @@
     ];
     username = "esi";
   };
+
+  wayland.windowManager.sway.config = {
+    output = {
+      "DP-1" = {
+        resolution = "3840x2160@144Hz";
+        position = "0,0";
+        scale = "1";
+        adaptive_sync = "on";
+      };
+      "DP-2" = {
+        resolution = "1920x1080@144Hz";
+        position = "3840,0";
+        scale = "1";
+      };
+    };
+  };
 }

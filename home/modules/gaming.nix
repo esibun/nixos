@@ -35,4 +35,8 @@
     # Utilities
     helvum # useful for rerouting game audio
   ];
+
+  wayland.windowManager.sway.config.startup = [
+    { command = "${pkgs.steam}/bin/steam -silent"; }
+  ];
 }

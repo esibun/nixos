@@ -20,4 +20,12 @@
     ];
     username = "esi";
   };
+
+  wayland.windowManager.sway.config = {
+    output = {
+      "eDP-2" = {
+        adaptive_sync = "on";
+      };
+    };
+  };
 }
