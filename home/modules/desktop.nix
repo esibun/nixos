@@ -288,6 +288,7 @@ in
         };
       };
       window.border = 1;
+      window.titlebar = false;
 
       startup = [
         { command = "${pkgs.arrpc}/bin/arrpc"; }
