@@ -35,5 +35,8 @@
         scale = "1";
       };
     };
+    startup = [
+      { command = "${pkgs.plasma5Packages.kdeconnect-kde}/bin/kdeconnect-indicator"; }
+    ];
   };
 }
