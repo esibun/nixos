@@ -83,7 +83,6 @@ in
   system = {
     autoUpgrade = {
       enable = true;
-      flags = ["--upgrade-all"];
       dates = "*-*-* 06:00:00";
     };
     stateVersion = "23.11";

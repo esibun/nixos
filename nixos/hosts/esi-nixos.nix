@@ -14,11 +14,6 @@
     lact # amd overclocking tools
   ];
 
-  fileSystems."/mnt/nvme" = {
-    device = "/dev/disk/by-uuid/c0bf9375-1a7e-48be-9ec4-23ed80c7b79f";
-    fsType = "ext4";
-  };
-
   networking = {
     hostName = "esi-nixos";
   };
