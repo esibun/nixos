@@ -18,6 +18,7 @@
       libnotify
       qbittorrent
     ];
+    stateVersion = "23.11";
     username = "esi";
   };
 

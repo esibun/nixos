@@ -16,5 +16,7 @@
     ''; # allow video group to adjust backlight settings
   };
 
+  system.stateVersion = "23.11";
+
   virtualisation.containers.enable = true; # podman
 }

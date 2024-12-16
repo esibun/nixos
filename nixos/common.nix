@@ -85,7 +85,6 @@ in
       enable = true;
       dates = "*-*-* 06:00:00";
     };
-    stateVersion = "23.11";
   };
 
   # fix for nixpkgs#180175

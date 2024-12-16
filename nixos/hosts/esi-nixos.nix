@@ -20,6 +20,8 @@
 
   programs.kdeconnect.enable = true;
 
+  system.stateVersion = "23.11";
+
   systemd = {
     packages = with pkgs; [
       lact
