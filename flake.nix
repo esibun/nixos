@@ -111,19 +111,17 @@
       in inputs.nix-on-droid.lib.nixOnDroidConfiguration {
         pkgs = import nixpkgs {
           inherit system;
+          config.allowUnfree = true; # for stable
+          overlays = [
+            (final: prev: {
+              unstable = import nixpkgs-unstable {
+                inherit system;
+                config.allowUnfree = true;
+              };
+            })
+          ];
         };
         modules = [
-          {
-            nixpkgs.config.allowUnfree = true; # for stable
-            nixpkgs.overlays = [
-              (final: prev: {
-                unstable = import nixpkgs-unstable {
-                  inherit system;
-                  config.allowUnfree = true;
-                };
-              })
-            ];
-          }
           ./nixos/hosts/nix-on-droid.nix
         ];
       };
