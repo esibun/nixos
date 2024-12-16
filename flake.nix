@@ -106,9 +106,11 @@
       };
     };
     nixOnDroidConfigurations = {
-      default = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
+      default = let
+        system = "aarch64-linux";
+      in inputs.nix-on-droid.lib.nixOnDroidConfiguration {
         pkgs = import nixpkgs {
-          system = "aarch64-linux";
+          inherit system;
         };
         modules = [
           {
