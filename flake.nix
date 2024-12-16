@@ -12,6 +12,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nix-on-droid = {
+      # nix-on-droid hasn't updated to 24.11, follow unstable (nix-on-droid#429)
+      url = "github:nix-community/nix-on-droid";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     aagl = {
       url = "github:ezKEa/aagl-gtk-on-nix/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -97,6 +103,16 @@
         specialArgs = {
           inherit inputs;
         };
+      };
+    };
+    nixOnDroidConfigurations = {
+      default = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
+        pkgs = import nixpkgs {
+          system = "aarch64-linux";
+        };
+        modules = [
+          ./nixos/hosts/nix-on-droid.nix
+        ];
       };
     };
   };
