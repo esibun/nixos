@@ -31,7 +31,7 @@
     };
   };
 
-  outputs = inputs@{self, nixpkgs, nixpkgs-unstable, ...}: {
+  outputs = inputs@{self, nixpkgs, nixpkgs-unstable, nixpkgs-old, ...}: {
     nixosConfigurations = {
       esi-nixos = let
         system = "x86_64-linux";
