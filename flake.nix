@@ -111,6 +111,17 @@
           system = "aarch64-linux";
         };
         modules = [
+          {
+            nixpkgs.config.allowUnfree = true; # for stable
+            nixpkgs.overlays = [
+              (final: prev: {
+                unstable = import nixpkgs-unstable {
+                  inherit system;
+                  config.allowUnfree = true;
+                };
+              })
+            ];
+          }
           ./nixos/hosts/nix-on-droid.nix
         ];
       };
