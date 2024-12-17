@@ -5,6 +5,8 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    nixpkgs-aagl.url = "github:nixos/nixpkgs/a0f3e10d94359665dba45b71b4227b0aeb851f8e";
+
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
 
     home-manager = {
@@ -23,7 +25,7 @@
 
     aagl = {
       url = "github:ezKEa/aagl-gtk-on-nix/release-24.11";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-aagl";
     };
 
     xivlauncher-rb = {
