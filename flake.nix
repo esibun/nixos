@@ -15,7 +15,10 @@
     nix-on-droid = {
       # nix-on-droid hasn't updated to 24.11, follow unstable (nix-on-droid#429)
       url = "github:nix-community/nix-on-droid";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "home-manager";
+      };
     };
 
     aagl = {
