@@ -4,8 +4,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    # workaround for nix-on-droid#429, nix-on-droid#380, new bug to be filed
-    nixpkgs-old.url = "github:nixos/nixpkgs/nixos-24.05";
 
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
 
@@ -111,7 +109,7 @@
       default = let
         system = "aarch64-linux";
       in inputs.nix-on-droid.lib.nixOnDroidConfiguration {
-        pkgs = import nixpkgs-old {
+        pkgs = import nixpkgs {
           inherit system;
           config.allowUnfree = true; # for stable
           overlays = [
