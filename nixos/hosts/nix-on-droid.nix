@@ -2,7 +2,7 @@
 
 {
   # TODO: figure out all base config that's missing on nix-on-droid
-  environment.systemPackages = with pkgs; [
+  environment.packages = with pkgs; [
     findutils
     gnugrep
     openssh
