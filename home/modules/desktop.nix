@@ -84,7 +84,11 @@ in
         src = unstable.vesktop.src;
         version = unstable.vesktop.version;
         pnpmDeps = unstable.vesktop.pnpmDeps;
-        patches = unstable.vesktop.patches;
+        patches = unstable.vesktop.patches ++
+          [(pkgs.fetchpatch {
+            url = "https://patch-diff.githubusercontent.com/raw/Vencord/Vesktop/pull/195.patch";
+            hash = "sha256-ArBtQGJu5pDFPNd+tGhsI62PJBaE40zEBwm2ynL5vDQ=";
+          })];
         # use stable autoPatchelfHook
         nativeBuildInputs = (lib.lists.remove unstable.autoPatchelfHook unstable.vesktop.nativeBuildInputs) ++ [pkgs.autoPatchelfHook];
       }))
