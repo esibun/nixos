@@ -39,5 +39,27 @@
     startup = [
       { command = "${pkgs.plasma5Packages.kdeconnect-kde}/bin/kdeconnect-indicator"; }
     ];
+    workspaceOutputAssign = [
+      {
+        workspace = "1";
+        output = "DP-1";
+      }
+      {
+        workspace = "2";
+        output = "DP-2";
+      }
+      {
+        workspace = "3";
+        output = "DP-2";
+      }
+      {
+        workspace = "4";
+        output = "DP-2";
+      }
+      {
+        workspace = "5";
+        output = "DP-2";
+      }
+    ];
   };
 }
