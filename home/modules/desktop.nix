@@ -20,7 +20,6 @@ in
         source = ../../files/configs/waybar;
         recursive = true;
       };
-      ".config/dunst/dunstrc".source = ../../files/configs/dunst/dunstrc;
       ".wezterm.lua".source = ../../files/configs/wezterm/wezterm.lua;
 
       ".local/share/rofi/themes/catppuccin-mocha.rasi".source = ../../files/rofi/catppuccin-mocha.rasi;
@@ -30,7 +29,6 @@ in
       custom.swaylock-dpms
 
       # Sway + Supporting Packages
-      dunst
       rofi-wayland
       polkit_gnome # Authentication dialogs
       seatd # fix cursor size
@@ -111,14 +109,32 @@ in
     };
   };
 
-  programs.obs-studio = {
-    enable = true;
-    package = pkgs.unstable.obs-studio;
-    plugins = with pkgs.unstable.obs-studio-plugins; [
-      obs-composite-blur
-      obs-vkcapture # enabled for now; see nixpkgs#349053 if it breaks build
-      wlrobs
-    ];
+  programs = {
+    obs-studio = {
+      enable = true;
+      package = pkgs.unstable.obs-studio;
+      plugins = with pkgs.unstable.obs-studio-plugins; [
+        obs-composite-blur
+        obs-vkcapture # enabled for now; see nixpkgs#349053 if it breaks build
+        wlrobs
+      ];
+    };
+  };
+
+  services = {
+    swaync = {
+      enable = true;
+      settings = ''
+        {
+          "positionX": 10,
+          "positionY": 10
+        }
+      '';
+      style = (pkgs.fetchurl {
+        url = "https://github.com/catppuccin/swaync/releases/download/v0.2.3/mocha.css";
+        hash = "sha256-Hie/vDt15nGCy4XWERGy1tUIecROw17GOoasT97kIfc=";
+      });
+    };
   };
 
   # Autostart for polkit_gnome
