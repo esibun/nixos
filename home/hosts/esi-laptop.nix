@@ -23,9 +23,13 @@
   };
 
   wayland.windowManager.sway.config = {
+    keybindings = {
+      "XF86MonBrightnessUp" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s 10%+";
+      "XF86MonBrightnessDown" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s 10%-";
+    };
     output = {
       "eDP-2" = {
-        adaptive_sync = "on";
+        adaptive_sync = "off";
       };
     };
   };
