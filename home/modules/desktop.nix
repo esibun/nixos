@@ -126,7 +126,7 @@ in
       enable = true;
       settings = {
         hide-on-action = false;
-      }
+      };
       style = (pkgs.fetchurl {
         url = "https://github.com/catppuccin/swaync/releases/download/v0.2.3/mocha.css";
         hash = "sha256-Hie/vDt15nGCy4XWERGy1tUIecROw17GOoasT97kIfc=";
