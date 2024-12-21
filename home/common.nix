@@ -78,5 +78,11 @@
         { name = "bass"; src = pkgs.fishPlugins.bass; }
       ];
     };
+    ssh.matchBlocks = {
+      "*".user = "root";
+      "esi-nixos".user = "esi";
+      "esi-laptop".user = "esi";
+      "esi-phone".user = "nix-on-droid";
+    };
   };
 }
