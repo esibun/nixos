@@ -1,4 +1,4 @@
-{pkgs, ...}:
+{pkgs, lib, ...}:
 
 {
   fonts.fontconfig.enable = true;
