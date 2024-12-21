@@ -124,6 +124,9 @@ in
   services = {
     swaync = {
       enable = true;
+      settings = {
+        hide-on-action = false;
+      }
       style = (pkgs.fetchurl {
         url = "https://github.com/catppuccin/swaync/releases/download/v0.2.3/mocha.css";
         hash = "sha256-Hie/vDt15nGCy4XWERGy1tUIecROw17GOoasT97kIfc=";
@@ -237,7 +240,7 @@ in
         "${modifier}+Shift+space" = "floating toggle";
         "${modifier}+Control+space" = "focus mode_toggle";
         "${modifier}+Control+Shift+space" = "floating enable; resize set 320 180; move position 0 0";
-        "${modifier}+backslash" = "exec ${pkgs.swaynotificationcenter}/bin/swaync-client --open-panel";
+        "${modifier}+backslash" = "exec ${pkgs.swaynotificationcenter}/bin/swaync-client --toggle-panel";
 
         "${modifier}+Shift+minus" = "move scratchpad";
         "${modifier}+minus" = "scratchpad show";
