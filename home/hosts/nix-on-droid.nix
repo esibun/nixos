@@ -1,5 +1,7 @@
 {pkgs, lib, ...}:
 
+let dnshack = pkgs.callPackage (builtins.fetchTarball "https://github.com/ettom/dnshack/tarball/master") {};
+in
 {
   imports = [
     ../common.nix
@@ -20,4 +22,9 @@
       '';
     };
   };
+
+  programs.bash.initExtra = lib.mkBefore ''
+    export DNSHACK_RESOLVER_CMD="${dnshack}/bin/dnshackresolver"
+    export LD_PRELOAD="${dnshack}/lib/libdnshackbridge.so"
+  '';
 }
