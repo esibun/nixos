@@ -84,7 +84,7 @@
         "esi-nixos".user = "esi";
         "esi-laptop".user = "esi";
         "esi-phone".user = "nix-on-droid";
-        "*" = lib.hm.dag.entryAfter ["esi-phone"] {
+        "*" = lib.hm.dag.entryAfter ["esi-nixos" "esi-laptop" "esi-phone"] {
           user = "root";
         };
       };
