@@ -12,4 +12,6 @@
       };
     };
   };
+
+  users.users.esi.extraGroups = lib.mkDefault ["gamemode"];
 }
