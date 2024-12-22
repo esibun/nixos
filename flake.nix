@@ -51,6 +51,7 @@
           }
 
           ./nixos/common.nix
+          ./nixos/modules/gaming.nix
           ./nixos/modules/vfio.nix
           ./nixos/hosts/esi-nixos.nix
 
@@ -89,6 +90,7 @@
           inputs.nixos-hardware.nixosModules.framework-16-7040-amd
 
           ./nixos/common.nix
+          ./nixos/modules/gaming.nix
           ./nixos/hosts/esi-laptop.nix
 
           inputs.home-manager.nixosModules.home-manager {
