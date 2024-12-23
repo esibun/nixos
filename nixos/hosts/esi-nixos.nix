@@ -1,11 +1,16 @@
-{pkgs, ...}:
+{pkgs, lib, config, ...}:
 
 {
   boot.kernelParams = [
     "amd_pstate=active"
     "amd_iommu=on"
-    "vfio-pci.ids=1002:13c0" # todo: boot 6900 under vfio driver via specialisation
-  ];
+  ] ++ lib.optional (config.specialisation != {}) "vfio-pci.ids=1002:13c0";
+
+  specialisation.vfio.configuration = {
+    boot.kernelParams = [
+      "vfio-pci.ids=1002:73bf,1002:ab28" # 6900 XT (for VFIO gaming)
+    ];
+  };
 
   environment.systemPackages = with pkgs; [
     borgbackup
