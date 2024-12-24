@@ -4,10 +4,10 @@
   imports = [
     ../common.nix
 
-    ../modules/desktop.nix
-    ../modules/gaming.nix
-    ../modules/gaming-beatoraja.nix
-    ../modules/vfio.nix
+    ../profiles/desktop.nix
+    ../profiles/gaming.nix
+    ../profiles/gaming-beatoraja.nix
+    ../profiles/vfio.nix
   ];
 
   home = {

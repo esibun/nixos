@@ -4,9 +4,9 @@
   imports = [
     ../common.nix
 
-    ../modules/desktop.nix
-    ../modules/gaming.nix
-    ../modules/gaming-beatoraja.nix
+    ../profiles/desktop.nix
+    ../profiles/gaming.nix
+    ../profiles/gaming-beatoraja.nix
   ];
 
   home = {
