@@ -4,7 +4,7 @@ let
   defaultGamescopeFlags = "-F fsr -b";
   reaper = {
     python = pkgs.python3.withPackages (python-pkgs: [python-pkgs.i3ipc]);
-    script = builtins.readFile ../../files/scripts/reaper.py;
+    script = ../../files/scripts/reaper.py;
   };
 in
 {
