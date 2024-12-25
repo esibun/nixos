@@ -2,6 +2,10 @@
 
 let
   defaultGamescopeFlags = "-F fsr -b";
+  reaper = {
+    python = pkgs.python3.withPackages (python-pkgs: [python-pkgs.i3ipc]);
+    script = builtins.readFile ../../files/scripts/reaper.py;
+  };
 in
 {
   home.packages = with pkgs; [
@@ -58,6 +62,26 @@ in
     # Utilities
     helvum # useful for rerouting game audio
   ];
+
+  systemd = {
+    user.services.game-reaper = {
+      Unit = {
+        Description = "Cleans up game's systemd scopes after the main window closes, closing leftover programs";
+        Wants = ["graphical-session.target"];
+        After = ["graphical-session.target"];
+      };
+      Service = {
+        Type = "simple";
+        ExecStart = "${reaper.python}/bin/python ${reaper.script}";
+        Restart = "on-failure";
+        RestartSec = 1;
+        TimeoutStopSec = 10;
+      };
+      Install = {
+        WantedBy = ["graphical-session.target"];
+      };
+    };
+  };
 
   wayland.windowManager.sway.config.startup = [
     { command = "${pkgs.steam}/bin/steam -silent"; }
