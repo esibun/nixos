@@ -14,6 +14,7 @@
     };
     packages = with pkgs; [
       # Command Prompt
+      comma
       starship
 
       # Development
