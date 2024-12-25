@@ -12,6 +12,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    umu = {
+      url = "git+https://github.com/Open-Wine-Components/umu-launcher/?dir=packaging\/nix&submodules=1";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nix-on-droid = {
       # nix-on-droid hasn't updated to 24.11, follow unstable (nix-on-droid#429)
       url = "github:nix-community/nix-on-droid";
