@@ -139,7 +139,6 @@ in
     user.services.polkit-gnome-authentication-agent-1 = {
       Unit = {
         Description = "polkit-gnome-authentication-agent-1";
-        WantedBy = ["graphical-session.target"];
         Wants = ["graphical-session.target"];
         After = ["graphical-session.target"];
       };
@@ -149,6 +148,9 @@ in
         Restart = "on-failure";
         RestartSec = 1;
         TimeoutStopSec = 10;
+      };
+      Install = {
+        WantedBy = ["graphical-session.target"];
       };
     };
   };
