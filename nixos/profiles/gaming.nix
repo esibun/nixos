@@ -5,7 +5,7 @@
     enable = true;
     settings = {
       general = {
-        softrealtime = "on";
+        renice = 10;
       };
     };
   };
