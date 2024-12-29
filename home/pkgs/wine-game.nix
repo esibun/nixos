@@ -48,8 +48,8 @@ let
       ${gameExecLine}
     fi
   '';
-  script = writeShellScriptBin shortname (baseScript ''${scope} ${pkgs.gamemode}/bin/gamemoderun ${pkgs.gamescope}/bin/gamescope ${gamescopeFlags} -- "$GAMEDIR/${mainBinary}"'');
-  launcherScript = writeShellScriptBin (shortname + "-launcher") (baseScript ''${scope} ${pkgs.gamemode}/bin/gamemoderun ${pkgs.gamescope}/bin/gamescope ${gamescopeFlags} -- "$GAMEDIR/${launcherBinary}"'');
+  script = writeShellScriptBin shortname (baseScript ''${scope} ${pkgs.gamemode}/bin/gamemoderun ${pkgs.gamescope}/bin/gamescope ${gamescopeFlags} -- umu-run "$GAMEDIR/${mainBinary}"'');
+  launcherScript = writeShellScriptBin (shortname + "-launcher") (baseScript ''${scope} ${pkgs.gamemode}/bin/gamemoderun ${pkgs.gamescope}/bin/gamescope ${gamescopeFlags} -- umu-run "$GAMEDIR/${launcherBinary}"'');
 
   desktopItem = makeDesktopItem {
     name = shortname;
