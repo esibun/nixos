@@ -17,7 +17,10 @@
   icon ? "",
   comment ? "",
   winetricksVerbs ? [],
-  gamescopeFlags ? ""
+  gamescopeFlags ? "",
+  extraLib ? [],
+  commandPrefix ? "",
+  commandPostfix ? ""
 }:
 
 let
@@ -29,6 +32,9 @@ let
 
     export GAMEID="${shortname}"
     export STORE="none"
+    LD_LIBRARY_PATH=${
+      lib.makeLibraryPath extraLib
+    }:$LD_LIBRARY_PATH
 
     PATH=${
       lib.makeBinPath [umu]
@@ -48,8 +54,8 @@ let
       ${gameExecLine}
     fi
   '';
-  script = writeShellScriptBin shortname (baseScript ''${scope} ${pkgs.gamemode}/bin/gamemoderun ${pkgs.gamescope}/bin/gamescope ${gamescopeFlags} -- umu-run "$GAMEDIR/${mainBinary}"'');
-  launcherScript = writeShellScriptBin (shortname + "-launcher") (baseScript ''${scope} ${pkgs.gamemode}/bin/gamemoderun ${pkgs.gamescope}/bin/gamescope ${gamescopeFlags} -- umu-run "$GAMEDIR/${launcherBinary}"'');
+  script = writeShellScriptBin shortname (baseScript ''${scope} ${commandPrefix} ${pkgs.gamemode}/bin/gamemoderun ${pkgs.gamescope}/bin/gamescope ${gamescopeFlags} -- umu-run "$GAMEDIR/${mainBinary}" ${commandPostfix}'');
+  launcherScript = writeShellScriptBin (shortname + "-launcher") (baseScript ''${scope} ${commandPrefix} ${pkgs.gamemode}/bin/gamemoderun ${pkgs.gamescope}/bin/gamescope ${gamescopeFlags} -- umu-run "$GAMEDIR/${launcherBinary}" ${commandPostfix}'');
 
   desktopItem = makeDesktopItem {
     name = shortname;
