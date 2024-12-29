@@ -20,8 +20,8 @@ in
       baseDir = "${config.home.homeDirectory}/.local/share/games/gfl2";
       shortname = "gfl2";
       installerUrl = "https://gf2-us-cdn-launcher.sunborngame.com/prod/download/launcher/1.0.0/GF2_Launcher_pc1_1_0_0_OverSeas_Mica_1732302259_6_1000005.exe";
-      launcherBinary = "GFL2Exilium/PCLauncher.exe";
-      mainBinary = "GFL2Exilium/GF2_Exilium.exe";
+      launcherBinary = "GF2Exilium/PCLauncher.exe";
+      mainBinary = "GF2Exilium/GF2_Exilium.exe";
       icon = pkgs.fetchurl {
         url = "https://cdn2.steamgriddb.com/icon_thumb/9f2dab581c42e1381065d4d6dbd75d1a.png";
         hash = "sha256-NXDkBBgIOUuaqG3gVtftrGz7Wa2hOAmnEEzMuaM0VsI=";
