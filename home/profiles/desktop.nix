@@ -62,7 +62,7 @@ in
       # Browser
       (unstable.vivaldi.override {
         fontconfig = pkgs.fontconfig;
-        mesa = pkgs.mesa;
+        libgbm = pkgs.mesa;
       }) # follow unstable, Twitch requires it
 
       # Command Prompt
