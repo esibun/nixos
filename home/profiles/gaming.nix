@@ -6,6 +6,8 @@ let
     python = pkgs.python3.withPackages (python-pkgs: [python-pkgs.i3ipc]);
     script = ../../files/scripts/reaper.py;
   };
+  # explicitly include dotnet8, this isn't in winetricks stable yet
+  dotnet8 = ../../files/dotnet8.verb;
 in
 {
   home.packages = with pkgs; [
@@ -15,7 +17,7 @@ in
     inputs.xivlauncher-rb.packages.${system}.default
 
     (callPackage ../pkgs/wine-game.nix {
-      umu = inputs.umu.packages.${system}.umu;
+      inherit inputs;
       title = "Girls' Frontline 2: Exilium";
       baseDir = "${config.home.homeDirectory}/.local/share/games/gfl2";
       shortname = "gfl2";
@@ -26,9 +28,10 @@ in
         url = "https://cdn2.steamgriddb.com/icon_thumb/9f2dab581c42e1381065d4d6dbd75d1a.png";
         hash = "sha256-NXDkBBgIOUuaqG3gVtftrGz7Wa2hOAmnEEzMuaM0VsI=";
       };
+      useUmu = false;
       winetricksVerbs = [
         "allfonts"
-        "dotnet8"
+        "${dotnet8}"
       ];
       gamescopeFlags = defaultGamescopeFlags;
       extraLib = [
