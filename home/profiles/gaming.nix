@@ -38,7 +38,7 @@ in
         winetricksVerbs = [
           "allfonts"
         ];
-        gamescopeFlags = "";
+        gamescopeFlags = config.gamescopeFlags;
         extraLib = [
           ffmpeg_4-headless # GStreamer H.264 support
         ];
