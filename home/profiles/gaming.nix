@@ -31,6 +31,9 @@ in
         "dotnet8"
       ];
       gamescopeFlags = defaultGamescopeFlags;
+      extraLib = [
+        ffmpeg_4-headless # GStreamer H.264 support
+      ];
     })
 
 
