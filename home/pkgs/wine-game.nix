@@ -55,7 +55,7 @@ let
     if [ ! -d "$WINEPREFIX" ]; then
       ${if useUmu then "umu-run" else ""} winetricks ${lib.strings.concatStringsSep " " winetricksVerbs}
       if [ ${builtins.toString (! useUmu)} ]; then
-        ${pkgs.dxvk}/bin/setup_dxvk.sh
+        ${pkgs.dxvk}/bin/setup_dxvk.sh install
       fi
     fi
 

@@ -10,6 +10,8 @@
     ../profiles/vfio.nix
   ];
 
+  gamescopeFlags = "-w 3840 -h 2160 -r 144 -F fsr -b";
+
   home = {
     homeDirectory = "/home/esi";
     packages = with pkgs; [
