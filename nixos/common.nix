@@ -1,4 +1,4 @@
-{lib, pkgs, ...}:
+{lib, pkgs, inputs, ...}:
 
 let
   secrets = (builtins.fromTOML (builtins.readFile (pkgs.fetchurl {
@@ -11,6 +11,7 @@ let
 in
 {
   imports = [
+    inputs.nix-index-database.nixosModules.nix-index
     ../hardware-configuration.nix
   ];
 
@@ -50,6 +51,7 @@ in
   };
 
   programs = {
+    nix-index-database.comma.enable = true;
     seahorse.enable = true; # gnome-keyring secrets support
   };
 
