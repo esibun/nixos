@@ -34,13 +34,15 @@ in
           url = "https://cdn2.steamgriddb.com/icon_thumb/9f2dab581c42e1381065d4d6dbd75d1a.png";
           hash = "sha256-NXDkBBgIOUuaqG3gVtftrGz7Wa2hOAmnEEzMuaM0VsI=";
         };
-        useUmu = false;
+        useUmu = true;
         winetricksVerbs = [
           "allfonts"
         ];
         gamescopeFlags = config.gamescopeFlags;
         extraLib = [
           ffmpeg_4-headless # GStreamer H.264 support
+          freetype
+          harfbuzz
         ];
       })
 
