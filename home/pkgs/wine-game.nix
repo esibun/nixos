@@ -36,20 +36,40 @@ let
 
     export GAMEID="${shortname}"
     export STORE="none"
-    # TODO: UMU - this gets overridden by pressure-vessel atm
-    export LD_LIBRARY_PATH=${
-      lib.makeLibraryPath extraLib
-    }:$LD_LIBRARY_PATH
 
     PATH=${
       lib.makeBinPath (
-        lib.optional useUmu umu ++
+        lib.optionals useUmu (with pkgs; [
+          umu
+          fuse
+          fuse-overlayfs
+        ])++
         lib.optionals (! useUmu) (with pkgs; [
           wineWowPackages.full
           winetricks
         ])
       )
     }:$PATH
+
+    # Hack in extra libraries into Proton compatibility tool
+    #
+    # This has a lot of potential to go wrong when launching multiple games - the better approach is to
+    #  copy the latest proton dir to its own folder, set PROTONPATH, and set the overlay there.
+    #  This would require ensuring UMU has downloaded the latest proton version, however.
+    export STEAM_LIBS_INJECT_PATH="$HOME/.local/share/Steam/compatibilitytools.d/UMU-Latest/files/lib64"
+    export STEAM_LIBS_PATHS="${
+      lib.makeLibraryPath extraLib
+    }"
+
+    # Unmount previous library overrides
+    fusermount3 -u $STEAM_LIBS_INJECT_PATH || true
+    if [ -n $STEAM_LIBS_PATHS ]; then
+      # NOTE: lowerdir file priority is left-to-right
+      echo "** Injecting extra libs into Proton"
+      fuse-overlayfs -o lowerdir=$STEAM_LIBS_PATHS:$STEAM_LIBS_INJECT_PATH $STEAM_LIBS_INJECT_PATH
+      echo "** Inject successful!"
+    fi
+
     USER="$(whoami)"
 
     if [ ! -d "$WINEPREFIX" ]; then
