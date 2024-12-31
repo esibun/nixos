@@ -51,30 +51,47 @@ let
       )
     }:$PATH
 
-    # Hack in extra libraries into Proton compatibility tool
-    #
-    # This has a lot of potential to go wrong when launching multiple games - the better approach is to
-    #  copy the latest proton dir to its own folder, set PROTONPATH, and set the overlay there.
-    #  This would require ensuring UMU has downloaded the latest proton version, however.
-    export STEAM_LIBS_INJECT_PATH="$HOME/.local/share/Steam/compatibilitytools.d/UMU-Latest/files/lib64"
     export STEAM_LIBS_PATHS="${
       lib.makeLibraryPath extraLib
     }"
 
-    # Unmount previous library overrides
-    fusermount3 -u $STEAM_LIBS_INJECT_PATH || true
-    if [ -n $STEAM_LIBS_PATHS ]; then
+    if [ ${lib.boolToString useUmu} ] && [ -n $STEAM_LIBS_PATHS ]; then
+      echo "** Lib injection: Updating UMU..."
+      # Update UMU-Latest if necessary by executing umu without game
+      umu-run whoami
+
+      # Set directories/libraries to inject
+      export PROTONPATH="$(readlink -f $HOME/.local/share/Steam/compatibilitytools.d/UMU-Latest)-${shortname}"
+      export STEAM_LIBS_INJECT_PATH="$PROTONPATH/files/lib64"
+
+      echo "** Lib injection: Cleaning up any old mounts..."
+
+      # Unmount any previous overlayfs mounts
+      fusermount3 -u $STEAM_LIBS_INJECT_PATH || true
+      fusermount3 -u $PROTONPATH || true
+
+      echo "** Lib injection: Overlaying Proton..."
+
+      # Mount a copy of UMU-Latest and mount it
+      mkdir -p $PROTONPATH
+      fuse-overlayfs -o lowerdir=$(readlink -f $HOME/.local/share/Steam/compatibilitytools.d/UMU-Latest) $PROTONPATH
+
+      echo "** Lib injection: Injecting extraLib into Proton..."
+
+      # Hack in extra libraries into Proton compatibility tool
       # NOTE: lowerdir file priority is left-to-right
-      echo "** Injecting extra libs into Proton"
+      # NOTE: Maximum overlayfs depth is 2; if we want to do anything more complicated than this, we will need to
+      #  find another solution
       fuse-overlayfs -o lowerdir=$STEAM_LIBS_PATHS:$STEAM_LIBS_INJECT_PATH $STEAM_LIBS_INJECT_PATH
-      echo "** Inject successful!"
+
+      echo "** Lib injection: Complete!"
     fi
 
     USER="$(whoami)"
 
     if [ ! -d "$WINEPREFIX" ]; then
       ${if useUmu then "umu-run" else ""} winetricks ${lib.strings.concatStringsSep " " winetricksVerbs}
-      if [ ${builtins.toString (! useUmu)} ]; then
+      if [ ${lib.boolToString (! useUmu)} ]; then
         ${pkgs.dxvk}/bin/setup_dxvk.sh install
       fi
     fi
