@@ -62,19 +62,23 @@ let
 
       # Set directories/libraries to inject
       export PROTONPATH="$(readlink -f $HOME/.local/share/Steam/compatibilitytools.d/UMU-Latest)-${shortname}"
+      export BASEPROTONPATH="$(readlink -f $HOME/.local/share/Steam/compatibilitytools.d/UMU-Latest)"
       export STEAM_LIBS_INJECT_PATH="$PROTONPATH/files/lib64"
 
       echo "** Lib injection: Cleaning up any old mounts..."
 
       # Unmount any previous overlayfs mounts
       fusermount3 -u $STEAM_LIBS_INJECT_PATH || true
-      fusermount3 -u $PROTONPATH || true
+      rm -rf $PROTONPATH || true
 
       echo "** Lib injection: Overlaying Proton..."
 
-      # Mount a copy of UMU-Latest and mount it
+      # Copy latest proton to it's own directory
+      #
+      # Ideally we'd be using some form of no-copy mount here, but overlayfs gets really upset when you try to
+      #  do a nested mount in userspace.  Tell CP to reflink if possible, but fallback to copy if not.
       mkdir -p $PROTONPATH
-      fuse-overlayfs -o lowerdir=$(readlink -f $HOME/.local/share/Steam/compatibilitytools.d/UMU-Latest) $PROTONPATH
+      cp --reflink=auto -r "$BASEPROTONPATH/." "$PROTONPATH"
 
       echo "** Lib injection: Injecting extraLib into Proton..."
 
