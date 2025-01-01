@@ -22,6 +22,19 @@ in
       prismlauncher
       inputs.xivlauncher-rb.packages.${system}.default
 
+      (callPackage ../pkgs/native-game.nix {
+        title = "Final Fantasy XIV";
+        baseDir = "${config.home.homeDirectory}/.xlcore";
+        shortname = "ffxiv";
+        useGlobalPaths = true;
+        mainBinary = "XIVLauncher.Core";
+        icon = pkgs.fetchurl {
+          url = "https://cdn2.steamgriddb.com/icon_thumb/2b094148a9d10109b903715267c4dd14.png";
+          hash = "sha256-tCVON6h1GwPV6Fp+DZG7cNOC/u1N+8kP7155TSyQl0g=";
+        };
+        # FFXIV requires cursor grab to avoid facing floor/ceiling every time mouse is clicked
+        gamescopeFlags = config.gamescopeFlags + " --force-grab-cursor";
+      })
       (callPackage ../pkgs/wine-game.nix {
         inherit inputs;
         title = "Girls' Frontline 2: Exilium";
