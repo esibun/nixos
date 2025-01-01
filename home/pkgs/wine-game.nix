@@ -69,7 +69,7 @@ let
 
       # Unmount any previous overlayfs mounts
       fusermount3 -u $STEAM_LIBS_INJECT_PATH || true
-      rm -rf $PROTONPATH || true
+      rm -rf "$(dirname $PROTONPATH)/*-${shortname}" || true
 
       echo "** Lib injection: Overlaying Proton..."
 
