@@ -19,6 +19,7 @@
   gamescopeFlags ? "",
   extraLib ? [],
   commandPrefix ? "",
+  gamePrefix ? "",
   commandPostfix ? ""
 }:
 
@@ -41,7 +42,7 @@ let
     fi
   '';
   gameDir = if useGlobalPaths then "" else "${baseDir}/";
-  script = writeShellScriptBin shortname (baseScript ''${scope} ${commandPrefix} ${pkgs.gamemode}/bin/gamemoderun ${pkgs.gamescope}/bin/gamescope ${gamescopeFlags} -- "${gameDir}${mainBinary}" ${commandPostfix}'');
+  script = writeShellScriptBin shortname (baseScript ''${scope} ${commandPrefix} ${pkgs.gamemode}/bin/gamemoderun ${pkgs.gamescope}/bin/gamescope ${gamescopeFlags} -- ${gamePrefix} "${gameDir}${mainBinary}" ${commandPostfix}'');
   launcherScript = writeShellScriptBin (shortname + "-launcher") (baseScript ''${scope} ${commandPrefix} ${pkgs.gamemode}/bin/gamemoderun ${pkgs.gamescope}/bin/gamescope ${gamescopeFlags} -- "${gameDir}${launcherBinary}" ${commandPostfix}'');
 
   desktopItem = makeDesktopItem {
