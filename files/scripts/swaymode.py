@@ -16,7 +16,7 @@ def on_window_focus(self, e):
   if not gaming and inst in gamingmodeinsts:
     sway.command('mode gaming')
     gaming = True
-  elif gaming:
+  elif gaming and inst not in gamingmodeinsts:
     sway.command('mode default')
     gaming = False
 
