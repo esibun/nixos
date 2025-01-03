@@ -155,7 +155,75 @@ in
     };
   };
 
-  wayland.windowManager.sway = {
+  wayland.windowManager.sway = let
+    alwaysActiveKeybinds = let
+      down = config.wayland.windowManager.sway.config.down;
+      left = config.wayland.windowManager.sway.config.left;
+      menu = config.wayland.windowManager.sway.config.menu;
+      modifier = config.wayland.windowManager.sway.config.modifier;
+      right = config.wayland.windowManager.sway.config.right;
+      terminal = config.wayland.windowManager.sway.config.terminal;
+      up = config.wayland.windowManager.sway.config.up;
+    in {
+      "XF86AudioRaiseVolume" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ +5%";
+      "XF86AudioLowerVolume" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ -5%";
+      "${modifier}+XF86AudioMute" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ toggle";
+      "${modifier}+XF86AudioRaiseVolume" = "exec ${pkgs.pulseaudio}/bin/pactl set-source-volume @DEFAULT_SOURCE@ +5%";
+      "${modifier}+XF86AudioLowerVolume" = "exec ${pkgs.pulseaudio}/bin/pactl set-source-volume @DEFAULT_SOURCE@ -5%";
+      "XF86AudioMute" = "exec ${pkgs.pulseaudio}/bin/pactl set-source-mute @DEFAULT_SOURCE@ toggle";
+
+      "${modifier}+c" = "exec 'GRIM_DEFAULT_DIR=$HOME/Pictures ${pkgs.grim}/bin/grim -g \"\$(${pkgs.slurp}/bin/slurp)\"'";
+
+      "${modifier}+Return" = "exec ${terminal}";
+      "${modifier}+Shift+q" = "kill";
+      "${modifier}+Shift+c" = "reload";
+
+      "${modifier}+${left}" = "focus left";
+      "${modifier}+${down}" = "focus down";
+      "${modifier}+${up}" = "focus up";
+      "${modifier}+${right}" = "focus right";
+
+      "${modifier}+Shift+${left}" = "move left";
+      "${modifier}+Shift+${down}" = "move down";
+      "${modifier}+Shift+${up}" = "move up";
+      "${modifier}+Shift+${right}" = "move right";
+
+      "--inhibited ${modifier}+Control+1" = "workspace number 1";
+      "--inhibited ${modifier}+Control+2" = "workspace number 2";
+      "--inhibited ${modifier}+Control+3" = "workspace number 3";
+      "--inhibited ${modifier}+Control+4" = "workspace number 4";
+      "--inhibited ${modifier}+Control+5" = "workspace number 5";
+      "--inhibited ${modifier}+Control+6" = "workspace number 6";
+      "--inhibited ${modifier}+Control+7" = "workspace number 7";
+      "--inhibited ${modifier}+Control+8" = "workspace number 8";
+      "--inhibited ${modifier}+Control+9" = "workspace number 9";
+      "--inhibited ${modifier}+Control+0" = "workspace number 10";
+
+      "--inhibited ${modifier}+Shift+1" = "move container to workspace number 1; workspace number 1";
+      "--inhibited ${modifier}+Shift+2" = "move container to workspace number 2; workspace number 2";
+      "--inhibited ${modifier}+Shift+3" = "move container to workspace number 3; workspace number 3";
+      "--inhibited ${modifier}+Shift+4" = "move container to workspace number 4; workspace number 4";
+      "--inhibited ${modifier}+Shift+5" = "move container to workspace number 5; workspace number 5";
+      "--inhibited ${modifier}+Shift+6" = "move container to workspace number 6; workspace number 6";
+      "--inhibited ${modifier}+Shift+7" = "move container to workspace number 7; workspace number 7";
+      "--inhibited ${modifier}+Shift+8" = "move container to workspace number 8; workspace number 8";
+      "--inhibited ${modifier}+Shift+9" = "move container to workspace number 9; workspace number 9";
+      "--inhibited ${modifier}+Shift+0" = "move container to workspace number 10; workspace number 10";
+
+      "--inhibited ${modifier}+Control+bracketleft" = "move workspace to output left";
+      "--inhibited ${modifier}+Control+bracketright" = "move workspace to output right";
+
+      "${modifier}+Shift+space" = "floating toggle";
+      "${modifier}+Control+space" = "focus mode_toggle";
+      "${modifier}+Control+Shift+space" = "floating enable; resize set 320 180; move position 0 0";
+      "${modifier}+backslash" = "exec ${pkgs.swaynotificationcenter}/bin/swaync-client --toggle-panel";
+
+      "${modifier}+Shift+minus" = "move scratchpad";
+      "${modifier}+minus" = "scratchpad show";
+
+      "--inhibited ${modifier}+F11" = "mode gaming";
+    };
+  in {
     enable = true;
 
     config = {
@@ -178,29 +246,10 @@ in
         up = config.wayland.windowManager.sway.config.up;
       in
       {
-        "XF86AudioRaiseVolume" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ +5%";
-        "XF86AudioLowerVolume" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ -5%";
-        "${modifier}+XF86AudioMute" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ toggle";
-        "${modifier}+XF86AudioRaiseVolume" = "exec ${pkgs.pulseaudio}/bin/pactl set-source-volume @DEFAULT_SOURCE@ +5%";
-        "${modifier}+XF86AudioLowerVolume" = "exec ${pkgs.pulseaudio}/bin/pactl set-source-volume @DEFAULT_SOURCE@ -5%";
-        "XF86AudioMute" = "exec ${pkgs.pulseaudio}/bin/pactl set-source-mute @DEFAULT_SOURCE@ toggle";
-
-        "${modifier}+c" = "exec 'GRIM_DEFAULT_DIR=$HOME/Pictures ${pkgs.grim}/bin/grim -g \"\$(${pkgs.slurp}/bin/slurp)\"'";
-
-        "${modifier}+Return" = "exec ${terminal}";
-        "${modifier}+Shift+q" = "kill";
         "${modifier}+space" = "exec ${menu}";
-        "${modifier}+Shift+c" = "reload";
-
-        "${modifier}+${left}" = "focus left";
-        "${modifier}+${down}" = "focus down";
-        "${modifier}+${up}" = "focus up";
-        "${modifier}+${right}" = "focus right";
-
-        "${modifier}+Shift+${left}" = "move left";
-        "${modifier}+Shift+${down}" = "move down";
-        "${modifier}+Shift+${up}" = "move up";
-        "${modifier}+Shift+${right}" = "move right";
+        "${modifier}+f" = "fullscreen";
+        "${modifier}+x" = "mode system";
+        "${modifier}+r" = "mode resize";
 
         "${modifier}+1" = "workspace number 1";
         "${modifier}+2" = "workspace number 2";
@@ -212,45 +261,7 @@ in
         "${modifier}+8" = "workspace number 8";
         "${modifier}+9" = "workspace number 9";
         "${modifier}+0" = "workspace number 10";
-
-        "--inhibited ${modifier}+Control+1" = "workspace number 1";
-        "--inhibited ${modifier}+Control+2" = "workspace number 2";
-        "--inhibited ${modifier}+Control+3" = "workspace number 3";
-        "--inhibited ${modifier}+Control+4" = "workspace number 4";
-        "--inhibited ${modifier}+Control+5" = "workspace number 5";
-        "--inhibited ${modifier}+Control+6" = "workspace number 6";
-        "--inhibited ${modifier}+Control+7" = "workspace number 7";
-        "--inhibited ${modifier}+Control+8" = "workspace number 8";
-        "--inhibited ${modifier}+Control+9" = "workspace number 9";
-        "--inhibited ${modifier}+Control+0" = "workspace number 10";
-
-        "--inhibited ${modifier}+Shift+1" = "move container to workspace number 1; workspace number 1";
-        "--inhibited ${modifier}+Shift+2" = "move container to workspace number 2; workspace number 2";
-        "--inhibited ${modifier}+Shift+3" = "move container to workspace number 3; workspace number 3";
-        "--inhibited ${modifier}+Shift+4" = "move container to workspace number 4; workspace number 4";
-        "--inhibited ${modifier}+Shift+5" = "move container to workspace number 5; workspace number 5";
-        "--inhibited ${modifier}+Shift+6" = "move container to workspace number 6; workspace number 6";
-        "--inhibited ${modifier}+Shift+7" = "move container to workspace number 7; workspace number 7";
-        "--inhibited ${modifier}+Shift+8" = "move container to workspace number 8; workspace number 8";
-        "--inhibited ${modifier}+Shift+9" = "move container to workspace number 9; workspace number 9";
-        "--inhibited ${modifier}+Shift+0" = "move container to workspace number 10; workspace number 10";
-
-        "--inhibited ${modifier}+Control+bracketleft" = "move workspace to output left";
-        "--inhibited ${modifier}+Control+bracketright" = "move workspace to output right";
-
-        "${modifier}+f" = "fullscreen";
-        "${modifier}+Shift+space" = "floating toggle";
-        "${modifier}+Control+space" = "focus mode_toggle";
-        "${modifier}+Control+Shift+space" = "floating enable; resize set 320 180; move position 0 0";
-        "${modifier}+backslash" = "exec ${pkgs.swaynotificationcenter}/bin/swaync-client --toggle-panel";
-
-        "${modifier}+Shift+minus" = "move scratchpad";
-        "${modifier}+minus" = "scratchpad show";
-
-        "--inhibited ${modifier}+F11" = "mode gaming";
-        "${modifier}+x" = "mode system";
-        "${modifier}+r" = "mode resize";
-      };
+      } // alwaysActiveKeybinds;
       modes = let
         down = config.wayland.windowManager.sway.config.down;
         left = config.wayland.windowManager.sway.config.left;
@@ -261,7 +272,7 @@ in
       {
         gaming = {
           "--inhibited ${modifier}+F11" = "mode default";
-        };
+        } // alwaysActiveKeybinds;
         resize = {
           "${left}" = "resize shrink width 10px";
           "${down}" = "resize grow height 10px";
