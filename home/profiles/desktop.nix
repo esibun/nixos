@@ -221,7 +221,6 @@ in
       "${modifier}+Shift+minus" = "move scratchpad";
       "${modifier}+minus" = "scratchpad show";
 
-      "--inhibited ${modifier}+F11" = "mode gaming";
     };
   in {
     enable = true;
@@ -261,6 +260,8 @@ in
         "${modifier}+8" = "workspace number 8";
         "${modifier}+9" = "workspace number 9";
         "${modifier}+0" = "workspace number 10";
+
+        "--inhibited ${modifier}+F11" = "mode gaming";
       } // alwaysActiveKeybinds;
       modes = let
         down = config.wayland.windowManager.sway.config.down;

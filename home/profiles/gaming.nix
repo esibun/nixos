@@ -5,6 +5,10 @@ let
     python = pkgs.python3.withPackages (python-pkgs: [python-pkgs.i3ipc]);
     script = ../../files/scripts/reaper.py;
   };
+  swaymode = {
+    python = pkgs.python3.withPackages (python-pkgs: [python-pkgs.i3ipc]);
+    script = ../../files/scripts/swaymode.py;
+  };
 in
 {
   options = {
@@ -93,13 +97,30 @@ in
     systemd = {
       user.services.game-reaper = {
         Unit = {
-          Description = "Cleans up game's systemd scopes after the main window closes, closing leftover programs";
+          Description = "Game Process Reaper";
           Wants = ["graphical-session.target"];
           After = ["graphical-session.target"];
         };
         Service = {
           Type = "simple";
           ExecStart = "${reaper.python}/bin/python ${reaper.script}";
+          Restart = "on-failure";
+          RestartSec = 1;
+          TimeoutStopSec = 10;
+        };
+        Install = {
+          WantedBy = ["graphical-session.target"];
+        };
+      };
+      user.services.sway-mode = {
+        Unit = {
+          Description = "Sway Gaming Mode Daemon";
+          Wants = ["graphical-session.target"];
+          After = ["graphical-session.target"];
+        };
+        Service = {
+          Type = "simple";
+          ExecStart = "${swaymode.python}/bin/python ${swaymode.script}";
           Restart = "on-failure";
           RestartSec = 1;
           TimeoutStopSec = 10;
