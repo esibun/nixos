@@ -2,7 +2,7 @@
 
 let
   custom = {
-    swaylock-dpms = pkgs.writeShellScriptBin "swaylock-dpms" (builtins.readFile ../../files/scripts/swaylock-dpms);
+    hyprlock-dpms = pkgs.writeShellScriptBin "hyprlock-dpms" (builtins.readFile ../../files/scripts/hyprlock-dpms);
   };
   swaybg = pkgs.fetchurl {
     url = "https://cdn.donmai.us/original/e8/84/__ganyu_and_furina_genshin_impact_drawn_by_amaki_ruto__e884db2fd44830b36e229dbe49aaac98.png";
@@ -26,15 +26,15 @@ in
     };
     packages = with pkgs; [
       # Custom Scripts
-      custom.swaylock-dpms
+      custom.hyprlock-dpms
 
       # Sway + Supporting Packages
+      hyprlock
       rofi-wayland
       polkit_gnome # Authentication dialogs
       seatd # fix cursor size
       sway
       swayidle
-      swaylock
       waybar
       xdg-utils
 
@@ -112,6 +112,42 @@ in
   };
 
   programs = {
+    hyprlock = {
+      enable = true;
+      settings = {
+        background = {
+          monitor = "";
+          path = "${swaybg}";
+          blur_passes = 3;
+          blur_size = 2;
+          brightness = 0.3;
+        };
+        input-field = {
+          monitor = "";
+          fade_on_empty = false;
+          position = "0, -20";
+          font_size = 24;
+        };
+        label = [
+          {
+            monitor = "";
+            text = "esi";
+            position = "0, 100";
+            font_size = 24;
+            halign = "center";
+            valign = "center";
+          }
+          {
+            monitor = "";
+            text = "<b>$TIME12</b>";
+            position = "0, 300";
+            font_size = 48;
+            halign = "center";
+            valign = "center";
+          }
+        ];
+      };
+    };
     obs-studio = {
       enable = true;
       package = pkgs.unstable.obs-studio;
@@ -292,7 +328,7 @@ in
         system = {
           "s" = "exec \"shutdown now\"; mode default";
           "r" = "exec \"reboot\"; mode default";
-          "l" = "exec \"swaylock-dpms\"; mode default";
+          "l" = "exec \"hyprlock-dpms\"; mode default";
           "e" = "exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'";
           "Return" = "mode default";
           "Escape" = "mode default";

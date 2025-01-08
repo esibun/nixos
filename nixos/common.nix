@@ -57,7 +57,7 @@ in
 
   security = {
     polkit.enable = true;
-    pam.services.swaylock = {}; # required for swaylock to work
+    pam.services.hyprlock = {}; # required for hyprlock to work
     pki.certificateFiles = [
       ../files/pvpn-twitch.crt
     ];
