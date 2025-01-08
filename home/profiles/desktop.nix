@@ -84,6 +84,8 @@ in
         pnpmDeps = unstable.vesktop.pnpmDeps;
         patches = unstable.vesktop.patches ++
           [(pkgs.fetchpatch {
+            # Pull PR: Allow streaming from camera devices
+            #  There's some interest in upstreaming but the PR itself is a year old.
             url = "https://patch-diff.githubusercontent.com/raw/Vencord/Vesktop/pull/195.patch";
             hash = "sha256-ArBtQGJu5pDFPNd+tGhsI62PJBaE40zEBwm2ynL5vDQ=";
           })];
