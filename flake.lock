@@ -287,19 +287,20 @@
       },
       "locked": {
         "dir": "packaging/nix",
-        "lastModified": 1731482559,
-        "narHash": "sha256-TOsVK6o2V8D7CLzVOkLs8AClrZmlVQTfeii32ZIQCu4=",
-        "owner": "Open-Wine-Components",
-        "repo": "umu-launcher",
-        "rev": "223cd9e2a5f62a9eede6ab6695b2e522fcf78301",
-        "type": "github"
+        "lastModified": 1736534482,
+        "narHash": "sha256-aHDxVKA4GgohIPCDUX9zMF4UnLQR7U6Dj9mOmhZYSoc=",
+        "ref": "refs/heads/main",
+        "rev": "e9cb4d764013d4c8c3d1166f59581da8f56a3d83",
+        "revCount": 896,
+        "submodules": true,
+        "type": "git",
+        "url": "https://github.com/Open-Wine-Components/umu-launcher/?dir=packaging/nix"
       },
       "original": {
         "dir": "packaging/nix",
-        "owner": "Open-Wine-Components",
-        "ref": "1.1.4",
-        "repo": "umu-launcher",
-        "type": "github"
+        "submodules": true,
+        "type": "git",
+        "url": "https://github.com/Open-Wine-Components/umu-launcher/?dir=packaging/nix"
       }
     },
     "xivlauncher-rb": {
