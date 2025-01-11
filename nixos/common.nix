@@ -65,10 +65,7 @@ in
 
   services = {
     blueman.enable = true;
-    dbus = {
-      enable = true;
-      implementation = "broker";
-    };
+    dbus.enable = true;
     gnome.gnome-keyring.enable = true;
     libinput.enable = true; # touchpad support
     pipewire = {
