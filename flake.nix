@@ -2,6 +2,9 @@
   description = "NixOS Configuration for esi";
 
   inputs = {
+    #
+    # OS Level Packages
+    #
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
@@ -21,6 +24,10 @@
       };
     };
 
+    #
+    # App Level Packages
+    #
+
     aagl = {
       url = "github:ezKEa/aagl-gtk-on-nix/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -39,6 +46,14 @@
     xivlauncher-rb = {
       url = "github:drakon64/nixos-xivlauncher-rb";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    #
+    # Non-Flake Inputs
+    #
+    catppuccin-swaync-mocha = {
+      url = "https://github.com/catppuccin/swaync/releases/latest/download/mocha.css";
+      flake = false;
     };
   };
 

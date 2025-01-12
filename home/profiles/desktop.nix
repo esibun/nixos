@@ -1,4 +1,4 @@
-{pkgs, lib, config, ...}:
+{pkgs, lib, config, inputs, ...}:
 
 let
   custom = {
@@ -7,6 +7,12 @@ let
   swaybg = pkgs.fetchurl {
     url = "https://cdn.donmai.us/original/e8/84/__ganyu_and_furina_genshin_impact_drawn_by_amaki_ruto__e884db2fd44830b36e229dbe49aaac98.png";
     hash = "sha256-MuTseCMZuPXm4gV6DnTbg9qiVQ99tJny/GPWJmFc7LA=";
+  };
+  vesktop-cam-patch = pkgs.fetchpatch {
+    # Pull PR: Allow streaming from camera devices
+    #  There's some interest in upstreaming but the PR itself is a year old.
+    url = "https://patch-diff.githubusercontent.com/raw/Vencord/Vesktop/pull/195.patch";
+    hash = "sha256-ArBtQGJu5pDFPNd+tGhsI62PJBaE40zEBwm2ynL5vDQ=";
   };
 in
 {
@@ -82,13 +88,9 @@ in
         src = unstable.vesktop.src;
         version = unstable.vesktop.version;
         pnpmDeps = unstable.vesktop.pnpmDeps;
-        patches = unstable.vesktop.patches ++
-          [(pkgs.fetchpatch {
-            # Pull PR: Allow streaming from camera devices
-            #  There's some interest in upstreaming but the PR itself is a year old.
-            url = "https://patch-diff.githubusercontent.com/raw/Vencord/Vesktop/pull/195.patch";
-            hash = "sha256-ArBtQGJu5pDFPNd+tGhsI62PJBaE40zEBwm2ynL5vDQ=";
-          })];
+        patches = unstable.vesktop.patches ++ [
+          vesktop-cam-patch
+        ];
         # use stable autoPatchelfHook
         nativeBuildInputs = (lib.lists.remove unstable.autoPatchelfHook unstable.vesktop.nativeBuildInputs) ++ [pkgs.autoPatchelfHook];
       }))
@@ -165,10 +167,7 @@ in
       settings = {
         hide-on-action = false;
       };
-      style = (pkgs.fetchurl {
-        url = "https://github.com/catppuccin/swaync/releases/download/v0.2.3/mocha.css";
-        hash = "sha256-Hie/vDt15nGCy4XWERGy1tUIecROw17GOoasT97kIfc=";
-      });
+      style = inputs.catppuccin-swaync-mocha;
     };
   };
 

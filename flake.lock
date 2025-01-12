@@ -22,6 +22,18 @@
         "type": "github"
       }
     },
+    "catppuccin-swaync-mocha": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-PLckTUZEEYe8NTAkk/0KxPHodZ1xzO5Qy9uFoyeQX00=",
+        "type": "file",
+        "url": "https://github.com/catppuccin/swaync/releases/latest/download/mocha.css"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://github.com/catppuccin/swaync/releases/latest/download/mocha.css"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -253,6 +265,7 @@
     "root": {
       "inputs": {
         "aagl": "aagl",
+        "catppuccin-swaync-mocha": "catppuccin-swaync-mocha",
         "home-manager": "home-manager",
         "nix-index-database": "nix-index-database",
         "nix-on-droid": "nix-on-droid",
