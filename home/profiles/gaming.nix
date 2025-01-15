@@ -14,6 +14,10 @@ let
       url = "https://cdn2.steamgriddb.com/icon_thumb/2b094148a9d10109b903715267c4dd14.png";
       hash = "sha256-tCVON6h1GwPV6Fp+DZG7cNOC/u1N+8kP7155TSyQl0g=";
     };
+    genshin = pkgs.fetchurl {
+      url = "https://cdn2.steamgriddb.com/icon_thumb/65ae27b8c33157282761f37083da12dd.png";
+      hash = "sha256-IYUQR8JPkXprJ7xBbmbzroPzhIg8g1J/bHZXORfvUHo=";
+    };
     gfl2 = pkgs.fetchurl {
       url = "https://cdn2.steamgriddb.com/icon_thumb/9f2dab581c42e1381065d4d6dbd75d1a.png";
       hash = "sha256-NXDkBBgIOUuaqG3gVtftrGz7Wa2hOAmnEEzMuaM0VsI=";
@@ -44,6 +48,23 @@ in
         mainBinary = "XIVLauncher.Core";
         icon = icons.ffxiv;
         # FFXIV requires cursor grab to avoid facing floor/ceiling every time mouse is clicked
+        gamescopeFlags = config.gamescopeFlags + " --force-grab-cursor";
+        gamePrefix = "${pkgs.mangohud}/bin/mangohud";
+      })
+      (callPackage ../pkgs/wine-game.nix {
+        inherit inputs;
+        title = "Genshin Impact";
+        baseDir = "${config.home.homeDirectory}/.local/share/games/genshin";
+        shortname = "genshin";
+        installerUrl = "https://sg-public-api.hoyoverse.com/event/download_porter/trace/ys_global/genshinimpactpc/default?appid=723";
+        launcherBinary = "HoYoPlay/launcher.exe";
+        mainBinary = "HoYoPlay/games/Genshin Impact game/GenshinImpact.exe";
+        icon = icons.genshin;
+        useUmu = true;
+        winetricksVerbs = [
+          "vcrun2018"
+        ];
+        # Genshin requires cursor grab to avoid cursor state issues (camera)
         gamescopeFlags = config.gamescopeFlags + " --force-grab-cursor";
         gamePrefix = "${pkgs.mangohud}/bin/mangohud";
       })

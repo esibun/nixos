@@ -103,7 +103,7 @@ let
     if [ ! -f "${baseDir}/is_installed" ]; then
       touch "${baseDir}/is_installed"
       TEMPDIR=$(mktemp -d)
-      curl ${installerUrl} -o "$TEMPDIR/installer.exe"
+      curl -L ${installerUrl} -o "$TEMPDIR/installer.exe"
       ${scope} ${pkgs.gamemode}/bin/gamemoderun ${exeCommand} "$TEMPDIR/installer.exe" "$@"
     else
       ${gameExecLine}
