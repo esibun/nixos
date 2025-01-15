@@ -27,12 +27,6 @@
     #
     # App Level Packages
     #
-
-    aagl = {
-      url = "github:ezKEa/aagl-gtk-on-nix/release-24.11";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -53,6 +47,11 @@
     #
     catppuccin-swaync-mocha = {
       url = "https://github.com/catppuccin/swaync/releases/latest/download/mocha.css";
+      flake = false;
+    };
+
+    genshin-fpsunlock = {
+      url = "https://codeberg.org/mkrsym1/fpsunlock/releases/download/latest/fpsunlock.exe";
       flake = false;
     };
   };

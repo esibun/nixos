@@ -14,6 +14,7 @@
   installerUrl,
   useUmu ? true,
   stopTimeout ? 2,
+  useGlobalPaths ? false,
   launcherBinary ? "",
   mainBinary,
   icon ? "",
@@ -22,6 +23,7 @@
   gamescopeFlags ? "",
   extraLib ? [],
   commandPrefix ? "",
+  gamePrefix ? "",
   commandPostfix ? ""
 }:
 
@@ -29,9 +31,9 @@ let
   umu = inputs.umu.packages.${system}.umu;
   scope = "systemd-run --user --scope --property TimeoutStopSec=${builtins.toString stopTimeout} --unit=\"${shortname}\"";
   exeCommand = if useUmu then "umu-run" else "wine";
+  gameDir = if useGlobalPaths then "" else "${baseDir}/";
   baseScript = gameExecLine: ''
     export WINEPREFIX="${baseDir}/prefix"
-    export GAMEDIR="${baseDir}/game"
     export WINEESYNC=1
 
     export GAMEID="${shortname}"
@@ -109,8 +111,8 @@ let
       ${gameExecLine}
     fi
   '';
-  script = writeShellScriptBin shortname (baseScript ''${scope} ${commandPrefix} ${pkgs.gamemode}/bin/gamemoderun ${pkgs.gamescope}/bin/gamescope ${gamescopeFlags} -- ${exeCommand} "$GAMEDIR/${mainBinary}" ${commandPostfix}'');
-  launcherScript = writeShellScriptBin (shortname + "-launcher") (baseScript ''${scope} ${commandPrefix} ${pkgs.gamemode}/bin/gamemoderun ${pkgs.gamescope}/bin/gamescope ${gamescopeFlags} -- ${exeCommand} "$GAMEDIR/${launcherBinary}" ${commandPostfix}'');
+  script = writeShellScriptBin shortname (baseScript ''${scope} ${commandPrefix} ${pkgs.gamemode}/bin/gamemoderun ${pkgs.gamescope}/bin/gamescope ${gamescopeFlags} -- ${gamePrefix} ${exeCommand} "${gameDir}${mainBinary}" ${commandPostfix}'');
+  launcherScript = writeShellScriptBin (shortname + "-launcher") (baseScript ''${scope} ${commandPrefix} ${pkgs.gamemode}/bin/gamemoderun ${pkgs.gamescope}/bin/gamescope ${gamescopeFlags} -- ${exeCommand} "${gameDir}${launcherBinary}" ${commandPostfix}'');
 
   desktopItem = makeDesktopItem {
     name = shortname;
