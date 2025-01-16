@@ -31,7 +31,7 @@ let
   umu = inputs.umu.packages.${system}.umu;
   scope = "systemd-run --user --scope --property TimeoutStopSec=${builtins.toString stopTimeout} --unit=\"${shortname}\"";
   exeCommand = if useUmu then "umu-run" else "wine";
-  gameDir = if useGlobalPaths then "" else "${baseDir}/game";
+  gameDir = if useGlobalPaths then "" else "${baseDir}/game/";
   baseScript = gameExecLine: ''
     export WINEPREFIX="${baseDir}/prefix"
     export WINEESYNC=1
