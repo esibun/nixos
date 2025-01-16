@@ -77,7 +77,7 @@ in
           "vcrun2018"
         ];
         # Genshin requires cursor grab to avoid cursor state issues (camera)
-        gamescopeFlags = config.gamescopeFlags + " --force-grab-cursor";
+        gamescopeFlags = config.gamescopeFlags + " --force-grab-cursor --cursor-scale-height 1080";
         gamePrefix = "${pkgs.mangohud}/bin/mangohud";
         # wine doesn't appreciate being given a windows executable without the correct extension
         commandPrefix = "${pkgs.coreutils}/bin/ln -sf ${inputs.genshin-fpsunlock} ~/.local/share/games/genshin/fpsunlock.exe && ";
