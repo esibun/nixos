@@ -74,7 +74,7 @@ in
         icon = icons.genshin;
         useUmu = true;
         winetricksVerbs = [
-          "vcrun2018"
+          "vcrun2019"
         ];
         # Genshin requires cursor grab to avoid cursor state issues (camera)
         gamescopeFlags = config.gamescopeFlags + " --force-grab-cursor --cursor-scale-height 1080";
