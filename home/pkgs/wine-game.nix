@@ -57,7 +57,6 @@ let
       lib.makeLibraryPath extraLib
     }"
 
-    if [ ${lib.boolToString useUmu} ] && [ -n $STEAM_LIBS_PATHS ]; then
     # Check if prefix exists before we run UMU; if it doesn't we need to run winetricks.
     # umu-run will create the prefix the first time it's run regardless of the command.
     if [ ! -d "$WINEPREFIX" ]; then
@@ -65,6 +64,8 @@ let
     else
       PREFIX_EXISTS=true
     fi
+
+    if ${lib.boolToString useUmu} && [ -n "$STEAM_LIBS_PATHS" ]; then
       echo "** Lib injection: Updating UMU..."
       # Update UMU-Latest if necessary by executing umu without game
       umu-run whoami
