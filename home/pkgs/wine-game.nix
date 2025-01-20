@@ -58,6 +58,13 @@ let
     }"
 
     if [ ${lib.boolToString useUmu} ] && [ -n $STEAM_LIBS_PATHS ]; then
+    # Check if prefix exists before we run UMU; if it doesn't we need to run winetricks.
+    # umu-run will create the prefix the first time it's run regardless of the command.
+    if [ ! -d "$WINEPREFIX" ]; then
+      PREFIX_EXISTS=false
+    else
+      PREFIX_EXISTS=true
+    fi
       echo "** Lib injection: Updating UMU..."
       # Update UMU-Latest if necessary by executing umu without game
       umu-run whoami
@@ -95,9 +102,9 @@ let
 
     USER="$(whoami)"
 
-    if [ ! -d "$WINEPREFIX" ]; then
+    if [ ! $PREFIXEXISTS ]; then
       ${if useUmu then "umu-run" else ""} winetricks ${lib.strings.concatStringsSep " " winetricksVerbs}
-      if [ ${lib.boolToString (! useUmu)} ]; then
+      if ${lib.boolToString (! useUmu)}; then
         ${pkgs.dxvk}/bin/setup_dxvk.sh install
       fi
     fi
