@@ -74,7 +74,7 @@ in
         icon = icons.genshin;
         useUmu = true;
         winetricksVerbs = [
-          "vcrun2019"
+          "vcrun2022"
         ];
         # Genshin requires cursor grab to avoid cursor state issues (camera)
         gamescopeFlags = config.gamescopeFlags + " --force-grab-cursor --cursor-scale-height 1080";
@@ -92,9 +92,6 @@ in
         mainBinary = "GF2Exilium/GF2_Exilium.exe";
         icon = icons.gfl2;
         useUmu = true;
-        winetricksVerbs = [
-          "allfonts"
-        ];
         gamescopeFlags = config.gamescopeFlags;
         extraLib = [
           ffmpeg_4-headless # GStreamer H.264 support
