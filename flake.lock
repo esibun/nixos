@@ -78,11 +78,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1737257306,
-        "narHash": "sha256-lEGgpA4kGafc76+Amnz+gh1L/cwUS2pePFlf22WEyh8=",
+        "lastModified": 1737861961,
+        "narHash": "sha256-LIRtMvAwLGb8pBoamzgEF67oKlNPz4LuXiRPVZf+TpE=",
         "owner": "nix-community",
         "repo": "nix-index-database",
-        "rev": "744d330659e207a1883d2da0141d35e520eb87bd",
+        "rev": "79b7b8eae3243fc5aa9aad34ba6b9bbb2266f523",
         "type": "github"
       },
       "original": {
@@ -184,11 +184,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1737632463,
-        "narHash": "sha256-38J9QfeGSej341ouwzqf77WIHAScihAKCt8PQJ+NH28=",
+        "lastModified": 1737746512,
+        "narHash": "sha256-nU6AezEX4EuahTO1YopzueAXfjFfmCHylYEFCagduHU=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "0aa475546ed21629c4f5bbf90e38c846a99ec9e9",
+        "rev": "825479c345a7f806485b7f00dbe3abb50641b083",
         "type": "github"
       },
       "original": {
@@ -274,11 +274,11 @@
       },
       "locked": {
         "dir": "packaging/nix",
-        "lastModified": 1737787206,
-        "narHash": "sha256-vVrqM1gqkSXRQGNaZexNk4Iz+wFm8AeWmd2AQ8ITl6Y=",
+        "lastModified": 1737834175,
+        "narHash": "sha256-fhyc89qqYM3ql0k4hJVibAhXvEXOch96hnsEGB7Av3I=",
         "ref": "refs/heads/main",
-        "rev": "d0512c3a6563a3c26a776543c3cfb8c983a151a9",
-        "revCount": 910,
+        "rev": "4d1860eefd79d6c04e964774155dbe13be65121a",
+        "revCount": 911,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/Open-Wine-Components/umu-launcher/?dir=packaging/nix"
@@ -297,11 +297,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1737717075,
-        "narHash": "sha256-RyRpBoi50OvHNpvCEaoOkRvUWOtDh/wg4hF+T1AMPqI=",
+        "lastModified": 1737803391,
+        "narHash": "sha256-r2fYEMJE0c2raYH8IVOiB+udiq4ut7SrFFuBarRX9yM=",
         "owner": "drakon64",
         "repo": "nixos-xivlauncher-rb",
-        "rev": "783f2d6a73217c49f64dd63a45862428621006ec",
+        "rev": "057a49dcb29e2f592f2c944909d7f8ab767d1d37",
         "type": "github"
       },
       "original": {
