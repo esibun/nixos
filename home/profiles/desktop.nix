@@ -35,7 +35,6 @@ in
       custom.hyprlock-dpms
 
       # Sway + Supporting Packages
-      hyprlock
       rofi-wayland
       polkit_gnome # Authentication dialogs
       seatd # fix cursor size
@@ -116,6 +115,7 @@ in
   programs = {
     hyprlock = {
       enable = true;
+      package = pkgs.unstable.hyprlock;
       settings = {
         background = {
           monitor = "";
