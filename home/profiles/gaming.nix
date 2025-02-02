@@ -48,7 +48,7 @@ in
         icon = icons.ffxiv;
         # FFXIV requires cursor grab to avoid facing floor/ceiling every time mouse is clicked
         gamescopeFlags = config.gamescopeFlags + " --force-grab-cursor";
-        gamePrefix = "${pkgs.mangohud}/bin/mangohud";
+        gamePrefix = "${pkgs.mangohud}/bin/mangohud ${pkgs.obs-studio-plugins.obs-vkcapture}/bin/obs-gamecapture";
       })
       (callPackage ../pkgs/wine-game.nix {
         inherit inputs;
