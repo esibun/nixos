@@ -35,7 +35,7 @@
       "backup" = {
         wantedBy = [];
         script = ''
-          ${pkgs.borgmatic}/bin/borgmatic create -v 1 --list --stats
+          ${pkgs.borgmatic}/bin/borgmatic -v 1 --list --stats
           '';
         serviceConfig = {
           Type = "oneshot";
