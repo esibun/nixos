@@ -34,7 +34,7 @@
       };
       "DP-2" = {
         resolution = "1920x1080@144Hz";
-        position = "3840,0";
+        position = "3840,540";
         scale = "1";
       };
     };
