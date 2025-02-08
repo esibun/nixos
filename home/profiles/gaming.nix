@@ -51,7 +51,6 @@ in
         gamePrefix = "${pkgs.mangohud}/bin/mangohud ${pkgs.obs-studio-plugins.obs-vkcapture}/bin/obs-gamecapture";
       })
       (callPackage ../pkgs/wine-game.nix {
-        inherit inputs;
         title = "Genshin Impact";
         baseDir = "${config.home.homeDirectory}/.local/share/games/genshin";
         shortname = "genshin";
@@ -83,7 +82,6 @@ in
         commandPrefix = "${pkgs.coreutils}/bin/ln -sf ${inputs.genshin-fpsunlock} ~/.local/share/games/genshin/fpsunlock.exe && ";
       })
       (callPackage ../pkgs/wine-game.nix {
-        inherit inputs;
         title = "Girls' Frontline 2: Exilium";
         baseDir = "${config.home.homeDirectory}/.local/share/games/gfl2";
         shortname = "gfl2";

@@ -5,7 +5,6 @@
   writeShellScriptBin,
   lib,
   pkgs,
-  inputs,
   system,
 
   title,
@@ -28,7 +27,7 @@
 }:
 
 let
-  umu = inputs.umu.packages.${system}.umu-launcher;
+  umu = pkgs.unstable.umu-launcher;
   scope = "systemd-run --user --scope --property TimeoutStopSec=${builtins.toString stopTimeout} --unit=\"${shortname}\"";
   exeCommand = if useUmu then "umu-run" else "wine";
   gameDir = if useGlobalPaths then "" else "${baseDir}/game/";
