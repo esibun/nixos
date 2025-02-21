@@ -38,6 +38,7 @@ in
       # Games
       prismlauncher
       inputs.xivlauncher-rb.packages.${system}.default
+      fflogs
 
       (callPackage ../pkgs/native-game.nix {
         title = "Final Fantasy XIV";
