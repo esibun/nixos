@@ -13,8 +13,6 @@
     virt-manager
   ];
 
-  programs.dconf.enable = true; # needed for virt-manager to detect hypervisor
-
   virtualisation.libvirtd = {
     enable = true;
     qemu = {

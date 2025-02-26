@@ -51,6 +51,7 @@ in
   };
 
   programs = {
+    dconf.enable = true;
     nix-index-database.comma.enable = true;
     seahorse.enable = true; # gnome-keyring secrets support
   };
