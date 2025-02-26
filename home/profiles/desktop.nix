@@ -155,6 +155,7 @@ in
       package = pkgs.unstable.obs-studio;
       plugins = with pkgs.unstable.obs-studio-plugins; [
         obs-composite-blur
+        obs-pipewire-audio-capture
         obs-vkcapture # enabled for now; see nixpkgs#349053 if it breaks build
         wlrobs
       ];
