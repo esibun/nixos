@@ -53,6 +53,7 @@ in
       (nerdfonts.override {
         fonts = [
           "NerdFontsSymbolsOnly"
+          "Ubuntu"
         ];
       })
       roboto
