@@ -9,19 +9,8 @@
   specialisation.vfio.configuration = {
     boot.kernelParams = [
       "vfio-pci.ids=1002:73bf,1002:ab28" # 6900 XT (for VFIO gaming)
+      "split_lock_detection=off" # 6.13.0+ workaround for gnif/looking-glass#1156
     ];
-
-    # 6.12.12+ is broken currently (steam instacrashes, LG can't write to LGMP device, see LookingGlass#1159
-    boot.kernelPackages = lib.mkForce (pkgs.linuxPackagesFor (pkgs.linuxKernel.kernels.linux_6_12.override {
-      argsOverride = rec {
-        src = pkgs.fetchurl {
-          url = "mirror://kernel/linux/kernel/v${lib.versions.major version}.x/linux-${version}.tar.xz";
-          sha256 = "sha256-R1Fy/b2HoVPxI6V5Umcudzvbba9bWKQX0aXkGfz+7Ek=";
-        };
-        version = "6.12.11";
-        modDirVersion = "6.12.11";
-      };
-    }));
   };
 
   environment.systemPackages = with pkgs; [
