@@ -2,6 +2,6 @@
 
 {
   home.packages = with pkgs; [
-    looking-glass-client
+    unstable.looking-glass-client
   ];
 }

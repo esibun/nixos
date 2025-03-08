@@ -159,6 +159,7 @@ in
         obs-pipewire-audio-capture
         obs-vkcapture # enabled for now; see nixpkgs#349053 if it breaks build
         wlrobs
+        looking-glass-obs
       ];
     };
   };
