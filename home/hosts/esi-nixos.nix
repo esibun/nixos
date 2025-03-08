@@ -37,6 +37,12 @@
         position = "3840,540";
         scale = "1";
       };
+      "HDMI-A-1" = {
+        resolution = "3840x2160@120Hz";
+        position = "0,0";
+        scale = "1";
+        adaptive_sync = "on";
+      };
     };
     startup = [
       { command = "${pkgs.plasma5Packages.kdeconnect-kde}/bin/kdeconnect-indicator"; }
