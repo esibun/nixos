@@ -38,10 +38,9 @@
         scale = "1";
       };
       "HDMI-A-1" = {
-        resolution = "3840x2160@120Hz";
+        resolution = "1920x1080@60Hz";
         position = "0,0";
         scale = "1";
-        adaptive_sync = "on";
       };
     };
     startup = [
