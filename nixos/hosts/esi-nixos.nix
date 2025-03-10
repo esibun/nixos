@@ -9,7 +9,7 @@
   specialisation.vfio.configuration = {
     boot.kernelParams = [
       "vfio-pci.ids=1002:73bf,1002:ab28" # 6900 XT (for VFIO gaming)
-      "split_lock_detection=off" # 6.13.0+ workaround for gnif/looking-glass#1156
+      "split_lock_detect=off" # 6.13.0+ workaround for gnif/looking-glass#1156
     ];
   };
 
