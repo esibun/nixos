@@ -1,6 +1,6 @@
 {
     "layer": "top", // Waybar at top layer
-    "output": ["DP-2", "eDP-2"],
+    "output": ["DP-2", "eDP-2", "HDMI-A-1"],
     "position": "top", // Waybar position (top|bottom|left|right)
     "ipc": "true",
     // "width": 1280, // Waybar width
