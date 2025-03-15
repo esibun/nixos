@@ -4,6 +4,7 @@
   boot.kernelParams = [
     "amd_pstate=active"
     "amd_iommu=on"
+    "preempt=full"
   ] ++ lib.optional (config.specialisation != {}) "vfio-pci.ids=1002:13c0";
 
   specialisation.vfio.configuration = {
