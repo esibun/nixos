@@ -1,5 +1,17 @@
 {
   "nodes": {
+    "amd-vram-patch": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-RtAmJV0goSgB+7d4I0ksusU3+tU30xCrG4GVKzIdKKs=",
+        "type": "file",
+        "url": "https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/34005.patch"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/34005.patch"
+      }
+    },
     "catppuccin-swaync-mocha": {
       "flake": false,
       "locked": {
@@ -238,6 +250,7 @@
     },
     "root": {
       "inputs": {
+        "amd-vram-patch": "amd-vram-patch",
         "catppuccin-swaync-mocha": "catppuccin-swaync-mocha",
         "genshin-fpsunlock": "genshin-fpsunlock",
         "home-manager": "home-manager",

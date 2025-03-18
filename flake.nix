@@ -49,6 +49,11 @@
       url = "https://codeberg.org/mkrsym1/fpsunlock/releases/download/latest/fpsunlock.exe";
       flake = false;
     };
+
+    amd-vram-patch = {
+      url = "https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/34005.patch";
+      flake = false;
+    };
   };
 
   outputs = inputs@{self, nixpkgs, nixpkgs-unstable, ...}: {
