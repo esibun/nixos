@@ -43,11 +43,6 @@ in
     graphics = {
       enable = true;
       enable32Bit = true;
-      package = pkgs.mesa.overrideAttrs (prev: rec {
-        patches = [
-          inputs.amd-vram-patch
-        ] ++ prev.patches;
-      });
     };
   };
 
