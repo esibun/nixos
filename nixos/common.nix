@@ -58,7 +58,29 @@ in
 
   security = {
     polkit.enable = true;
-    pam.services.hyprlock = {}; # required for hyprlock to work
+    pam = {
+      loginLimits = [
+        {
+          domain = "@pipewire";
+          item = "rtprio";
+          type = "-";
+          value = "95";
+        }
+        {
+          domain = "@pipewire";
+          item = "nice";
+          type = "-";
+          value = "-19";
+        }
+        {
+          domain = "@pipewire";
+          item = "memlock";
+          type = "-";
+          value = "4194304";
+        }
+      ];
+      services.hyprlock = {}; # required for hyprlock to work
+    };
     pki.certificateFiles = [
       ../files/pvpn-twitch.crt
     ];
@@ -102,10 +124,13 @@ in
   time.timeZone = "America/New_York";
 
   users = {
+    groups = {
+      pipewire = {};
+    };
     mutableUsers = false;
     users.esi = {
       isNormalUser = true;
-      extraGroups = lib.mkDefault ["input" "wheel"];
+      extraGroups = lib.mkDefault ["input" "pipewire" "wheel"];
       hashedPassword = secrets.passwords.esi;
     };
   };
