@@ -272,11 +272,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1741086523,
-        "narHash": "sha256-lLAsxAU5W85MERQ4g4kLTN18tlpMAFHk80a+HFRPWYw=",
+        "lastModified": 1742391321,
+        "narHash": "sha256-c+sgWuvN1lqknP24soVrYquy1fhuSrkdzT8yRse50gA=",
         "owner": "drakon64",
         "repo": "nixos-xivlauncher-rb",
-        "rev": "f2ce0bde73ccfa650bcb95d4663c1bc7f53bee75",
+        "rev": "ed1077841009d311b1f48fc2c8b90c188d626912",
         "type": "github"
       },
       "original": {
