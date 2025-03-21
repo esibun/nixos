@@ -38,7 +38,6 @@ in
       rofi-wayland
       polkit_gnome # Authentication dialogs
       seatd # fix cursor size
-      sway
       swayidle
       waybar
       xdg-utils
