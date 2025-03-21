@@ -43,6 +43,24 @@ in
     graphics = {
       enable = true;
       enable32Bit = true;
+      package = pkgs.unstable.mesa.overrideAttrs(prev: {
+        patches = [
+          # Patch VRAM issue causing GPU resets in Monster Hunter: Wilds
+          (pkgs.fetchpatch {
+            url = "https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/34005.patch";
+            hash = "sha256-w4xBuNdk8SI1w5HFLSBkhekZfgolV7KMapjO21jQ9Fk=";
+          })
+        ] ++ prev.patches;
+      });
+      package32 = pkgs.unstable.pkgsi686Linux.mesa.overrideAttrs(prev: {
+        patches = [
+          # Patch VRAM issue causing GPU resets in Monster Hunter: Wilds
+          (pkgs.fetchpatch {
+            url = "https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/34005.patch";
+            hash = "sha256-w4xBuNdk8SI1w5HFLSBkhekZfgolV7KMapjO21jQ9Fk=";
+          })
+        ] ++ prev.patches;
+      });
     };
   };
 
