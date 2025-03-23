@@ -51,47 +51,51 @@
     };
   };
 
-  outputs = inputs@{self, nixpkgs, nixpkgs-unstable, ...}: {
+  outputs = inputs@{self, nixpkgs, nixpkgs-unstable, ...}: let
+    commonx64Modules = let
+      system = "x86_64-linux";
+    in [
+      {
+        nixpkgs.config.allowUnfree = true; # for stable
+        nixpkgs.overlays = let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in [
+          (final: prev: rec {
+            unstable = import nixpkgs-unstable {
+              inherit system;
+              config.allowUnfree = true;
+            };
+            # Unfortunately replaceDependencies isn't viable due to a length mismatch
+            # caused by the externalization of libgbm in unstable (this can be removed
+            # once 25.05 goes stable)
+            mesa = pkgs.symlinkJoin {
+              name = "mesa";
+              paths = [
+                unstable.libgbm
+                # inject xwayland, etc. dependencies.  a bit hacky but it's temporary
+                unstable.dri-pkgconfig-stub
+                unstable.mesa-gl-headers
+              ];
+
+              passthru = {
+                # fix mesa.driverLink for libva/vdpau
+                driverLink = unstable.libglvnd.driverLink;
+              };
+              meta = unstable.mesa.meta;
+            };
+            # not sure why this is required tbh, not investigating as this workaround is
+            # temporary anyway
+            mesa-demos = unstable.mesa-demos;
+          })
+        ];
+      }
+    ];
+  in {
     nixosConfigurations = {
       esi-nixos = let
         system = "x86_64-linux";
       in nixpkgs.lib.nixosSystem {
-        modules = [
-          {
-            nixpkgs.config.allowUnfree = true; # for stable
-            nixpkgs.overlays = let 
-              pkgs = nixpkgs.legacyPackages.${system};
-            in [
-              (final: prev: rec {
-                unstable = import nixpkgs-unstable {
-                  inherit system;
-                  config.allowUnfree = true;
-                };
-                # Unfortunately replaceDependencies isn't viable due to a length mismatch
-                # caused by the externalization of libgbm in unstable (this can be removed
-                # once 25.05 goes stable)
-                mesa = pkgs.symlinkJoin {
-                  name = "mesa";
-                  paths = [
-                    unstable.libgbm
-                    # inject xwayland, etc. dependencies.  a bit hacky but it's temporary
-                    unstable.dri-pkgconfig-stub
-                    unstable.mesa-gl-headers
-                  ];
-
-                  passthru = {
-                    # fix mesa.driverLink for libva/vdpau
-                    driverLink = unstable.libglvnd.driverLink;
-                  };
-                  meta = unstable.mesa.meta;
-                };
-                # not sure why this is required tbh, not investigating as this workaround is
-                # temporary anyway
-                mesa-demos = unstable.mesa-demos;
-              })
-            ];
-          }
-
+        modules = commonx64Modules ++ [
           ./nixos/common.nix
           ./nixos/profiles/desktop.nix
           ./nixos/profiles/gaming.nix
@@ -117,41 +121,7 @@
       esi-laptop = let
         system = "x86_64-linux";
       in nixpkgs.lib.nixosSystem {
-        modules = [
-          {
-            nixpkgs.config.allowUnfree = true; # for stable
-            nixpkgs.overlays = let 
-              pkgs = nixpkgs.legacyPackages.${system};
-            in [
-              (final: prev: rec {
-                unstable = import nixpkgs-unstable {
-                  inherit system;
-                  config.allowUnfree = true;
-                };
-                # Unfortunately replaceDependencies isn't viable due to a length mismatch
-                # caused by the externalization of libgbm in unstable (this can be removed
-                # once 25.05 goes stable)
-                mesa = pkgs.symlinkJoin {
-                  name = "mesa";
-                  paths = [
-                    unstable.libgbm
-                    # fix packages depending on "dri" like xwayland
-                    unstable.dri-pkgconfig-stub
-                  ];
-
-                  passthru = {
-                    # fix mesa.driverLink for libva/vdpau
-                    driverLink = unstable.libglvnd.driverLink;
-                  };
-                  meta = unstable.mesa.meta;
-                };
-                # not sure why this is required tbh, not investigating as this workaround is
-                # temporary anyway
-                mesa-demos = unstable.mesa-demos;
-              })
-            ];
-          }
-
+        modules = commonx64Modules ++ [
           inputs.nixos-hardware.nixosModules.framework-16-7040-amd
 
           ./nixos/common.nix
