@@ -36,6 +36,7 @@ in
   };
 
   hardware = {
+    amdgpu.amdvlk.enable = true;
     bluetooth = {
       enable = true;
       powerOnBoot = true;
