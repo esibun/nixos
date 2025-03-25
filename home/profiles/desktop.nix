@@ -264,6 +264,10 @@ in
   in {
     enable = true;
 
+    extraSessionCommands = ''
+      export AMD_VULKAN_ICD=RADV
+    '';
+
     config = {
       bars = [
         { command = "${pkgs.waybar}/bin/waybar"; }
