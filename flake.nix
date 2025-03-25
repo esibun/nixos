@@ -65,27 +65,6 @@
               inherit system;
               config.allowUnfree = true;
             };
-            # Unfortunately replaceDependencies isn't viable due to a length mismatch
-            # caused by the externalization of libgbm in unstable (this can be removed
-            # once 25.05 goes stable)
-            mesa = pkgs.symlinkJoin {
-              name = "mesa";
-              paths = [
-                unstable.libgbm
-                # inject xwayland, etc. dependencies.  a bit hacky but it's temporary
-                unstable.dri-pkgconfig-stub
-                unstable.mesa-gl-headers
-              ];
-
-              passthru = {
-                # fix mesa.driverLink for libva/vdpau
-                driverLink = unstable.libglvnd.driverLink;
-              };
-              meta = unstable.mesa.meta;
-            };
-            # not sure why this is required tbh, not investigating as this workaround is
-            # temporary anyway
-            mesa-demos = unstable.mesa-demos;
           })
         ];
       }
