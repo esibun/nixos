@@ -29,7 +29,7 @@ in
   };
 
   environment = {
-    pathsToLink = ["/share/fish"];
+    pathsToLink = ["/share/fish" "/share/qemu"];
     systemPackages = with pkgs; [
       vim
     ];
