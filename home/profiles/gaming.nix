@@ -110,6 +110,10 @@ in
       })
       mangohud
       (steam.override {
+        # fix driver override icd for vulkan (fixes MHW boot)
+        extraEnv = [
+          "VK_ICD_FILENAMES=/run/opengl-driver/share/vulkan/icd.d/radeon_icd.x86_64.json"
+        ];
         # gamescope fixes
         extraPkgs = pkgs: with pkgs; [
           xorg.libXcursor
