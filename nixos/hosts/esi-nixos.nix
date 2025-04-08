@@ -1,12 +1,6 @@
 {pkgs, lib, config, ...}:
 
 {
-  boot.kernelParams = [
-    "amd_pstate=active"
-    "amd_iommu=on"
-    "preempt=full"
-  ] ++ lib.optional (config.specialisation != {}) "vfio-pci.ids=1002:13c0";
-
   specialisation.vfio.configuration = {
     boot.kernelParams = [
       "vfio-pci.ids=1002:73bf,1002:ab28" # 6900 XT (for VFIO gaming)

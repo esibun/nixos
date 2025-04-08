@@ -22,6 +22,10 @@ in
       "kernel.printk" = "2 4 1 7"; # hide debug spew on command line
     };
     kernelPackages = pkgs.linuxPackages_latest;
+    kernelParams = [
+      "preempt=full"
+      "split_lock_detect=off"
+    ];
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
