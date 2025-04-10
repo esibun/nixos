@@ -14,8 +14,6 @@
     lact # amd overclocking tools
   ];
 
-  hardware.amdgpu.amdvlk.enable = true;
-
   networking = {
     hostName = "esi-nixos";
   };

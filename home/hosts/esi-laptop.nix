@@ -14,11 +14,7 @@
   home = {
     homeDirectory = "/home/esi";
     packages = with pkgs; [
-      # todo: some of these should be modules
       brightnessctl
-      libnotify
-      protonvpn-gui
-      wluma
     ];
     stateVersion = "23.11";
     username = "esi";

@@ -15,9 +15,7 @@
   home = {
     homeDirectory = "/home/esi";
     packages = with pkgs; [
-      borgbackup
       fcast-receiver
-      libnotify
       qbittorrent
     ];
     stateVersion = "23.11";

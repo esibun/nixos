@@ -42,6 +42,9 @@ in
       waybar
       xdg-utils
 
+      # General Dependencies
+      libnotify
+
       # Waybar Dependencies
       jq
       lsof
