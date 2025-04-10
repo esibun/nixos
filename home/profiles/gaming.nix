@@ -88,7 +88,7 @@ in
         shortname = "gfl2";
         installerUrl = "https://gf2-us-cdn-launcher.sunborngame.com/prod/download/launcher/1.0.0/GF2_Launcher_pc1_1_0_0_OverSeas_Mica_1732302259_6_1000005.exe";
         launcherBinary = "GF2Exilium/PCLauncher.exe";
-        mainBinary = "GF2Exilium/GF2_Exilium.exe";
+        mainBinary = "GF2Exilium/GF2 Game/GF2_Exilium.exe";
         icon = icons.gfl2;
         useUmu = true;
         gamescopeFlags = config.gamescopeFlags;
