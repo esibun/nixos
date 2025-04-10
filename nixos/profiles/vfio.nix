@@ -13,6 +13,16 @@
     virt-manager
   ];
 
+  systemd.tmpfiles.settings."10-looking-glass" = {
+    "/dev/shm/looking-glass" = {
+      f = {
+        user = "esi";
+        group = "kvm";
+        mode = "0660";
+      };
+    };
+  };
+
   virtualisation.libvirtd = {
     enable = true;
     qemu = {
