@@ -102,18 +102,8 @@ in
 
       # Game Tools
       gamescope
-      (lutris.override {
-        # fix gfl2 (needs ffmpeg libs for H.264)
-        extraLibraries = pkgs: with pkgs; [
-          ffmpeg_4-headless
-        ];
-      })
       mangohud
       (steam.override {
-        # fix driver override icd for vulkan (fixes MHW boot)
-        extraEnv = {
-          "VK_ICD_FILENAMES" = "/run/opengl-driver/share/vulkan/icd.d/radeon_icd.x86_64.json";
-        };
         # gamescope fixes
         extraPkgs = pkgs: with pkgs; [
           xorg.libXcursor
