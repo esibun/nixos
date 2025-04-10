@@ -34,9 +34,6 @@ in
 
   environment = {
     pathsToLink = ["/share/fish" "/share/qemu"];
-    systemPackages = with pkgs; [
-      vim
-    ];
   };
 
   hardware = {
@@ -65,9 +62,6 @@ in
   security = {
     polkit.enable = true;
     pam.services.hyprlock = {}; # required for hyprlock to work
-    pki.certificateFiles = [
-      ../files/pvpn-twitch.crt
-    ];
   };
 
   services = {
@@ -93,10 +87,6 @@ in
   };
 
   system = {
-    autoUpgrade = {
-      enable = true;
-      dates = "*-*-* 06:00:00";
-    };
     replaceDependencies.replacements = [
       {
         oldDependency = pkgs.mesa;
@@ -121,7 +111,7 @@ in
   };
 
   # fix for nixpkgs#180175
-  systemd.services.NetworkManager-wait-online.serviceConfig.ExecStart = [ "" "${pkgs.networkmanager}/bin/nm-online -q" ];
+  systemd.services.tailscale.after = [ "systemd-networkd-wait-online.service" ];
 
   # increase rtkit limits for pipewire
   systemd.services.rtkit-daemon.serviceConfig.ExecStart = [ "" "${pkgs.rtkit}/libexec/rtkit-daemon --scheduling-policy=FIFO --our-realtime-priority=89 --max-realtime-priority=88 --min-nice-level=-19 --rttime-usec-max=2000000 --users-max=100 --processes-per-user-max=1000 --threads-per-user-max=10000 --actions-burst-sec=10 --actions-per-burst-max=1000 --canary-cheep-msec=30000 --canary-watchdog-msec=60000" ];

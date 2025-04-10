@@ -56,18 +56,22 @@
       system = "x86_64-linux";
     in [
       {
-        nixpkgs.config.allowUnfree = true; # for stable
-        nixpkgs.overlays = let
-          pkgs = nixpkgs.legacyPackages.${system};
-        in [
-          (final: prev: rec {
-            unstable = import nixpkgs-unstable {
-              inherit system;
-              config.allowUnfree = true;
-            };
-          })
-        ];
+        nixpkgs = {
+          config.allowUnfree = true; # for stable
+          overlays = let
+            pkgs = nixpkgs.legacyPackages.${system};
+          in [
+            (final: prev: rec {
+              unstable = import nixpkgs-unstable {
+                inherit system;
+                config.allowUnfree = true;
+              };
+            })
+          ];
+        };
       }
+
+      ./nixos/common.nix
     ];
   in {
     nixosConfigurations = {
@@ -75,7 +79,6 @@
         system = "x86_64-linux";
       in nixpkgs.lib.nixosSystem {
         modules = commonx64Modules ++ [
-          ./nixos/common.nix
           ./nixos/profiles/desktop.nix
           ./nixos/profiles/gaming.nix
           ./nixos/profiles/vfio.nix
@@ -103,7 +106,6 @@
         modules = commonx64Modules ++ [
           inputs.nixos-hardware.nixosModules.framework-16-7040-amd
 
-          ./nixos/common.nix
           ./nixos/profiles/desktop.nix
           ./nixos/profiles/gaming.nix
           ./nixos/hosts/esi-laptop.nix
