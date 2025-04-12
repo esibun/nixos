@@ -5,8 +5,8 @@ let
     hyprlock-dpms = pkgs.writeShellScriptBin "hyprlock-dpms" (builtins.readFile ../../files/scripts/hyprlock-dpms);
   };
   swaybg = pkgs.fetchurl {
-    url = "https://cdn.donmai.us/original/e8/84/__ganyu_and_furina_genshin_impact_drawn_by_amaki_ruto__e884db2fd44830b36e229dbe49aaac98.png";
-    hash = "sha256-MuTseCMZuPXm4gV6DnTbg9qiVQ99tJny/GPWJmFc7LA=";
+    url = "https://cdn.donmai.us/original/47/8e/__hk416_ump45_ump9_g11_and_dinergate_girls_frontline_drawn_by_juna__478e9a2cd54a04d003d2610a77da4556.jpg";
+    hash = "sha256-nmXCeTkL7nRJSnmFaH581S+gxIy817WQl1aG9BmHv/Y=";
   };
   vesktop-cam-patch = pkgs.fetchpatch {
     # Pull PR: Allow streaming from camera devices
