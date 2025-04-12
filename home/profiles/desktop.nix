@@ -68,10 +68,7 @@ in
       capitaine-cursors
 
       # Browser
-      (unstable.vivaldi.override {
-        fontconfig = pkgs.fontconfig;
-        libgbm = pkgs.mesa;
-      }) # follow unstable, Twitch requires it
+      unstable.firefox # follow unstable, Twitch requires it
 
       # Command Prompt
       wezterm
