@@ -32,7 +32,7 @@ let
 
     USER="$(whoami)"
 
-    if [ ${lib.boolToString (installerUrl != "")} ] && [ ! -f "${baseDir}/is_installed" ]; then
+    if ${lib.boolToString (installerUrl != "")} && [ ! -f "${baseDir}/is_installed" ]; then
       touch "${baseDir}/is_installed"
       TEMPDIR=$(mktemp -d)
       curl ${installerUrl} -o "$TEMPDIR/"
