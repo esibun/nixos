@@ -69,6 +69,11 @@ in
     dbus.enable = true;
     gnome.gnome-keyring.enable = true;
     libinput.enable = true; # touchpad support
+    openssh.hostKeys = {
+      bits = 4096;
+      path = "/etc/ssh/ssh_host_rsa_key";
+      type = "rsa";
+    }; # autogenerate host keys for agenix usage
     pipewire = {
       enable = true;
       wireplumber.enable = true;
