@@ -28,6 +28,8 @@ jobs:
           # add secrets key to SSH keyring so the action can see it
           ssh-add /home/runner/.ssh/secrets_key
       - name: Update Nix Flake Lock
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         uses: DeterminateSystems/update-flake-lock@main
         with:
           pr-title: "Update flake.lock"
