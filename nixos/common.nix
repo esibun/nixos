@@ -1,14 +1,5 @@
 {lib, pkgs, inputs, config, ...}:
 
-let
-  secrets = (builtins.fromTOML (builtins.readFile (pkgs.fetchurl {
-    urls = [
-      "http://unraid:2080/nix-secrets"
-      "http://192.168.1.154:2080/nix-secrets"
-    ];
-    hash = "sha256-lJfhBGki/7EVzWHKy6Q41OeC/Mo7PsDWsL2C/L8a4ac=";
-  })));
-in
 {
   imports = [
     inputs.nix-index-database.nixosModules.nix-index
