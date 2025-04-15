@@ -10,6 +10,7 @@
       # TODO: icon?
       gamescopeFlags = config.gamescopeFlags;
       extraBin = [
+        steam-run
         xorg.xrandr
       ];
       commandPrefix = "env SHUT_UP_TACHI=yes";
