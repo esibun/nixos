@@ -2,11 +2,9 @@
 
 {
   home.packages = with pkgs; [
-    steam-run
-
     (callPackage ../pkgs/native-game.nix {
       title = "Beatoraja";
-      baseDir = "/mnt/nvme/bms/LR2oraja";
+      baseDir = "${config.home.homeDirectory}/.local/share/games/bms";
       shortname = "beatoraja";
       mainBinary = "beatoraja.sh";
       # TODO: icon?
