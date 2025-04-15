@@ -17,6 +17,7 @@
   icon ? "",
   comment ? "",
   gamescopeFlags ? "",
+  extraBin ? [],
   extraLib ? [],
   commandPrefix ? "",
   gamePrefix ? "",
@@ -26,6 +27,9 @@
 let
   scope = "systemd-run --user --scope --property TimeoutStopSec=${builtins.toString stopTimeout} --unit=\"${shortname}\"";
   baseScript = gameExecLine: ''
+    export PATH="${
+      lib.makeBinPath extraBin
+    }:$PATH"
     export LD_LIBRARY_PATH="${
       lib.makeLibraryPath extraLib
     }"
