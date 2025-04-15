@@ -314,11 +314,11 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1744688242,
-        "narHash": "sha256-vRdGpEauP3zC0+YMtvMj53Spki4/heQKQcIkgB74X+4=",
+        "lastModified": 1744691809,
+        "narHash": "sha256-XLp1eYy4s98i7szAu2n1qZowhJse7u1sQC0JzmzuDr0=",
         "ref": "refs/heads/master",
-        "rev": "4ae8aba5503bd46d517f92c54d415a080bd3b046",
-        "revCount": 1,
+        "rev": "7b11074823a14e2cf0c1efa424211d2c1ea84eaa",
+        "revCount": 2,
         "type": "git",
         "url": "ssh://git@github.com/esibun/nixos-secrets.git"
       },
