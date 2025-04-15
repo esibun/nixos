@@ -7,11 +7,26 @@ on:
 jobs:
   update:
     runs-on: ubuntu-latest
+    environment: flake-update
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@main
+      - name: Add Secrets SSH Key
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          mkdir -p /home/runner/.ssh
+          # add github to known hosts
+          ssh-keyscan github.com >> /home/runner/.ssh/known_hosts
+          # add SSH private key for secrets repo to runner
+          echo "${{ secrets.SECRETS_SSH_KEY }}" > /home/runner/.ssh/secrets_key
+          # chmod so ssh-agent doesn't complain
+          chmod 600 /home/runner/.ssh/secrets_key
+          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+          # add secrets key to SSH keyring so the action can see it
+          ssh-add /home/runner/.ssh/secrets_key
       - name: Update Nix Flake Lock
         uses: DeterminateSystems/update-flake-lock@main
         with:
