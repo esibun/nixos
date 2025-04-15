@@ -25,6 +25,17 @@
     };
 
     #
+    # Config Support Level Packages
+    #
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        darwin.follows = ""; # don't pull darwin deps
+      };
+    };
+
+    #
     # App Level Packages
     #
     nix-index-database = {
@@ -49,6 +60,11 @@
       url = "https://codeberg.org/mkrsym1/fpsunlock/releases/download/latest/fpsunlock.exe";
       flake = false;
     };
+
+    secrets = {
+      url = "git+ssh://git@github.com/esibun/nixos-secrets.git";
+      flake = false;
+    };
   };
 
   outputs = inputs@{self, nixpkgs, nixpkgs-unstable, ...}: let
@@ -71,7 +87,10 @@
         };
       }
 
+      inputs.agenix.nixosModules.default
+
       ./nixos/common.nix
+      ./nixos/secrets.nix
     ];
   in {
     nixosConfigurations = {

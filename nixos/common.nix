@@ -1,4 +1,4 @@
-{lib, pkgs, inputs, ...}:
+{lib, pkgs, inputs, config, ...}:
 
 let
   secrets = (builtins.fromTOML (builtins.readFile (pkgs.fetchurl {
@@ -128,7 +128,7 @@ in
     users.esi = {
       isNormalUser = true;
       extraGroups = lib.mkDefault ["input" "pipewire" "wheel"];
-      hashedPassword = secrets.passwords.esi;
+      hashedPasswordFile = config.age.secrets.esi-passwordfile.path;
     };
   };
 

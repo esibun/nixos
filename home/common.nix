@@ -1,4 +1,4 @@
-{pkgs, lib, ...}:
+{pkgs, lib, inputs, ...}:
 
 {
   fonts.fontconfig.enable = true;
@@ -22,6 +22,7 @@
       unstable.neovim
 
       # Utilities
+      inputs.agenix.packages.${system}.default
       any-nix-shell
       unzip
     ];
