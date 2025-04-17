@@ -8,13 +8,14 @@
       shortname = "beatoraja";
       mainBinary = "beatoraja.sh";
       # TODO: icon?
-      gamescopeFlags = config.gamescopeFlags;
+      # mangohud from gamescope; in-process breaks obs-gamecapture
+      gamescopeFlags = config.gamescopeFlags + " --mangoapp";
       extraBin = [
         steam-run
         xorg.xrandr
       ];
       commandPrefix = "env SHUT_UP_TACHI=yes";
-      gamePrefix = "${pkgs.mangohud}/bin/mangohud ${pkgs.obs-studio-plugins.obs-vkcapture}/bin/obs-gamecapture";
+      gamePrefix = "${pkgs.obs-studio-plugins.obs-vkcapture}/bin/obs-gamecapture";
       commandPostfix = "-s";
     })
   ];
