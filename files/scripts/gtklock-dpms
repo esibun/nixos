@@ -1,5 +1,5 @@
 #!/bin/sh
 
 swayidle timeout 5 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' &
-hyprlock
+gtklock
 pkill swayidle

@@ -2,7 +2,7 @@
 
 let
   custom = {
-    hyprlock-dpms = pkgs.writeShellScriptBin "hyprlock-dpms" (builtins.readFile ../../files/scripts/hyprlock-dpms);
+    gtklock-dpms = pkgs.writeShellScriptBin "gtklock-dpms" (builtins.readFile ../../files/scripts/gtklock-dpms);
   };
   swaybg = pkgs.fetchurl {
     url = "https://cdn.donmai.us/original/47/8e/__hk416_ump45_ump9_g11_and_dinergate_girls_frontline_drawn_by_juna__478e9a2cd54a04d003d2610a77da4556.jpg";
@@ -26,18 +26,26 @@ in
         source = ../../files/configs/waybar;
         recursive = true;
       };
+      ".config/gtklock/config.ini".source = ((pkgs.formats.ini {}).generate "config.ini" {
+        # TODO: probably should be module config (even upstreamed to HM)
+        main = {
+          background = swaybg;
+          follow-focus = "1";
+        };
+      });
       ".wezterm.lua".source = ../../files/configs/wezterm/wezterm.lua;
 
       ".local/share/rofi/themes/catppuccin-mocha.rasi".source = ../../files/rofi/catppuccin-mocha.rasi;
     };
     packages = with pkgs; [
       # Custom Scripts
-      custom.hyprlock-dpms
+      custom.gtklock-dpms
 
       # Sway + Supporting Packages
       rofi-wayland
       polkit_gnome # Authentication dialogs
       seatd # fix cursor size
+      gtklock
       swayidle
       waybar
       xdg-utils
@@ -113,43 +121,6 @@ in
   };
 
   programs = {
-    hyprlock = {
-      enable = true;
-      package = pkgs.unstable.hyprlock;
-      settings = {
-        background = {
-          monitor = "";
-          path = "${swaybg}";
-          blur_passes = 3;
-          blur_size = 2;
-          brightness = 0.3;
-        };
-        input-field = {
-          monitor = "";
-          fade_on_empty = false;
-          position = "0, -20";
-          font_size = 24;
-        };
-        label = [
-          {
-            monitor = "";
-            text = "esi";
-            position = "0, 100";
-            font_size = 24;
-            halign = "center";
-            valign = "center";
-          }
-          {
-            monitor = "";
-            text = "<b>$TIME12</b>";
-            position = "0, 300";
-            font_size = 48;
-            halign = "center";
-            valign = "center";
-          }
-        ];
-      };
-    };
     obs-studio = {
       enable = true;
       package = pkgs.unstable.obs-studio;
@@ -337,7 +308,7 @@ in
         system = {
           "s" = "exec \"shutdown now\"; mode default";
           "r" = "exec \"reboot\"; mode default";
-          "l" = "exec \"hyprlock-dpms\"; mode default";
+          "l" = "exec \"gtklock-dpms\"; mode default";
           "e" = "exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'";
           "Return" = "mode default";
           "Escape" = "mode default";
