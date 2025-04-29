@@ -5,6 +5,23 @@
     boot.kernelParams = [
       "vfio-pci.ids=1002:73bf,1002:ab28" # 6900 XT (for VFIO gaming)
     ];
+
+    services.samba = {
+      enable = true;
+      openFirewall = true;
+      settings = {
+        global = {
+          "hosts allow" = "100.";
+          "hosts deny" = "0.0.0.0/0";
+        };
+        "nvme" = {
+          "path" = "/mnt/nvme";
+          "browseable" = "yes";
+          "read only" = "no";
+          "guest ok" = "no";
+        };
+      };
+    };
   };
 
   environment.systemPackages = with pkgs; [
