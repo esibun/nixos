@@ -36,9 +36,10 @@ in
   config = {
     home.packages = with pkgs; [
       # Games
-      prismlauncher
-      inputs.xivlauncher-rb.packages.${system}.default
+      ares
       fflogs
+      inputs.xivlauncher-rb.packages.${system}.default
+      prismlauncher
 
       (callPackage ../pkgs/native-game.nix {
         title = "Final Fantasy XIV";
