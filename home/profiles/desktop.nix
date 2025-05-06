@@ -82,16 +82,10 @@ in
 
       # Social Media
       arrpc # equibop dependency
-      (equibop.overrideAttrs (final: prev: {
-        # Use unstable equibop but build against stable deps (don't want to build electron!)
-        src = unstable.equibop.src;
-        version = unstable.equibop.version;
-        pnpmDeps = unstable.equibop.pnpmDeps;
+      (unstable.equibop.overrideAttrs (final: prev: {
         patches = unstable.equibop.patches ++ [
           vesktop-cam-patch
         ];
-        # use stable autoPatchelfHook
-        nativeBuildInputs = (lib.lists.remove unstable.autoPatchelfHook unstable.equibop.nativeBuildInputs) ++ [pkgs.autoPatchelfHook];
       }))
 
       # Utilities
