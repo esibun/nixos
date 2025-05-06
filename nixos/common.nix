@@ -52,7 +52,7 @@
 
   security = {
     polkit.enable = true;
-    pam.services.gtklock = {}; # required for gtklock to work
+    pam.services.hyprlock = {}; # required for hyprlock to work
   };
 
   services = {
