@@ -22,49 +22,21 @@
     username = "esi";
   };
 
-  wayland.windowManager.sway.config = {
-    output = {
-      "DP-1" = {
-        resolution = "3840x2160@144Hz";
-        position = "0,0";
-        scale = "1";
-        adaptive_sync = "on";
-      };
-      "DP-2" = {
-        resolution = "1920x1080@144Hz";
-        position = "3840,540";
-        scale = "1";
-      };
-      "HDMI-A-1" = {
-        resolution = "1920x1080@60Hz";
-        position = "0,0";
-        scale = "1";
-      };
-    };
-    startup = [
-      { command = "${pkgs.plasma5Packages.kdeconnect-kde}/bin/kdeconnect-indicator"; }
+  wayland.windowManager.hyprland.settings = {
+    monitor = [
+      "DP-1, 3840x2160@144, 0x0, 1.5"
+      "DP-2, 1920x2080@144, 2560x360, 1"
+      "HDMI-A-1, 1920x1080@60, 0x0, 1"
     ];
-    workspaceOutputAssign = [
-      {
-        workspace = "1";
-        output = "DP-1";
-      }
-      {
-        workspace = "2";
-        output = "DP-2";
-      }
-      {
-        workspace = "3";
-        output = "DP-2";
-      }
-      {
-        workspace = "4";
-        output = "DP-2";
-      }
-      {
-        workspace = "5";
-        output = "DP-2";
-      }
+    exec = [
+      "${pkgs.plasma5Packages.kdeconnect-kde}/bin/kdeconnect-indicator"
+    ];
+    workspace = [
+      "1, monitor:DP-1"
+      "2, monitor:DP-2"
+      "3, monitor:DP-2"
+      "4, monitor:DP-2"
+      "5, monitor:DP-2"
     ];
   };
 }

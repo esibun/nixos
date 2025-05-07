@@ -161,8 +161,8 @@ in
       };
     };
 
-    wayland.windowManager.sway.config.startup = [
-      { command = "${pkgs.steam}/bin/steam -silent"; }
+    wayland.windowManager.hyprland.settings.exec = [
+      "pidof steam || ${pkgs.steam}/bin/steam -silent"
     ];
   };
 }

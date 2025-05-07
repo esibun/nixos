@@ -4,7 +4,7 @@ let
   custom = {
     hyprlock-dpms = pkgs.writeShellScriptBin "hyprlock-dpms" (builtins.readFile ../../files/scripts/hyprlock-dpms);
   };
-  swaybg = pkgs.fetchurl {
+  hyprbg = pkgs.fetchurl {
     url = "https://cdn.donmai.us/original/47/8e/__hk416_ump45_ump9_g11_and_dinergate_girls_frontline_drawn_by_juna__478e9a2cd54a04d003d2610a77da4556.jpg";
     hash = "sha256-nmXCeTkL7nRJSnmFaH581S+gxIy817WQl1aG9BmHv/Y=";
   };
@@ -34,11 +34,11 @@ in
       # Custom Scripts
       custom.hyprlock-dpms
 
-      # Sway + Supporting Packages
+      # Hyprland + Supporting Packages
+      hypridle
+      hyprpolkitagent # Authentication dialogs
       rofi-wayland
-      polkit_gnome # Authentication dialogs
       seatd # fix cursor size
-      swayidle
       waybar
       xdg-utils
 
@@ -113,7 +113,7 @@ in
       settings = {
         background = {
           monitor = "";
-          path = "${swaybg}";
+          path = "${hyprbg}";
           blur_passes = 3;
           blur_size = 2;
           brightness = 0.3;
@@ -162,6 +162,30 @@ in
   };
 
   services = {
+    hypridle = {
+      enable = true;
+      settings = {
+        listener = [
+          {
+            timeout = 5;
+            on-timeout = "hyprctl dispatch dpms off";
+            on-resume = "hyprctl dispatch dpms on";
+          }
+        ];
+      };
+    };
+    hyprpaper  = {
+      enable = true;
+      settings = {
+        preload = [
+          "${hyprbg}"
+        ];
+
+        wallpaper = [
+          ",${hyprbg}"
+        ];
+      };
+    };
     swaync = {
       enable = true;
       settings = {
@@ -171,204 +195,174 @@ in
     };
   };
 
-  # Autostart for polkit_gnome
-  systemd = {
-    user.services.polkit-gnome-authentication-agent-1 = {
-      Unit = {
-        Description = "polkit-gnome-authentication-agent-1";
-        Wants = ["graphical-session.target"];
-        After = ["graphical-session.target"];
-      };
-      Service = {
-        Type = "simple";
-        ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-        Restart = "on-failure";
-        RestartSec = 1;
-        TimeoutStopSec = 10;
-      };
-      Install = {
-        WantedBy = ["graphical-session.target"];
-      };
-    };
-  };
+  wayland.windowManager.hyprland = let
+    mod = "ALT";
+    terminal = "wezterm";
+    left = "H";
+    down = "J";
+    up = "K";
+    right = "L";
+    # TODO: some of these should be bindl, need to separate them
+    # low priority since not many applications inhibit keystrokes without
+    # a way to easily exit the inhibit mode
+    alwaysActiveKeybinds = [
+      ", XF86AudioRaiseVolume, exec, ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ +5%"
+      ", XF86AudioLowerVolume, exec, ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ -5%"
+      "${mod}, XF86AudioMute, exec, ${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ toggle"
+      "${mod}, XF86AudioRaiseVolume, exec, ${pkgs.pulseaudio}/bin/pactl set-source-volume @DEFAULT_SOURCE@ +5%"
+      "${mod}, XF86AudioLowerVolume, exec, ${pkgs.pulseaudio}/bin/pactl set-source-volume @DEFAULT_SOURCE@ -5%"
+      ", XF86AudioMute, exec, ${pkgs.pulseaudio}/bin/pactl set-source-mute @DEFAULT_SOURCE@ toggle"
 
-  wayland.windowManager.sway = let
-    alwaysActiveKeybinds = let
-      down = config.wayland.windowManager.sway.config.down;
-      left = config.wayland.windowManager.sway.config.left;
-      menu = config.wayland.windowManager.sway.config.menu;
-      modifier = config.wayland.windowManager.sway.config.modifier;
-      right = config.wayland.windowManager.sway.config.right;
-      terminal = config.wayland.windowManager.sway.config.terminal;
-      up = config.wayland.windowManager.sway.config.up;
-    in {
-      "XF86AudioRaiseVolume" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ +5%";
-      "XF86AudioLowerVolume" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ -5%";
-      "${modifier}+XF86AudioMute" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ toggle";
-      "${modifier}+XF86AudioRaiseVolume" = "exec ${pkgs.pulseaudio}/bin/pactl set-source-volume @DEFAULT_SOURCE@ +5%";
-      "${modifier}+XF86AudioLowerVolume" = "exec ${pkgs.pulseaudio}/bin/pactl set-source-volume @DEFAULT_SOURCE@ -5%";
-      "XF86AudioMute" = "exec ${pkgs.pulseaudio}/bin/pactl set-source-mute @DEFAULT_SOURCE@ toggle";
+      "${mod}, c, exec, GRIM_DEFAULT_DIR=$HOME/Pictures ${pkgs.grim}/bin/grim -g \"\$(${pkgs.slurp}/bin/slurp)\""
 
-      "${modifier}+c" = "exec 'GRIM_DEFAULT_DIR=$HOME/Pictures ${pkgs.grim}/bin/grim -g \"\$(${pkgs.slurp}/bin/slurp)\"'";
+      "${mod}, Return, exec, ${terminal}"
+      "${mod}_SHIFT, q, killactive"
 
-      "${modifier}+Return" = "exec ${terminal}";
-      "${modifier}+Shift+q" = "kill";
-      "${modifier}+Shift+c" = "reload";
+      "${mod}, ${left}, movefocus, left"
+      "${mod}, ${down}, movefocus, down"
+      "${mod}, ${up}, movefocus, up"
+      "${mod}, ${right}, movefocus, right"
 
-      "${modifier}+${left}" = "focus left";
-      "${modifier}+${down}" = "focus down";
-      "${modifier}+${up}" = "focus up";
-      "${modifier}+${right}" = "focus right";
+      "${mod}_SHIFT, ${left}, movewindow, left"
+      "${mod}_SHIFT, ${down}, movewindow, down"
+      "${mod}_SHIFT, ${up}, movewindow, up"
+      "${mod}_SHIFT, ${right}, movewindow, right"
 
-      "${modifier}+Shift+${left}" = "move left";
-      "${modifier}+Shift+${down}" = "move down";
-      "${modifier}+Shift+${up}" = "move up";
-      "${modifier}+Shift+${right}" = "move right";
+      "${mod}_CONTROL, 1, workspace, 1"
+      "${mod}_CONTROL, 2, workspace, 2"
+      "${mod}_CONTROL, 3, workspace, 3"
+      "${mod}_CONTROL, 4, workspace, 4"
+      "${mod}_CONTROL, 5, workspace, 5"
+      "${mod}_CONTROL, 6, workspace, 6"
+      "${mod}_CONTROL, 7, workspace, 7"
+      "${mod}_CONTROL, 8, workspace, 8"
+      "${mod}_CONTROL, 9, workspace, 9"
+      "${mod}_CONTROL, 0, workspace, 10"
 
-      "--inhibited ${modifier}+Control+1" = "workspace number 1";
-      "--inhibited ${modifier}+Control+2" = "workspace number 2";
-      "--inhibited ${modifier}+Control+3" = "workspace number 3";
-      "--inhibited ${modifier}+Control+4" = "workspace number 4";
-      "--inhibited ${modifier}+Control+5" = "workspace number 5";
-      "--inhibited ${modifier}+Control+6" = "workspace number 6";
-      "--inhibited ${modifier}+Control+7" = "workspace number 7";
-      "--inhibited ${modifier}+Control+8" = "workspace number 8";
-      "--inhibited ${modifier}+Control+9" = "workspace number 9";
-      "--inhibited ${modifier}+Control+0" = "workspace number 10";
+      "${mod}_SHIFT, 1, movetoworkspace, 1"
+      "${mod}_SHIFT, 2, movetoworkspace, 2"
+      "${mod}_SHIFT, 3, movetoworkspace, 3"
+      "${mod}_SHIFT, 4, movetoworkspace, 4"
+      "${mod}_SHIFT, 5, movetoworkspace, 5"
+      "${mod}_SHIFT, 6, movetoworkspace, 6"
+      "${mod}_SHIFT, 7, movetoworkspace, 7"
+      "${mod}_SHIFT, 8, movetoworkspace, 8"
+      "${mod}_SHIFT, 9, movetoworkspace, 9"
+      "${mod}_SHIFT, 0, movetoworkspace, 10"
 
-      "--inhibited ${modifier}+Shift+1" = "move container to workspace number 1; workspace number 1";
-      "--inhibited ${modifier}+Shift+2" = "move container to workspace number 2; workspace number 2";
-      "--inhibited ${modifier}+Shift+3" = "move container to workspace number 3; workspace number 3";
-      "--inhibited ${modifier}+Shift+4" = "move container to workspace number 4; workspace number 4";
-      "--inhibited ${modifier}+Shift+5" = "move container to workspace number 5; workspace number 5";
-      "--inhibited ${modifier}+Shift+6" = "move container to workspace number 6; workspace number 6";
-      "--inhibited ${modifier}+Shift+7" = "move container to workspace number 7; workspace number 7";
-      "--inhibited ${modifier}+Shift+8" = "move container to workspace number 8; workspace number 8";
-      "--inhibited ${modifier}+Shift+9" = "move container to workspace number 9; workspace number 9";
-      "--inhibited ${modifier}+Shift+0" = "move container to workspace number 10; workspace number 10";
+      "${mod}_CONTROL, bracketleft, movecurrentworkspacetomonitor, -1"
+      "${mod}_CONTROL, bracketright, movecurrentworkspacetomonitor, +1"
 
-      "--inhibited ${modifier}+Control+bracketleft" = "move workspace to output left";
-      "--inhibited ${modifier}+Control+bracketright" = "move workspace to output right";
+      "${mod}_SHIFT, space, togglefloating"
+      #"${mod}_CONTROL, SHIFT+space, floating enable; resize set 320 180; move position 0 0"
+      "${mod}, backslash, exec, ${pkgs.swaynotificationcenter}/bin/swaync-client --toggle-panel"
 
-      "${modifier}+Shift+space" = "floating toggle";
-      "${modifier}+Control+space" = "focus mode_toggle";
-      "${modifier}+Control+Shift+space" = "floating enable; resize set 320 180; move position 0 0";
-      "${modifier}+backslash" = "exec ${pkgs.swaynotificationcenter}/bin/swaync-client --toggle-panel";
-
-      "${modifier}+Shift+minus" = "move scratchpad";
-      "${modifier}+minus" = "scratchpad show";
-
-    };
+      "${mod}_SHIFT, minus, movetoworkspace, special"
+      "${mod}, minus, togglespecialworkspace"
+    ];
   in {
     enable = true;
-
-    extraSessionCommands = ''
-      export AMD_VULKAN_ICD=RADV
-    '';
-
-    config = {
-      bars = [
-        { command = "${pkgs.waybar}/bin/waybar"; }
+    package = pkgs.unstable.hyprland;
+    settings = {
+      animation = [
+        "workspaces, 1, 3, default"
       ];
+      bind = let
+        menu = "${pkgs.rofi-wayland}/bin/rofi -show drun -drun-match-fields name,generic,categories,keywords";
+      in [
+        "${mod}, space, exec, ${menu}"
+        "${mod}, f, fullscreen, 0"
+        "${mod}, x, submap, system"
+        "${mod}, r, submap, resize"
 
-      menu = "${pkgs.rofi-wayland}/bin/rofi -show drun -drun-match-fields name,generic,categories,keywords";
-      modifier = "Mod1";
-      terminal = "${pkgs.wezterm}/bin/wezterm";
+        "${mod}, 1, workspace, 1"
+        "${mod}, 2, workspace, 2"
+        "${mod}, 3, workspace, 3"
+        "${mod}, 4, workspace, 4"
+        "${mod}, 5, workspace, 5"
+        "${mod}, 6, workspace, 6"
+        "${mod}, 7, workspace, 7"
+        "${mod}, 8, workspace, 8"
+        "${mod}, 9, workspace, 9"
+        "${mod}, 0, workspace, 10"
 
-      # note: we don't want default keybinds, so don't use lib.mkOptionDefault
-      keybindings = let
-        down = config.wayland.windowManager.sway.config.down;
-        left = config.wayland.windowManager.sway.config.left;
-        menu = config.wayland.windowManager.sway.config.menu;
-        modifier = config.wayland.windowManager.sway.config.modifier;
-        right = config.wayland.windowManager.sway.config.right;
-        terminal = config.wayland.windowManager.sway.config.terminal;
-        up = config.wayland.windowManager.sway.config.up;
-      in
-      {
-        "${modifier}+space" = "exec ${menu}";
-        "${modifier}+f" = "fullscreen";
-        "${modifier}+x" = "mode system";
-        "${modifier}+r" = "mode resize";
-
-        "${modifier}+1" = "workspace number 1";
-        "${modifier}+2" = "workspace number 2";
-        "${modifier}+3" = "workspace number 3";
-        "${modifier}+4" = "workspace number 4";
-        "${modifier}+5" = "workspace number 5";
-        "${modifier}+6" = "workspace number 6";
-        "${modifier}+7" = "workspace number 7";
-        "${modifier}+8" = "workspace number 8";
-        "${modifier}+9" = "workspace number 9";
-        "${modifier}+0" = "workspace number 10";
-
-        "--inhibited ${modifier}+F11" = "mode gaming";
-      } // alwaysActiveKeybinds;
-      modes = let
-        down = config.wayland.windowManager.sway.config.down;
-        left = config.wayland.windowManager.sway.config.left;
-        modifier = config.wayland.windowManager.sway.config.modifier;
-        right = config.wayland.windowManager.sway.config.right;
-        up = config.wayland.windowManager.sway.config.up;
-      in
-      {
-        gaming = {
-          "--inhibited ${modifier}+F11" = "mode default";
-        } // alwaysActiveKeybinds;
-        resize = {
-          "${left}" = "resize shrink width 10px";
-          "${down}" = "resize grow height 10px";
-          "${up}" = "resize shrink height 10px";
-          "${right}" = "resize grow width 10px";
-          "Shift+${left}" = "resize shrink width 50px";
-          "Shift+${down}" = "resize grow height 50px";
-          "Shift+${up}" = "resize shrink height 50px";
-          "Shift+${right}" = "resize grow width 50px";
-
-          "Return" = "mode default";
-          "Escape" = "mode default";
-        };
-        system = {
-          "s" = "exec \"shutdown now\"; mode default";
-          "r" = "exec \"reboot\"; mode default";
-          "l" = "exec \"hyprlock-dpms\"; mode default";
-          "e" = "exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'";
-          "Return" = "mode default";
-          "Escape" = "mode default";
-          "${modifier}+x" = "mode default";
-        };
+        "${mod}, F11, submap, gaming"
+      ] ++ alwaysActiveKeybinds;
+      exec = [
+        # no better way to do this sadly; HM systemd unit management is kinda bad
+        "systemctl --user restart hyprpaper"
+        "systemctl --user restart hyprpolkitagent"
+        "systemctl --user restart waybar"
+      ];
+      exec-once = [
+        "${pkgs.arrpc}/bin/arrpc"
+        "${pkgs.easyeffects}/bin/easyeffects --gapplication-service"
+      ];
+      general = {
+        gaps_out = 5;
       };
-
       input = {
-        "type:pointer" = {
-          accel_profile = "flat";
-          pointer_accel = "-0.333";
-        };
+        sensitivity = -0.333;
+        accel_profile = "flat";
       };
-
-      output = {
-        "*" = {
-          bg = "${swaybg} fill";
-        };
-      };
-
-      gaps = {
-        inner = 5;
-        smartBorders = "on";
-        smartGaps = true;
-      };
-      seat = {
-        "seat0" = {
-          xcursor_theme = "capitaine-cursors 64";
-        };
-      };
-      window.border = 1;
-      window.titlebar = false;
-
-      startup = [
-        { command = "${pkgs.arrpc}/bin/arrpc"; }
-        { command = "${pkgs.easyeffects}/bin/easyeffects --gapplication-service"; }
+      workspace = [
+        # smart gaps rules
+        "w[tv1], gapsout:0, gapsin:0"
+        "f[1], gapsout:0, gapsin:0"
       ];
+      windowrulev2 = [
+        # smart gaps rules
+        "bordersize 0, floating:0, onworkspace:w[tv1]"
+        "rounding 0, floating:0, onworkspace:w[tv1]"
+        "bordersize 0, floating:0, onworkspace:f[1]"
+        "rounding 0, floating:0, onworkspace:f[1]"
+      ];
+      xwayland = {
+        force_zero_scaling = true;
+      };
     };
+    extraConfig = let
+      submapPre = ''
+        submap = @SUBMAP@
+      '';
+      submapPost = ''
+        submap = reset
+      '';
+      submaps = {
+        gaming = [
+          "bindl = ${mod}, F11, submap, reset"
+        ] ++ (builtins.map (bind: "bindl = " + bind) alwaysActiveKeybinds);
+        resize = [
+          "bind = , ${left}, resizeactive, -10 0"
+          "bind = , ${down}, resizeactive, 0 10"
+          "bind = , ${up}, resizeactive, 0 -10"
+          "bind = , ${right}, resizeactive, 10 0"
+          "bind = SHIFT, ${left}, resizeactive, -50 0"
+          "bind = SHIFT, ${down}, resizeactive, 0 50"
+          "bind = SHIFT, ${up}, resizeactive, 0 -50"
+          "bind = SHIFT, ${right}, resizeactive, 50 0"
+          "bind = , escape, submap, reset"
+        ];
+        system = [
+          "bind = , s, exec, shutdown now"
+          "bind = , s, submap, reset"
+          "bind = , r, exec, reboot"
+          "bind = , s, submap, reset"
+          "bind = , l, exec, hyprlock-dpms"
+          "bind = , l, submap, reset"
+          "bind = , escape, submap, reset"
+        ];
+      };
+      # concatenate the calculated submap strings together
+    in (lib.concatStrings (builtins.attrValues (
+      (builtins.mapAttrs (mapName: mapBinds:
+        # prefix submap with pre-text
+        (builtins.replaceStrings ["@SUBMAP@"] [mapName] submapPre) +
+        # add newlines to each submap value and concatenate
+        (lib.concatStrings (builtins.map (line: line + "\n") mapBinds)) +
+        # add escape as submap reset key and finish submap binding text
+        submapPost) submaps))
+      )
+    );
   };
 }

@@ -5,10 +5,10 @@
     "ipc": "true",
     // "width": 1280, // Waybar width
     // Choose the order of the modules
-    "modules-left": ["sway/workspaces"],
+    "modules-left": ["hyprland/workspaces"],
     "modules-center": ["custom/audio"],
-    "modules-right": ["sway/mode", "pulseaudio", "backlight", "battery", "clock", "tray", "custom/lock"],
-    "sway/workspaces": {
+    "modules-right": ["hyprland/submap", "pulseaudio", "backlight", "battery", "clock", "tray", "custom/lock"],
+    "hyprland/workspaces": {
          "disable-scroll": true,
          "sort-by-name": true,
          "format": " {icon} ",
@@ -67,7 +67,7 @@
     },
     "custom/lock": {
         "tooltip": false,
-        "on-click": "sh -c '(sleep 0.5s; ~/.nix-profile/bin/swaylock-dpms)' & disown",
+        "on-click": "sh -c '(sleep 0.1s; /etc/profiles/per-user/esi/bin/hyprlock-dpms)' & disown",
         "format": "",
     },
     "custom/power": {

@@ -125,10 +125,10 @@
 
   xdg.portal = {
     enable = true;
-    wlr.enable = true;
     extraPortals = with pkgs; [
       xdg-desktop-portal-gtk
       xdg-desktop-portal-gnome
+      xdg-desktop-portal-hyprland
     ]; # needed for some gtk apps
     config = {
       sway = { # use GTK implementations except for WLR specific things
@@ -136,10 +136,10 @@
           "gtk"
         ];
         "org.freedesktop.impl.portal.Screencast" = [
-          "wlr"
+          "hyprland"
         ];
         "org.freedesktop.impl.portal.Screenshot" = [
-          "wlr"
+          "hyprland"
         ];
       };
     };
