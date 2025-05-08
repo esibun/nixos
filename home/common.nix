@@ -34,9 +34,10 @@
   programs = {
     bash = {
       enable = true;
+      # TODO: this should be in desktop profile
       initExtra = ''
         if [ $(tty) == "/dev/tty1" ]; then
-          exec sway
+          exec hyprland
         fi
         if [[ $(${pkgs.procps}/bin/ps --no-header --pid=$PPID --format=comm) != "fish" && $(${pkgs.procps}/bin/ps --no-header --pid=$PPID --format=comm) != ".any-nix-shell-" && -z ''${BASH_EXECUTION_STRING} ]]
         then
