@@ -215,15 +215,15 @@ in
       "${mod}, Return, exec, ${terminal}"
       "${mod}_SHIFT, q, killactive"
 
-      "${mod}, ${left}, movefocus, left"
-      "${mod}, ${down}, movefocus, down"
-      "${mod}, ${up}, movefocus, up"
-      "${mod}, ${right}, movefocus, right"
+      "${mod}, ${left}, movefocus, l"
+      "${mod}, ${down}, movefocus, d"
+      "${mod}, ${up}, movefocus, u"
+      "${mod}, ${right}, movefocus, r"
 
-      "${mod}_SHIFT, ${left}, movewindow, left"
-      "${mod}_SHIFT, ${down}, movewindow, down"
-      "${mod}_SHIFT, ${up}, movewindow, up"
-      "${mod}_SHIFT, ${right}, movewindow, right"
+      "${mod}_SHIFT, ${left}, movewindow, l"
+      "${mod}_SHIFT, ${down}, movewindow, d"
+      "${mod}_SHIFT, ${up}, movewindow, u"
+      "${mod}_SHIFT, ${right}, movewindow, r"
 
       "${mod}_CONTROL, 1, workspace, 1"
       "${mod}_CONTROL, 2, workspace, 2"
