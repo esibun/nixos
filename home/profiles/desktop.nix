@@ -315,9 +315,10 @@ in
         "bordersize 0, floating:0, onworkspace:f[1]"
         "rounding 0, floating:0, onworkspace:f[1]"
       ];
-      xwayland = {
-        force_zero_scaling = true;
-      };
+      # broken, see hyprwm/Hyprland#10278
+      #xwayland = {
+      #  force_zero_scaling = true;
+      #};
     };
     extraConfig = let
       submapPre = ''
