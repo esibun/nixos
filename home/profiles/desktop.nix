@@ -202,9 +202,6 @@ in
     down = "J";
     up = "K";
     right = "L";
-    # TODO: some of these should be bindl, need to separate them
-    # low priority since not many applications inhibit keystrokes without
-    # a way to easily exit the inhibit mode
     alwaysActiveKeybinds = [
       ", XF86AudioRaiseVolume, exec, ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ +5%"
       ", XF86AudioLowerVolume, exec, ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ -5%"
@@ -287,7 +284,8 @@ in
         "${mod}, 0, workspace, 10"
 
         "${mod}, F11, submap, gaming"
-      ] ++ alwaysActiveKeybinds;
+      ];
+      bindl = alwaysActiveKeybinds;
       exec = [
         # no better way to do this sadly; HM systemd unit management is kinda bad
         "systemctl --user restart hyprpaper"
