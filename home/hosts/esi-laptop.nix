@@ -20,15 +20,20 @@
     username = "esi";
   };
 
-  wayland.windowManager.sway.config = {
-    keybindings = {
-      "XF86MonBrightnessUp" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s 10%+";
-      "XF86MonBrightnessDown" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s 10%-";
-    };
-    output = {
-      "eDP-2" = {
-        adaptive_sync = "off";
-      };
-    };
+  wayland.windowManager.hyprland.settings = {
+    monitor = [
+      "eDP-2, preferred, auto, 1, vrr, 0"
+    ];
+    bind = [
+      ", XF86MonBrightnessUp, exec, ${pkgs.brightnessctl}/bin/brightnessctl s 10%+"
+      ", XF86MonBrightnessDown, exec, ${pkgs.brightnessctl}/bin/brightnessctl s 10%-"
+    ];
+    workspace = [
+      "1, monitor:DP-1"
+      "2, monitor:DP-2"
+      "3, monitor:DP-2"
+      "4, monitor:DP-2"
+      "5, monitor:DP-2"
+    ];
   };
 }
