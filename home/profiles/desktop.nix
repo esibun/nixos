@@ -1,9 +1,6 @@
 {pkgs, lib, config, inputs, ...}:
 
 let
-  custom = {
-    hyprlock-dpms = pkgs.writeShellScriptBin "hyprlock-dpms" (builtins.readFile ../../files/scripts/hyprlock-dpms);
-  };
   hyprbg = pkgs.fetchurl {
     url = "https://cdn.donmai.us/original/47/8e/__hk416_ump45_ump9_g11_and_dinergate_girls_frontline_drawn_by_juna__478e9a2cd54a04d003d2610a77da4556.jpg";
     hash = "sha256-nmXCeTkL7nRJSnmFaH581S+gxIy817WQl1aG9BmHv/Y=";
@@ -31,9 +28,6 @@ in
       ".local/share/rofi/themes/catppuccin-mocha.rasi".source = ../../files/rofi/catppuccin-mocha.rasi;
     };
     packages = with pkgs; [
-      # Custom Scripts
-      custom.hyprlock-dpms
-
       # Hyprland + Supporting Packages
       hypridle
       hyprpolkitagent # Authentication dialogs
