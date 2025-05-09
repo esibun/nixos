@@ -195,6 +195,36 @@ in
     };
   };
 
+  systemd.user.services = {
+    hyprlock-daemon = {
+      Unit = {
+        Description = "Hyprlock Monitoring Service";
+        OnFailure = "hyprlock-recover.service";
+      };
+      Service = {
+        Type = "simple";
+        ExecStartPre = "${pkgs.systemd}/bin/systemctl --user start hypridle";
+        ExecStart = "${pkgs.hyprlock}/bin/hyprlock";
+        ExecStopPost = "${pkgs.systemd}/bin/systemctl --user stop hypridle";
+      };
+    };
+    hyprlock-recover = {
+      Unit = {
+        Description = "Hyprlock Recovery Script";
+      };
+      Service = {
+        Type = "oneshot";
+        ExecStart = [
+          "${pkgs.hyprland}/bin/hyprctl --instance 0 keyword 'misc:allow_session_lock_restore 1'"
+          "${pkgs.systemd}/bin/systemctl --user restart hypridle"
+          "${pkgs.systemd}/bin/systemctl --user restart hyprlock-daemon"
+          "${pkgs.coreutils}/bin/sleep 5"
+          "${pkgs.hyprland}/bin/hyprctl --instance 0 keyword 'misc:allow_session_lock_restore 0'"
+        ];
+      };
+    };
+  };
+
   wayland.windowManager.hyprland = let
     mod = "ALT";
     terminal = "wezterm";
@@ -347,7 +377,7 @@ in
           "bind = , s, submap, reset"
           "bind = , r, exec, reboot"
           "bind = , s, submap, reset"
-          "bind = , l, exec, hyprlock-dpms"
+          "bind = , l, exec, ${pkgs.systemd}/bin/systemctl --user start hyprlock-daemon"
           "bind = , l, submap, reset"
           "bind = , escape, submap, reset"
         ];

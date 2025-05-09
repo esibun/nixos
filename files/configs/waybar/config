@@ -67,7 +67,7 @@
     },
     "custom/lock": {
         "tooltip": false,
-        "on-click": "sh -c '(sleep 0.1s; /etc/profiles/per-user/esi/bin/hyprlock-dpms)' & disown",
+        "on-click": "sh -c '(sleep 0.1s; /etc/profiles/per-user/esi/bin/systemctl --user start hyprlock-daemon)' & disown",
         "format": "",
     },
     "custom/power": {

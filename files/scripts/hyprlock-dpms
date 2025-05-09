@@ -1,5 +1,0 @@
-#!/bin/sh
-
-systemctl --user start hypridle
-hyprlock
-systemctl --user stop hypridle
