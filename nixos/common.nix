@@ -87,20 +87,17 @@
       {
         oldDependency = pkgs.mesa;
         newDependency = (pkgs.symlinkJoin rec {
-          version = pkgs.unstable.mesa.version;
+          version = pkgs.unstable.libgbm.version;
           name = "mesa-${version}";
           paths = [
-            (pkgs.unstable.libgbm.overrideAttrs(prev: {
-              version = pkgs.unstable.mesa.version;
-              src = pkgs.unstable.mesa.src;
-            }))
+            pkgs.unstable.libgbm
             # Inject packages split in pkgs.unstable
             # Remove this when upgrading to 25.05
             pkgs.unstable.dri-pkgconfig-stub
             pkgs.unstable.mesa-gl-headers
           ];
 
-          meta = pkgs.unstable.mesa.meta;
+          meta = pkgs.unstable.libgbm.meta;
         });
       }
     ];
