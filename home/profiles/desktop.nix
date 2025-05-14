@@ -310,6 +310,9 @@ in
         "${mod}, F11, submap, gaming"
       ];
       bindl = alwaysActiveKeybinds;
+      bindm = [
+        "${mod}, mouse:272, movewindow"
+      ];
       exec = [
         # no better way to do this sadly; HM systemd unit management is kinda bad
         "systemctl --user restart hyprpaper"
