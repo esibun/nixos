@@ -190,6 +190,12 @@ in
   };
 
   systemd.user.services = {
+    # override hypridle autostart (seems no other way to do this)
+    hypridle = {
+      Install = {
+        WantedBy = lib.mkForce [];
+      };
+    };
     hyprlock-daemon = {
       Unit = {
         Description = "Hyprlock Monitoring Service";
