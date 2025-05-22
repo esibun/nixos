@@ -157,7 +157,7 @@ in
 
   services = {
     hypridle = {
-      enable = false;
+      enable = true;
       settings = {
         listener = [
           {
