@@ -5,12 +5,6 @@ let
     url = "https://cdn.donmai.us/original/47/8e/__hk416_ump45_ump9_g11_and_dinergate_girls_frontline_drawn_by_juna__478e9a2cd54a04d003d2610a77da4556.jpg";
     hash = "sha256-nmXCeTkL7nRJSnmFaH581S+gxIy817WQl1aG9BmHv/Y=";
   };
-  vesktop-cam-patch = pkgs.fetchpatch {
-    # Pull PR: Allow streaming from camera devices
-    #  There's some interest in upstreaming but the PR itself is a year old.
-    url = "https://patch-diff.githubusercontent.com/raw/Vencord/Vesktop/pull/195.patch";
-    hash = "sha256-0SZ31rLAVu219ZBya9OmZLaylGr4gfd6wIw9wwLtBBQ=";
-  };
 in
 {
   home = {
@@ -76,11 +70,7 @@ in
 
       # Social Media
       arrpc # equibop dependency
-      (unstable.equibop.overrideAttrs (final: prev: {
-        patches = unstable.equibop.patches ++ [
-          vesktop-cam-patch
-        ];
-      }))
+      unstable.equibop
 
       # Utilities
       file-roller
