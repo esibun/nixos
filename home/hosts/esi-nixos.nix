@@ -31,6 +31,10 @@
     exec = [
       "${pkgs.plasma5Packages.kdeconnect-kde}/bin/kdeconnect-indicator"
     ];
+    input = {
+      sensitivity = -0.333;
+      accel_profile = "flat";
+    };
     workspace = [
       "1, monitor:DP-1"
       "2, monitor:DP-2"

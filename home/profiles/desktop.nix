@@ -322,10 +322,6 @@ in
       general = {
         gaps_out = 5;
       };
-      input = {
-        sensitivity = -0.333;
-        accel_profile = "flat";
-      };
       workspace = [
         # smart gaps rules
         "w[tv1], gapsout:0, gapsin:0"

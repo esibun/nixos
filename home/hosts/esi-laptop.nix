@@ -28,6 +28,10 @@
       ", XF86MonBrightnessUp, exec, ${pkgs.brightnessctl}/bin/brightnessctl s 10%+"
       ", XF86MonBrightnessDown, exec, ${pkgs.brightnessctl}/bin/brightnessctl s 10%-"
     ];
+    input = {
+      sensitivity = 0.75;
+      accel_profile = "flat";
+    };
     workspace = [
       "1, monitor:DP-1"
       "2, monitor:DP-2"
