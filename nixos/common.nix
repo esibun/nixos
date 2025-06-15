@@ -35,8 +35,6 @@
     graphics = {
       enable = true;
       enable32Bit = true;
-      package = pkgs.unstable.mesa;
-      package32 = pkgs.unstable.pkgsi686Linux.mesa;
     };
   };
 
@@ -85,20 +83,8 @@
   system = {
     replaceDependencies.replacements = [
       {
-        oldDependency = pkgs.mesa;
-        newDependency = (pkgs.symlinkJoin rec {
-          version = pkgs.unstable.libgbm.version;
-          name = "mesa-${version}";
-          paths = [
-            pkgs.unstable.libgbm
-            # Inject packages split in pkgs.unstable
-            # Remove this when upgrading to 25.05
-            pkgs.unstable.dri-pkgconfig-stub
-            pkgs.unstable.mesa-gl-headers
-          ];
-
-          meta = pkgs.unstable.libgbm.meta;
-        });
+        oldDependency = pkgs.unstable.libgbm;
+        newDependency = pkgs.libgbm;
       }
     ];
   };
@@ -115,7 +101,7 @@
     mutableUsers = false;
     users.esi = {
       isNormalUser = true;
-      extraGroups = lib.mkDefault ["input" "pipewire" "wheel"];
+      extraGroups = lib.mkDefault ["input" "pipewire" "video" "wheel"];
       hashedPasswordFile = config.age.secrets.esi-passwordfile.path;
     };
   };

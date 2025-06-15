@@ -5,18 +5,17 @@
     #
     # OS Level Packages
     #
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.11";
+      url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     nix-on-droid = {
-      # nix-on-droid hasn't updated to 24.11, follow unstable (nix-on-droid#429)
       url = "github:nix-community/nix-on-droid";
       inputs = {
         nixpkgs.follows = "nixpkgs";
@@ -82,6 +81,15 @@
                 inherit system;
                 config.allowUnfree = true;
               };
+              # patch gamescope using unsupported scrgb extensions
+              gamescope = pkgs.gamescope.overrideAttrs(final: prev: {
+                patches = prev.patches ++ [
+                  (pkgs.fetchpatch {
+                    url = "https://patch-diff.githubusercontent.com/raw/ValveSoftware/gamescope/pull/1867.patch";
+                    hash = "sha256-L7E0MLZOuOCYmjZsjub8ua0SKO4T830pQL0/TMP/pOw=";
+                  })
+                ];
+              });
             })
           ];
         };

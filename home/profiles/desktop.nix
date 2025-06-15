@@ -40,12 +40,8 @@ in
       # Fonts
       fira-code
       font-awesome_5
-      (nerdfonts.override {
-        fonts = [
-          "NerdFontsSymbolsOnly"
-          "Ubuntu"
-        ];
-      })
+      nerd-fonts.symbols-only
+      nerd-fonts.ubuntu
       roboto
       source-han-sans-japanese
       source-han-sans-korean
@@ -130,7 +126,15 @@ in
     };
     obs-studio = {
       enable = true;
-      package = pkgs.unstable.obs-studio;
+      package = pkgs.unstable.obs-studio.overrideAttrs(final: prev: {
+        # fix virtual camera not starting (obsproject/obs-studio#11891)
+        patches = prev.patches ++ [
+          (pkgs.fetchpatch {
+            url = "https://patch-diff.githubusercontent.com/raw/obsproject/obs-studio/pull/11906.patch";
+            hash = "sha256-bnPBbwT+6KTKudhQcxY5CoDtONlIw08FhmD/qU+0PsM=";
+          })
+        ];
+      });
       plugins = with pkgs.unstable.obs-studio-plugins; [
         obs-composite-blur
         obs-pipewire-audio-capture
