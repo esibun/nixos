@@ -138,7 +138,7 @@ in
       auto-update = {
         wantedBy = ["timers.target"];
         timerConfig = {
-          OnCalendar = "daily";
+          OnCalendar = "07:00";
           Unit = "auto-update.service";
         };
       };
