@@ -116,7 +116,7 @@ in
         wantedBy = [];
         script = ''
           cd /etc/nixos
-          git pull
+          ${pkgs.git}/bin/git pull
           ${nr}/bin/nr switch
         '';
         serviceConfig = {
