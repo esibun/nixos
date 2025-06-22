@@ -1,12 +1,19 @@
 {lib, pkgs, inputs, config, ...}:
-
+let
+  # simple nixos-rebuild wrapper showing some more details
+  nr = pkgs.writeShellScriptBin "nr" ''
+    if [ $1 != "boot" ] && [ $1 != "switch" ]; then
+      exec ${pkgs.nixos-rebuild}/bin/nixos-rebuild "$@"
+    fi
+    sudo ${pkgs.nixos-rebuild}/bin/nixos-rebuild "$@" 2>&1 | ${pkgs.nix-output-monitor}/bin/nom
+    ${pkgs.coreutils-full}/bin/ls -dt /nix/var/nix/profiles/system-* | ${pkgs.coreutils-full}/bin/head -n2 | ${pkgs.coreutils-full}/bin/tac | ${pkgs.findutils}/bin/xargs ${pkgs.nvd}/bin/nvd diff
+  '';
+in
 {
   imports = [
     inputs.nix-index-database.nixosModules.nix-index
     ../hardware-configuration.nix
   ];
-
-  nix.settings.experimental-features = ["nix-command" "flakes"];
 
   boot = {
     kernel.sysctl = {
@@ -25,6 +32,9 @@
 
   environment = {
     pathsToLink = ["/share/fish" "/share/qemu"];
+    systemPackages = [
+      nr
+    ];
   };
 
   hardware = {
@@ -40,6 +50,17 @@
 
   networking = {
     networkmanager.enable = true;
+  };
+
+  nix = {
+    settings = {
+      auto-optimise-store = true;
+      experimental-features = ["nix-command" "flakes"];
+    };
+    gc = {
+      automatic = true;
+      options = "--delete-older-than 7d";
+    };
   };
 
   programs = {
@@ -89,8 +110,35 @@
     ];
   };
 
-  # fix for nixpkgs#180175
-  systemd.services.NetworkManager-wait-online.serviceConfig.ExecStart = [ "" "${pkgs.networkmanager}/bin/nm-online -q" ];
+  systemd = {
+    services = {
+      auto-update = {
+        wantedBy = [];
+        script = ''
+          cd /etc/nixos
+          git pull
+          ${nr}/bin/nr switch
+        '';
+        serviceConfig = {
+          Type = "oneshot";
+          User = "root";
+        };
+      };
+      # fix for nixpkgs#180175
+      NetworkManager-wait-online = {
+        serviceConfig.ExecStart = [ "" "${pkgs.networkmanager}/bin/nm-online -q" ];
+      };
+    };
+    timers = {
+      auto-update = {
+        wantedBy = ["timers.target"];
+        timerConfig = {
+          OnCalendar = "daily";
+          Unit = "auto-update.service";
+        };
+      };
+    };
+  };
 
   # increase rtkit limits for pipewire
   systemd.services.rtkit-daemon.serviceConfig.ExecStart = [ "" "${pkgs.rtkit}/libexec/rtkit-daemon --scheduling-policy=FIFO --our-realtime-priority=89 --max-realtime-priority=88 --min-nice-level=-19 --rttime-usec-max=2000000 --users-max=100 --processes-per-user-max=1000 --threads-per-user-max=10000 --actions-burst-sec=10 --actions-per-burst-max=1000 --canary-cheep-msec=30000 --canary-watchdog-msec=60000" ];
