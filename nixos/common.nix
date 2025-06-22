@@ -113,11 +113,16 @@ in
   systemd = {
     services = {
       auto-update = {
+        path = with pkgs; [
+          git
+          nix
+          nr
+        ];
         wantedBy = [];
         script = ''
           cd /etc/nixos
-          ${pkgs.git}/bin/git pull
-          ${nr}/bin/nr switch
+          git pull
+          nr switch
         '';
         serviceConfig = {
           Type = "oneshot";
