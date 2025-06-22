@@ -42,6 +42,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nixos-needsreboot.url = "github:thefossguy/nixos-needsreboot";
+
     xivlauncher-rb = {
       url = "github:drakon64/nixos-xivlauncher-rb";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -116,7 +118,7 @@
               useGlobalPkgs = true;
               useUserPackages = true;
               extraSpecialArgs = {
-                inherit inputs;
+                inherit inputs system;
               };
               users.esi = import ./home/hosts/esi-nixos.nix;
             };
@@ -142,7 +144,7 @@
               useGlobalPkgs = true;
               useUserPackages = true;
               extraSpecialArgs = {
-                inherit inputs;
+                inherit inputs system;
               };
               users.esi = import ./home/hosts/esi-laptop.nix;
             };

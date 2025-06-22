@@ -1,4 +1,4 @@
-{pkgs, lib, inputs, ...}:
+{pkgs, lib, inputs, system, ...}:
 
 {
   fonts.fontconfig.enable = true;
@@ -88,6 +88,49 @@
         "esi-phone".user = "nix-on-droid";
         "*" = lib.hm.dag.entryAfter ["esi-nixos" "esi-laptop" "esi-phone"] {
           user = "root";
+        };
+      };
+    };
+  };
+
+  systemd.user = {
+    services = {
+      reboot-nag = {
+        Unit = {
+          Description = "NixOS Update Reboot Nag";
+        };
+        Service = {
+          Type = "oneshot";
+          ExecStart = "${pkgs.writeShellScriptBin "reboot-nag" ''
+            # Exit if hyprland isn't running
+            ${pkgs.procps}/bin/pgrep -f "bin/hyprland" || exit 0
+
+            # Exit if hyprlock IS running (we're away)
+            ${pkgs.procps}/bin/pgrep -f "/bin/hyprlock" && exit 0
+
+            # Send notification if we need to reboot for updates
+            REASON=$(${inputs.nixos-needsreboot.packages.${system}.default}/bin/nixos-needsreboot --dry-run)
+            if [ $(echo "$REASON" | ${pkgs.coreutils-full}/bin/wc -m) -gt 1 ]; then
+              ${pkgs.libnotify}/bin/notify-send "NixOS Updates" "Reboot necessary:\n$REASON"
+            fi
+          ''}/bin/reboot-nag";
+        };
+      };
+    };
+    timers = {
+      reboot-nag = {
+        Unit = {
+          Description = "NixOS Update Reboot Nag Timer";
+        };
+        Timer = {
+          OnBootSec = "1h";
+          OnUnitActiveSec = "1h";
+          Unit = "reboot-nag.service";
+        };
+        Install = {
+          WantedBy = [
+            "graphical-session.target"
+          ];
         };
       };
     };
