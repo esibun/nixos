@@ -114,15 +114,21 @@ in
     services = {
       auto-update = {
         path = with pkgs; [
+          coreutils-full
+          findutils
           git
-          nix
-          nr
+          nix # nixos-rebuild dependency
+          nixos-rebuild
+          nvd
+          sudo
         ];
         wantedBy = [];
         script = ''
           cd /etc/nixos
           git pull
-          nr switch
+          # nix-output-monitor causes excessive logging
+          nixos-rebuild switch
+          ls -dt /nix/var/nix/profiles/system-* | head -n2 | tac | xargs nvd diff
         '';
         serviceConfig = {
           Type = "oneshot";
