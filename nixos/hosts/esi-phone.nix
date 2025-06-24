@@ -17,7 +17,8 @@ in
 {
   imports = [
     inputs.nix-index-database.nixosModules.nix-index
-    ../../hardware-configuration.nix
+    # Note: nixos-avf takes care of all the hardware configuration stuff
+    # ../../hardware-configuration.nix
   ];
 
   boot = {
