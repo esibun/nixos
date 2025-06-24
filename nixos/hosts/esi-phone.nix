@@ -17,7 +17,7 @@ in
 {
   imports = [
     inputs.nix-index-database.nixosModules.nix-index
-    ../hardware-configuration.nix
+    ../../hardware-configuration.nix
   ];
 
   boot = {
