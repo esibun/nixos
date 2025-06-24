@@ -50,9 +50,6 @@ in
     };
   };
 
-  # set this explicitly (nixos-avf quirk)
-  nixos.hostPlatform = "aarch64";
-
   programs = {
     dconf.enable = true;
     nix-index-database.comma.enable = true;

@@ -157,6 +157,7 @@
           {
             nixpkgs = {
               config.allowUnfree = true; # for stable
+              hostPlatform = "${system}";
               overlays = let
                 pkgs = nixpkgs.legacyPackages.${system};
               in [
@@ -164,6 +165,7 @@
                   unstable = import nixpkgs-unstable {
                     inherit system;
                     config.allowUnfree = true;
+                    hostPlatform = "${system}";
                   };
                 })
               ];
