@@ -38,6 +38,8 @@ in
     ];
   };
 
+  networking.hostName = "esi-phone-avf";
+
   nix = {
     settings = {
       auto-optimise-store = true;
