@@ -154,7 +154,23 @@
         modules = [
           inputs.nixos-avf.nixosModules.avf
 
-          ./nixos/common.nix
+          {
+            nixpkgs = {
+              config.allowUnfree = true; # for stable
+              overlays = let
+                pkgs = nixpkgs.legacyPackages.${system};
+              in [
+                (final: prev: rec {
+                  unstable = import nixpkgs-unstable {
+                    inherit system;
+                    config.allowUnfree = true;
+                  };
+                })
+              ];
+            };
+          }
+
+          #./nixos/common.nix
           # not using secrets due to difference in login on AVF
           # ./nixos/secrets.nix
 
