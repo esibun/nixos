@@ -8,7 +8,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    nixos-avf.url = "github:nix-community/nixos-avf/nixos-25.05";
+    nixos-avf.url = "https://github.com/nix-community/nixos-avf/releases/download/nixos-25.05/avf-channel-25.05-aarch64.tar.xz";
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
 
     home-manager = {
