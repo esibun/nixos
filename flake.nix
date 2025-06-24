@@ -8,19 +8,12 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    nixos-avf.url = "https://github.com/nix-community/nixos-avf/releases/download/nixos-25.05/avf-channel-25.05-aarch64.tar.xz";
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
 
     home-manager = {
       url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    nix-on-droid = {
-      url = "github:nix-community/nix-on-droid";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        home-manager.follows = "home-manager";
-      };
     };
 
     #
@@ -155,26 +148,51 @@
           inherit inputs;
         };
       };
-    };
-    nixOnDroidConfigurations = {
-      default = let
+      esi-phone = let
         system = "aarch64-linux";
-      in inputs.nix-on-droid.lib.nixOnDroidConfiguration {
-        pkgs = import nixpkgs {
-          inherit system;
-          config.allowUnfree = true; # for stable
-          overlays = [
-            (final: prev: {
-              unstable = import nixpkgs-unstable {
-                inherit system;
-                config.allowUnfree = true;
-              };
-            })
-          ];
-        };
+      in nixpkgs.lib.nixosSystem {
         modules = [
-          ./nixos/hosts/nix-on-droid.nix
+          inputs.nixos-avf.nixosModules.avf
+
+          {
+            nixpkgs = {
+              config.allowUnfree = true; # for stable
+              hostPlatform = "${system}";
+              overlays = let
+                pkgs = nixpkgs.legacyPackages.${system};
+              in [
+                (final: prev: rec {
+                  unstable = import nixpkgs-unstable {
+                    inherit system;
+                    config.allowUnfree = true;
+                    hostPlatform = "${system}";
+                  };
+                })
+              ];
+            };
+          }
+
+          #./nixos/common.nix
+          # not using secrets due to difference in login on AVF
+          # ./nixos/secrets.nix
+
+          ./nixos/hosts/esi-phone.nix
+
+          inputs.home-manager.nixosModules.home-manager {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              extraSpecialArgs = {
+                inherit inputs system;
+              };
+              users.droid = import ./home/hosts/esi-phone.nix;
+            };
+          }
         ];
+
+        specialArgs = {
+          inherit inputs;
+        };
       };
     };
   };
