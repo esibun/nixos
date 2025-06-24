@@ -71,6 +71,8 @@ in
     };
   };
 
+  system.stateVersion = "25.05";
+
   systemd = {
     services = {
       # fix for nixpkgs#180175
