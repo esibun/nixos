@@ -7,6 +7,10 @@ let
   };
 in
 {
+  imports = [
+    inputs.nix-flatpak.homeManagerModules.nix-flatpak
+  ];
+
   home = {
     file = {
       ".config/rofi" = {
@@ -150,6 +154,9 @@ in
   };
 
   services = {
+    flatpak.packages = [
+      "app.grayjay.Grayjay"
+    ];
     hypridle = {
       enable = true;
       settings = {

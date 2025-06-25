@@ -11,4 +11,6 @@
 
   # used for PA/PW realtime + gamemode tweaks
   security.rtkit.enable = true;
+
+  services.flatpak.enable = true;
 }
