@@ -150,7 +150,7 @@
           inherit inputs;
         };
       };
-      esi-phone = let
+      esi-phone-avf = let
         system = "aarch64-linux";
       in nixpkgs.lib.nixosSystem {
         modules = [
