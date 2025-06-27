@@ -51,6 +51,7 @@ in
       source-han-sans-korean
       noto-fonts-color-emoji
       ttf_bitstream_vera # to fix certain emoji
+      unifont
 
       # Other Look & Feel
       capitaine-cursors
