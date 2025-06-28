@@ -155,13 +155,9 @@ in
       plugins = with pkgs.unstable.obs-studio-plugins; [
         obs-composite-blur
         obs-pipewire-audio-capture
-        obs-vkcapture # enabled for now; see nixpkgs#349053 if it breaks build
+        obs-vkcapture
         wlrobs
-        (looking-glass-obs.overrideAttrs(final: prev: {
-          nativeBuildInputs = prev.nativeBuildInputs ++ [
-            pkgs.unstable.libGL
-          ];
-        }))
+        looking-glass-obs
       ];
     };
   };
