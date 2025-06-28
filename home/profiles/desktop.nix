@@ -11,6 +11,10 @@ in
     inputs.nix-flatpak.homeManagerModules.nix-flatpak
   ];
 
+  fonts = {
+    fontconfig.enable = true;
+  };
+
   home = {
     file = {
       ".config/rofi" = {
@@ -92,6 +96,14 @@ in
   };
 
   programs = {
+    bash = {
+      enable = true;
+      initExtra = ''
+        if [ $(tty) == "/dev/tty1" ]; then
+          exec hyprland
+        fi
+      '';
+    };
     hyprlock = {
       enable = true;
       package = pkgs.unstable.hyprlock;

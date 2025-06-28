@@ -103,6 +103,7 @@
         system = "x86_64-linux";
       in nixpkgs.lib.nixosSystem {
         modules = commonx64Modules ++ [
+          ./nixos/profiles/baremetal.nix
           ./nixos/profiles/desktop.nix
           ./nixos/profiles/gaming.nix
           ./nixos/profiles/vfio.nix
@@ -130,6 +131,7 @@
         modules = commonx64Modules ++ [
           inputs.nixos-hardware.nixosModules.framework-16-7040-amd
 
+          ./nixos/profiles/baremetal.nix
           ./nixos/profiles/desktop.nix
           ./nixos/profiles/gaming.nix
           ./nixos/hosts/esi-laptop.nix
@@ -174,7 +176,7 @@
             };
           }
 
-          #./nixos/common.nix
+          ./nixos/common.nix
           # not using secrets due to difference in login on AVF
           # ./nixos/secrets.nix
 

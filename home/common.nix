@@ -1,8 +1,6 @@
 {pkgs, lib, inputs, system, ...}:
 
 {
-  fonts.fontconfig.enable = true;
-
   home = {
     file = {
       ".config/nvim" = {
@@ -36,9 +34,6 @@
       enable = true;
       # TODO: this should be in desktop profile
       initExtra = ''
-        if [ $(tty) == "/dev/tty1" ]; then
-          exec hyprland
-        fi
         if [[ $(${pkgs.procps}/bin/ps --no-header --pid=$PPID --format=comm) != "fish" && $(${pkgs.procps}/bin/ps --no-header --pid=$PPID --format=comm) != ".any-nix-shell-" && -z ''${BASH_EXECUTION_STRING} ]]
         then
           shopt -q login_shell && LOGIN_OPTION='--login' || LOGIN_OPTION=""
@@ -85,8 +80,8 @@
       matchBlocks = {
         "esi-nixos".user = "esi";
         "esi-laptop".user = "esi";
-        "esi-phone".user = "nix-on-droid";
-        "*" = lib.hm.dag.entryAfter ["esi-nixos" "esi-laptop" "esi-phone"] {
+        "esi-phone-avf".user = "droid";
+        "*" = lib.hm.dag.entryAfter ["esi-nixos" "esi-laptop" "esi-phone-avf"] {
           user = "root";
         };
       };

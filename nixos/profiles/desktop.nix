@@ -9,8 +9,57 @@
     '';
   };
 
-  # used for PA/PW realtime + gamemode tweaks
-  security.rtkit.enable = true;
+  programs = {
+    dconf.enable = true; # GTK Settings
+    seahorse.enable = true; # gnome-keyring secrets support
+  };
 
-  services.flatpak.enable = true;
+  security = {
+    pam.services.hyprlock = {}; # required for hyprlock to work
+    # used for PA/PW realtime + gamemode tweaks
+    rtkit.enable = true;
+  };
+
+  services = {
+    blueman.enable = true;
+    flatpak.enable = true;
+    gnome.gnome-keyring.enable = true;
+    libinput.enable = true; # touchpad support
+    pipewire = {
+      enable = true;
+      wireplumber.enable = true;
+      audio.enable = true;
+      pulse.enable = true;
+      alsa = {
+        enable = true;
+        support32Bit = true;
+      };
+    };
+    udisks2.enable = true; # Nautilus disk management support
+  };
+
+  # increase rtkit limits for pipewire
+  systemd.services.rtkit-daemon.serviceConfig.ExecStart = [ "" "${pkgs.rtkit}/libexec/rtkit-daemon --scheduling-policy=FIFO --our-realtime-priority=89 --max-realtime-priority=88 --min-nice-level=-19 --rttime-usec-max=2000000 --users-max=100 --processes-per-user-max=1000 --threads-per-user-max=10000 --actions-burst-sec=10 --actions-per-burst-max=1000 --canary-cheep-msec=30000 --canary-watchdog-msec=60000" ];
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-gtk
+      xdg-desktop-portal-gnome
+      xdg-desktop-portal-hyprland
+    ]; # needed for some gtk apps
+    config = {
+      sway = { # use GTK implementations except for WLR specific things
+        default = [
+          "gtk"
+        ];
+        "org.freedesktop.impl.portal.Screencast" = [
+          "hyprland"
+        ];
+        "org.freedesktop.impl.portal.Screenshot" = [
+          "hyprland"
+        ];
+      };
+    };
+  };
 }
