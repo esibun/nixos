@@ -24,13 +24,13 @@ return require("lazy").setup({
     dependencies = "kyazdani42/nvim-web-devicons",
   },
 
-  -- Tokyo Night (color scheme)
+  -- Nord (color scheme)
   {
-    "catppuccin/nvim",
+    "shaunsingh/nord.nvim",
     lazy = false,
     priority = 1000,
     config = function()
-      vim.cmd([[colorscheme catppuccin]])
+      require('nord').set()
     end,
   },
 

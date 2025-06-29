@@ -15,19 +15,27 @@ in
     fontconfig.enable = true;
   };
 
+  gtk = {
+    enable = true;
+    theme = {
+      name = "Adapta";
+      package = pkgs.adapta-gtk-theme;
+    };
+  };
+
   home = {
     file = {
-      ".config/rofi" = {
-        source = ../../files/configs/rofi;
-        recursive = true;
-      };
       ".config/waybar" = {
         source = ../../files/configs/waybar;
         recursive = true;
       };
-      ".wezterm.lua".source = ../../files/configs/wezterm/wezterm.lua;
 
-      ".local/share/rofi/themes/catppuccin-mocha.rasi".source = ../../files/rofi/catppuccin-mocha.rasi;
+      ".config/rofi/config.rasi".source = "${inputs.rofi-adi1090x}/files/launchers/type-1/style-5.rasi";
+      ".config/rofi/shared/colors.rasi".source = ../../files/configs/rofi/shared/colors.rasi;
+      ".config/rofi/shared/fonts.rasi".source = "${inputs.rofi-adi1090x}/files/launchers/type-1/shared/fonts.rasi";
+      ".config/rofi/colors/nord-light.rasi".source = ../../files/configs/rofi/colors/nord-light.rasi;
+
+      ".wezterm.lua".source = ../../files/configs/wezterm/wezterm.lua;
     };
     packages = with pkgs; [
       # Hyprland + Supporting Packages
@@ -56,9 +64,6 @@ in
       noto-fonts-color-emoji
       ttf_bitstream_vera # to fix certain emoji
       unifont
-
-      # Other Look & Feel
-      capitaine-cursors
 
       # Browser
       unstable.firefox # follow unstable, Twitch requires it
@@ -89,9 +94,10 @@ in
     ];
     pointerCursor = {
       gtk.enable = true;
-      package = pkgs.capitaine-cursors;
-      name = "capitaine-cursors";
-      size = 64;
+      x11.enable = true;
+      package = pkgs.nordzy-cursor-theme;
+      name = "Nordzy-cursors-white";
+      size = 48;
     };
   };
 
@@ -195,7 +201,6 @@ in
       settings = {
         hide-on-action = false;
       };
-      style = inputs.catppuccin-swaync-mocha;
     };
   };
 
@@ -305,6 +310,7 @@ in
         "workspaces, 1, 3, default"
       ];
       bind = let
+        theme = "${config.home.homeDirectory}/.config/rofi/launchers/type-1/style-5.rasi";
         menu = "${pkgs.rofi-wayland}/bin/rofi -show drun -drun-match-fields name,generic,categories,keywords";
       in [
         "${mod}, space, exec, ${menu}"

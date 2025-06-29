@@ -1,116 +1,66 @@
-@import "mocha.css";
+@define-color nord0 #2E3440;
+@define-color nord1 #3B4252;
+@define-color nord2 #434C5E;
+@define-color nord3 #4C566A;
+@define-color nord4 #D8DEE9;
+@define-color nord5 #E5E9F0;
+@define-color nord6 #ECEFF4;
+@define-color nord7 #8FBCBB;
+@define-color nord8 #88C0D0;
+@define-color nord9 #81A1C1;
+@define-color nord10 #5E81AC;
+@define-color nord11 #BF616A;
+@define-color nord12 #D08770;
+@define-color nord13 #EBCB8B;
+@define-color nord14 #A3BE8C;
+@define-color nord15 #B48EAD;
 
-body {
-  font-size: 14px;
-}
+/* Nord-Light specific defines */
+@define-color bg @nord6;
+@define-color bg2 @nord4;
+@define-color fg @nord0;
+@define-color fgactive @nord1;
+@define-color divider @nord3;
+
+
+/* Reset all styles */
 * {
-  font-family: 'Fira Code', 'Symbols Nerd Font';
-  min-height: 0;
+	border: none;
+	border-radius: 0;
+	min-height: 0;
+	margin: 0;
+	padding: 0;
+	box-shadow: none;
+	text-shadow: none;
 }
 
 #waybar {
-  background: @base;
-  color: @text;
-  margin: 5px 5px;
+  background: @bg;
+  color: @fg;
+  border: 2px solid @bg2;
+  border-radius: 16px;
+  font-size: 12px;
 }
 
-#workspaces {
-  border-radius: 1rem;
+#waybar #workspaces {
+  padding-left: 10px;
   font-size: 18px;
-  margin: 5px;
-  background-color: @surface0;
-  margin-left: 1rem;
 }
 
-#workspaces button {
-  color: @lavender;
-  border-radius: 1rem;
-  padding: 0.4rem;
+#waybar #workspaces button.visible, #waybar #workspaces button:hover {
+  background: none;
+  color: @nord8;
 }
 
-#workspaces button.active {
-  color: @sky;
-  border-radius: 1rem;
-}
-#workspaces button.focused {
-  color: @sky;
-  border-radius: 1rem;
+#waybar #workspaces button.urgent {
+  color: @nord12;
 }
 
-#workspaces button.urgent {
-  color: @red;
+#waybar #clock {
+  padding-right: 10px;
 }
 
-#workspaces button:hover {
-  color: @sapphire;
-  border-radius: 1rem;
-}
-
-#custom-music,
-#custom-audio,
-#tray,
-#backlight,
-#clock,
-#battery,
-#pulseaudio,
-#custom-lock,
-#custom-power {
-  background-color: @surface0;
-  padding: 0.5rem 1rem;
-  border-radius: 1rem 1rem 1rem 1rem;
-  margin: 5px 0;
-}
-
-#clock {
-  color: @blue;
-  border-radius: 0px 1rem 1rem 0px;
-  margin-right: 1rem;
-}
-
-#battery {
-  color: @green;
-}
-
-#battery.charging {
-  color: @green;
-}
-
-#battery.warning:not(.charging) {
-  color: @red;
-}
-
-#backlight {
-  color: @yellow;
-}
-
-#backlight, #battery {
-    border-radius: 0;
-}
-
-#pulseaudio {
-  color: @maroon;
-  border-radius: 1rem 0px 0px 1rem;
-  margin-left: 1rem;
-}
-
-#custom-music {
-  color: @mauve;
-  border-radius: 1rem;
-}
-
-#custom-lock {
-    border-radius: 1rem 1rem 1rem 1rem;
-    margin-right: 1rem;
-    color: @lavender;
-}
-
-#custom-power {
-    margin-right: 1rem;
-    border-radius: 0px 1rem 1rem 0px;
-    color: @red;
-}
-
-#tray {
-  margin-right: 1rem;
-  border-radius: 1rem;
+#waybar #custom-divider {
+  color: @nord4;
+  font-size: 24px;
 }

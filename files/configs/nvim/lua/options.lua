@@ -1,6 +1,6 @@
 local global_opts = {
   -- Visual
-  background     = "dark";
+  background     = "light";
   laststatus     = 2;
   number         = true;
   relativenumber = true,

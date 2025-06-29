@@ -47,13 +47,13 @@
     #
     # Non-Flake Inputs
     #
-    catppuccin-swaync-mocha = {
-      url = "https://github.com/catppuccin/swaync/releases/latest/download/mocha.css";
+    genshin-fpsunlock = {
+      url = "https://codeberg.org/mkrsym1/fpsunlock/releases/download/latest/fpsunlock.exe";
       flake = false;
     };
 
-    genshin-fpsunlock = {
-      url = "https://codeberg.org/mkrsym1/fpsunlock/releases/download/latest/fpsunlock.exe";
+    rofi-adi1090x = {
+      url = "github:adi1090x/rofi";
       flake = false;
     };
 
