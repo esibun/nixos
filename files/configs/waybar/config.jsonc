@@ -29,7 +29,7 @@
   ],
 
   "hyprland/workspaces": {
-    "format": "{icon}",
+    "format": " {icon} ",
     "format-icons": {
       "1": "󱣵",
       "2": "",

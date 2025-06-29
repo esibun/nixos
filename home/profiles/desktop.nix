@@ -18,8 +18,8 @@ in
   gtk = {
     enable = true;
     theme = {
-      name = "Adapta";
-      package = pkgs.adapta-gtk-theme;
+      name = "Orchis";
+      package = pkgs.orchis-theme;
     };
   };
 
