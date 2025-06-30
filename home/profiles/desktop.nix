@@ -18,8 +18,8 @@ in
   gtk = {
     enable = true;
     theme = {
-      name = "Orchis";
-      package = pkgs.orchis-theme;
+      name = "Quartz Nord";
+      package = (pkgs.callPackage ../pkgs/quartz-nord.nix {});
     };
   };
 
