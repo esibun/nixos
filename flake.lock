@@ -23,18 +23,6 @@
         "type": "github"
       }
     },
-    "catppuccin-swaync-mocha": {
-      "flake": false,
-      "locked": {
-        "narHash": "sha256-PLckTUZEEYe8NTAkk/0KxPHodZ1xzO5Qy9uFoyeQX00=",
-        "type": "file",
-        "url": "https://github.com/catppuccin/swaync/releases/latest/download/mocha.css"
-      },
-      "original": {
-        "type": "file",
-        "url": "https://github.com/catppuccin/swaync/releases/latest/download/mocha.css"
-      }
-    },
     "genshin-fpsunlock": {
       "flake": false,
       "locked": {
@@ -127,7 +115,7 @@
     },
     "nixos-avf": {
       "locked": {
-        "lastModified": 1751162649,
+        "lastModified": 1751248747,
         "narHash": "sha256-j779gJoRf08Ejoh4/oMrcnSxW/JKyeDJwtSbLZJPNNI=",
         "type": "tarball",
         "url": "https://github.com/nix-community/nixos-avf/releases/download/nixos-25.05/avf-channel-25.05-aarch64.tar.xz"
@@ -203,11 +191,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1750969886,
-        "narHash": "sha256-zW/OFnotiz/ndPFdebpo3X0CrbVNf22n4DjN2vxlb58=",
+        "lastModified": 1751211869,
+        "narHash": "sha256-1Cu92i1KSPbhPCKxoiVG5qnoRiKTgR5CcGSRyLpOd7Y=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "a676066377a2fe7457369dd37c31fd2263b662f4",
+        "rev": "b43c397f6c213918d6cfe6e3550abfe79b5d1c51",
         "type": "github"
       },
       "original": {
@@ -217,10 +205,25 @@
         "type": "github"
       }
     },
+    "rofi-adi1090x": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1750950297,
+        "narHash": "sha256-yMKpwxdwvp7ryz2XXunbjC/5ud9HHEDzyYRhM540958=",
+        "owner": "adi1090x",
+        "repo": "rofi",
+        "rev": "adfcc0770fa10daec5d87e3fb4ca6acd1d309491",
+        "type": "github"
+      },
+      "original": {
+        "owner": "adi1090x",
+        "repo": "rofi",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "agenix": "agenix",
-        "catppuccin-swaync-mocha": "catppuccin-swaync-mocha",
         "genshin-fpsunlock": "genshin-fpsunlock",
         "home-manager": "home-manager_2",
         "nix-flatpak": "nix-flatpak",
@@ -230,6 +233,7 @@
         "nixos-needsreboot": "nixos-needsreboot",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-unstable": "nixpkgs-unstable",
+        "rofi-adi1090x": "rofi-adi1090x",
         "secrets": "secrets",
         "xivlauncher-rb": "xivlauncher-rb"
       }
