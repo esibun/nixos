@@ -29,7 +29,7 @@
       "HDMI-A-1, 1920x1080@60, 0x0, 1"
     ];
     exec = [
-      "${pkgs.plasma5Packages.kdeconnect-kde}/bin/kdeconnect-indicator"
+      "${pkgs.uwsm}/bin/uwsm app -- ${pkgs.plasma5Packages.kdeconnect-kde}/bin/kdeconnect-indicator"
     ];
     input = {
       sensitivity = -0.333;

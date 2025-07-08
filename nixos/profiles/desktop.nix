@@ -11,6 +11,11 @@
 
   programs = {
     dconf.enable = true; # GTK Settings
+    hyprland = {
+      enable = true;
+      package = pkgs.unstable.hyprland;
+      withUWSM = true;
+    };
     seahorse.enable = true; # gnome-keyring secrets support
   };
 
@@ -38,6 +43,9 @@
     udisks2.enable = true; # Nautilus disk management support
   };
 
+  # boot systemd to runlevel 5 instead of 3 (for UWSM)
+  systemd.defaultUnit = "graphical.target";
+
   # increase rtkit limits for pipewire
   systemd.services.rtkit-daemon.serviceConfig.ExecStart = [ "" "${pkgs.rtkit}/libexec/rtkit-daemon --scheduling-policy=FIFO --our-realtime-priority=89 --max-realtime-priority=88 --min-nice-level=-19 --rttime-usec-max=2000000 --users-max=100 --processes-per-user-max=1000 --threads-per-user-max=10000 --actions-burst-sec=10 --actions-per-burst-max=1000 --canary-cheep-msec=30000 --canary-watchdog-msec=60000" ];
 
@@ -46,10 +54,10 @@
     extraPortals = with pkgs; [
       xdg-desktop-portal-gtk
       xdg-desktop-portal-gnome
-      xdg-desktop-portal-hyprland
+      # xdg-desktop-portal-hyprland (added by programs.hyprland.enable)
     ]; # needed for some gtk apps
     config = {
-      sway = { # use GTK implementations except for WLR specific things
+      common = { # use GTK implementations except for WLR specific things
         default = [
           "gtk"
         ];

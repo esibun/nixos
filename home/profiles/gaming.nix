@@ -162,7 +162,7 @@ in
     };
 
     wayland.windowManager.hyprland.settings.exec = [
-      "pidof steam || ${pkgs.steam}/bin/steam -silent"
+      "pidof steam || ${pkgs.uwsm}/bin/uwsm app -- ${pkgs.steam}/bin/steam -silent"
     ];
   };
 }

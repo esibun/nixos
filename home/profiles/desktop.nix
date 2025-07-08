@@ -105,8 +105,8 @@ in
     bash = {
       enable = true;
       initExtra = ''
-        if [ $(tty) == "/dev/tty1" ]; then
-          exec hyprland
+        if ${pkgs.uwsm}/bin/uwsm check may-start 1 &> /dev/null && ${pkgs.uwsm}/bin/uwsm select; then
+          exec ${pkgs.uwsm}/bin/uwsm start default
         fi
       '';
     };
@@ -296,14 +296,14 @@ in
     ];
   in {
     enable = true;
-    package = pkgs.unstable.hyprland;
+    package = null; # don't install hyprland to user profile (we're using system profile for uwsm)
     settings = {
       animation = [
         "workspaces, 1, 3, default"
       ];
       bind = let
         theme = "${config.home.homeDirectory}/.config/rofi/launchers/type-1/style-5.rasi";
-        menu = "${pkgs.rofi-wayland}/bin/rofi -show drun -drun-match-fields name,generic,categories,keywords";
+        menu = "${pkgs.rofi-wayland}/bin/rofi -show drun -drun-match-fields name,generic,categories,keywords -run-command \"uwsm app -- {cmd}\"";
       in [
         "${mod}, space, exec, ${menu}"
         "${mod}, f, fullscreen, 0"
@@ -334,8 +334,8 @@ in
         "systemctl --user restart waybar"
       ];
       exec-once = [
-        "${pkgs.arrpc}/bin/arrpc"
-        "${pkgs.easyeffects}/bin/easyeffects --gapplication-service"
+        "${pkgs.uwsm}/bin/uwsm app -- ${pkgs.arrpc}/bin/arrpc"
+        "${pkgs.uwsm}/bin/uwsm app -- ${pkgs.easyeffects}/bin/easyeffects --gapplication-service"
         # config files don't seem to actually read
         "${pkgs.hyprland}/bin/hyprctl setcursor Nordzy-cursors-white 48"
       ];
@@ -359,6 +359,7 @@ in
       #  force_zero_scaling = true;
       #};
     };
+    systemd.enable = false; # conflicts with uwsm
     extraConfig = let
       submapPre = ''
         submap = @SUBMAP@
