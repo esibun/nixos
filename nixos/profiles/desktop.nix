@@ -1,4 +1,4 @@
-{pkgs, config, ...}:
+{pkgs, lib, config, ...}:
 
 {
   boot = {
@@ -53,19 +53,14 @@
     enable = true;
     extraPortals = with pkgs; [
       xdg-desktop-portal-gtk
-      xdg-desktop-portal-gnome
-      # xdg-desktop-portal-hyprland (added by programs.hyprland.enable)
-    ]; # needed for some gtk apps
+      # xdg-desktop-portal-hyprland (added by hyprland module)
+    ];
     config = {
-      common = { # use GTK implementations except for WLR specific things
+      common = {
         default = [
+          # prefer XDPH implementations
+          "hyprland"
           "gtk"
-        ];
-        "org.freedesktop.impl.portal.Screencast" = [
-          "hyprland"
-        ];
-        "org.freedesktop.impl.portal.Screenshot" = [
-          "hyprland"
         ];
       };
     };

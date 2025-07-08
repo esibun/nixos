@@ -20,6 +20,37 @@
             "clock",
             "custom/poweroff"
         ],
+        "hyprland/workspaces": {
+            "format": "{icon}",
+            "format-icons": {
+                "1": "¹󱣵",
+                "2": "²",
+                "3": "³󰙯",
+                "4": "⁴󰆍",
+                "5": "⁵",
+                "6": "󰲫",
+                "7": "󰲭",
+                "8": "󰲯",
+                "9": "󰲱",
+                "10": "󰿭",
+                "default": ""
+            }
+        },
+        "privacy": {
+            "icon-size": 12,
+            "ignore-monitor": false,
+            "modules": [
+            {
+                "type": "screenshare"
+            },
+            {
+                "type": "audio-out"
+            },
+            {
+                "type": "audio-in"
+            }
+            ]
+        },
         "clock": {
             /* note: padding modifiers don't work despite docs saying they do (Waybar#1447) */
             "interval": 1,

@@ -389,7 +389,7 @@ in
           "bind = , r, submap, reset"
           "bind = , l, exec, ${pkgs.systemd}/bin/systemctl --user start hyprlock-daemon"
           "bind = , l, submap, reset"
-          "bind = , e , exec ${pkgs.sway}/bin/swaynag -b \"OK\" \"uwsm stop\" -s \"Cancel\" -t warning -m \"End your hyprland session?\"" 
+          "bind = , e , exec, ${pkgs.sway}/bin/swaynag -b \"OK\" \"uwsm stop\" -s \"Cancel\" -t warning -m \"End your hyprland session?\"" 
           "bind = , e, submap, reset"
           "bind = , escape, submap, reset"
         ];
