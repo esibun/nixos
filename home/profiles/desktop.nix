@@ -336,6 +336,8 @@ in
       exec-once = [
         "${pkgs.arrpc}/bin/arrpc"
         "${pkgs.easyeffects}/bin/easyeffects --gapplication-service"
+        # config files don't seem to actually read
+        "${pkgs.hyprland}/bin/hyprctl setcursor Nordzy-cursors-white 48"
       ];
       general = {
         gaps_out = 5;
