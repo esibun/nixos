@@ -1,66 +1,93 @@
-@define-color nord0 #2E3440;
-@define-color nord1 #3B4252;
-@define-color nord2 #434C5E;
-@define-color nord3 #4C566A;
-@define-color nord4 #D8DEE9;
-@define-color nord5 #E5E9F0;
-@define-color nord6 #ECEFF4;
-@define-color nord7 #8FBCBB;
-@define-color nord8 #88C0D0;
-@define-color nord9 #81A1C1;
-@define-color nord10 #5E81AC;
-@define-color nord11 #BF616A;
-@define-color nord12 #D08770;
-@define-color nord13 #EBCB8B;
-@define-color nord14 #A3BE8C;
-@define-color nord15 #B48EAD;
+@define-color nord0 #2E3440; /* plain text */
+@define-color nord1 #3B4252; /* more subtle text, highlighted text */
+@define-color nord2 #434C5E; /* same as @nord1 but brighter */
+@define-color nord3 #4C566A; /* most subtle texts that don't need attention */
+@define-color nord4 #D8DEE9; /* elevated/focused ui elements */
+@define-color nord5 #E5E9F0; /* currently active element */
+@define-color nord6 #ECEFF4; /* background color */
+@define-color nord7 #8FBCBB; /* elements requiring attention */
+@define-color nord8 #88C0D0; /* main elements requiring attention */
+@define-color nord9 #81A1C1; /* secondary elements requiring attention */
+@define-color nord10 #5E81AC; /* tertiary elements requiring attention */
+@define-color nord11 #BF616A; /* elements rendering error states */
+@define-color nord12 #D08770; /* elements rendering dangerous functionality */
+@define-color nord13 #EBCB8B; /* elements rendering warning states */
+@define-color nord14 #A3BE8C; /* elements rendering success states */
+@define-color nord15 #B48EAD; /* rarely used (uncommon functionality) */
 
-/* Nord-Light specific defines */
-@define-color bg @nord6;
-@define-color bg2 @nord4;
-@define-color fg @nord0;
-@define-color fgactive @nord1;
-@define-color divider @nord3;
-
-
-/* Reset all styles */
 * {
-	border: none;
-	border-radius: 0;
-	min-height: 0;
-	margin: 0;
-	padding: 0;
-	box-shadow: none;
-	text-shadow: none;
+    border: none;
+    border-radius: 0;
+    font-family: "Clear Sans", "Font Awesome 6 Free Solid";
+    font-size: 13px;
+    min-height: 0;
 }
 
-#waybar {
-  background: @bg;
-  color: @fg;
-  border: 2px solid @bg2;
-  border-radius: 16px;
-  font-size: 12px;
+window#waybar {
+    background-color: @nord6;
+    color: @nord0;
+    transition-property: background-color;
+    transition-duration: .5s;
 }
 
-#waybar #workspaces {
-  padding-left: 10px;
-  font-size: 18px;
+window#waybar.empty {
+    color: @nord6;
 }
 
-#waybar #workspaces button.visible, #waybar #workspaces button:hover {
-  background: none;
-  color: @nord8;
+.topbar {
+    border-bottom: 3px solid @nord5; /* nord4 looks weird if it matches other window colors */
 }
 
-#waybar #workspaces button.urgent {
-  color: @nord12;
+.bottombar {
+    border-top: 3px solid @nord4;
 }
 
-#waybar #clock {
-  padding-right: 10px;
+#workspaces button {
+    padding: 0 5px;
+    background-color: transparent;
+    color: @nord0;
 }
 
-#waybar #custom-divider {
-  color: @nord4;
-  font-size: 24px;
+#workspaces button:hover {
+    background: @nord5;
+    box-shadow: inset 0 3px @nord5;
+}
+
+#workspaces button.focused {
+    background-color: @nord5;
+    box-shadow: inset 0 3px @nord5;
+}
+
+#workspaces button.urgent {
+    background-color: @nord8;
+}
+
+#mode { /* ? */
+    background-color: #64727D;
+    border-top: 3px solid #ffffff;
+}
+
+#backlight,
+#battery.bat1,
+#battery.bat2,
+#clock,
+#cpu,
+#custom-mail,
+#custom-poweroff,
+#custom-weather,
+#disk,
+#idle_inhibitor,
+#memory,
+#mode,
+#network.vpn,
+#network.wifi,
+#network.ethernet,
+#network.disconnected,
+#pulseaudio,
+#taskbar,
+#temperature,
+#tray {
+    padding: 0 6px;
+    margin: 0 0px;
+    color: @nord0;
 }
