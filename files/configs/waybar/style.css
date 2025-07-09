@@ -19,8 +19,26 @@
     border: none;
     border-radius: 0;
     font-family: "Clear Sans", "Font Awesome 6 Free Solid";
-    font-size: 13px;
     min-height: 0;
+}
+
+window * {
+  font-size: 13px;
+}
+
+window .modules-center {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+/* scale DP-1 1.5x */
+window.DP-1 * {
+  font-size: 19.5px;
+}
+
+window.DP-1 .modules-center {
+  padding-top: 7.5px;
+  padding-bottom: 7.5px;
 }
 
 window#waybar {
@@ -28,6 +46,8 @@ window#waybar {
     color: @nord0;
     transition-property: background-color;
     transition-duration: .5s;
+    margin-top: 3px;
+    margin-bottom: 3px;
 }
 
 window#waybar.empty {
