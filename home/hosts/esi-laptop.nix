@@ -9,7 +9,7 @@
     ../profiles/gaming-beatoraja.nix
   ];
 
-  gamescopeFlags = "-w 2560 -h 1600 -r 144 -F fsr -b";
+  gamescopeFlags = "-w 2560 -h 1600 -r 144 -F fsr -f";
 
   home = {
     homeDirectory = "/home/esi";
