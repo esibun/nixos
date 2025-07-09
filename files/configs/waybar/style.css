@@ -55,7 +55,7 @@ window#waybar.empty {
 }
 
 .topbar {
-    border-bottom: 3px solid @nord5; /* nord4 looks weird if it matches other window colors */
+    border-bottom: 3px solid @nord4;
 }
 
 .bottombar {
@@ -70,12 +70,12 @@ window#waybar.empty {
 
 #workspaces button:hover {
     background: @nord5;
-    box-shadow: inset 0 3px @nord5;
+    box-shadow: inset 0 3px @nord4;
 }
 
 #workspaces button.focused, #workspaces button.active {
     background-color: @nord5;
-    box-shadow: inset 0 3px @nord5;
+    box-shadow: inset 0 3px @nord4;
 }
 
 #workspaces button.urgent {
