@@ -16,10 +16,8 @@
 @define-color nord15 #B48EAD; /* rarely used (uncommon functionality) */
 
 * {
-    border: none;
-    border-radius: 0;
-    font-family: "Clear Sans", "Font Awesome 6 Free Solid";
-    min-height: 0;
+  border-radius: 0; /* this doesn't default to 0 for some reason */
+  font-family: "Clear Sans", "Font Awesome 6 Free Solid";
 }
 
 window * {
@@ -27,8 +25,7 @@ window * {
 }
 
 window .modules-center {
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding: 5px 0;
 }
 
 /* scale DP-1 1.5x */
@@ -37,49 +34,41 @@ window.DP-1 * {
 }
 
 window.DP-1 .modules-center {
-  padding-top: 7.5px;
-  padding-bottom: 7.5px;
+  padding: 7.5px 0;
 }
 
 window#waybar {
-    background-color: @nord6;
-    color: @nord0;
-    transition-property: background-color;
-    transition-duration: .5s;
-    margin-top: 3px;
-    margin-bottom: 3px;
+  background-color: @nord6;
+  color: @nord0;
+  margin: 3px 0;
 }
 
 window#waybar.empty {
-    color: @nord6;
+  color: @nord6;
 }
 
 .topbar {
-    border-bottom: 3px solid @nord4;
-}
-
-.bottombar {
-    border-top: 3px solid @nord4;
+  border-bottom: 3px solid @nord4;
 }
 
 #workspaces button {
-    padding: 0 2px;
-    background-color: transparent;
-    color: @nord0;
+  padding: 0 2px;
+  border: 0;
+  background-color: transparent;
+  color: @nord0;
 }
 
 #workspaces button:hover {
-    background: @nord5;
-    box-shadow: inset 0 3px @nord4;
+  background: @nord4;
 }
 
 #workspaces button.focused, #workspaces button.active {
-    background-color: @nord5;
-    box-shadow: inset 0 3px @nord4;
+  background-color: @nord4;
 }
 
 #workspaces button.urgent {
-    background-color: @nord8;
+  box-shadow: inset 0 -3px @nord4;
+  background-color: @nord8;
 }
 
 #clock,
@@ -87,7 +76,6 @@ window#waybar.empty {
 #custom-weather,
 #pulseaudio,
 #tray {
-    padding: 0 6px;
-    margin: 0 0px;
-    color: @nord0;
+  padding: 0 6px;
+  color: @nord0;
 }
