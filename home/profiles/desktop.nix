@@ -193,6 +193,7 @@ in
       settings = {
         hide-on-action = false;
       };
+      style = ../../files/configs/swaync/style.css;
     };
   };
 
