@@ -86,7 +86,8 @@ in
         wantedBy = [];
         script = ''
           cd /etc/nixos
-          git pull
+          git fetch
+          git reset --hard origin/main
           # nix-output-monitor causes excessive logging
           nixos-rebuild switch
           ls -dt /nix/var/nix/profiles/system-* | head -n2 | tac | xargs nvd diff
