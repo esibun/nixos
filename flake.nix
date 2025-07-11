@@ -152,6 +152,20 @@
           inherit inputs;
         };
       };
+      linode = let
+        system = "x86_64-linux";
+      in nixpkgs.lib.nixosSystem {
+        modules = commonx64Modules ++ [
+          # non-public config file since this machine is public facing
+          "${inputs.secrets}/profiles/linode.nix"
+
+          ./nixos/hosts/linode.nix
+        ];
+
+        specialArgs = {
+          inherit inputs;
+        };
+      };
       esi-phone-avf = let
         system = "aarch64-linux";
       in nixpkgs.lib.nixosSystem {
