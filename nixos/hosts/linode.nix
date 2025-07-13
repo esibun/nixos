@@ -19,9 +19,14 @@
   };
 
   environment.systemPackages = with pkgs; [
+    # linode stuff
     inetutils
     mtr
     sysstat
+
+    # updater/convenience
+    git
+    vim
   ];
 
   networking = {
