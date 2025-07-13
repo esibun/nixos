@@ -8,10 +8,12 @@
   # see https://www.linode.com/docs/guides/install-nixos-on-linode/
   boot = {
     loader = {
+      efi.canTouchEfiVariables = lib.mkForce false;
       grub = {
         forceInstall = true;
         device = "nodev";
       };
+      systemd-boot.enable = lib.mkForce false;
       timeout = 10;
     };
   };
