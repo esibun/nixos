@@ -1,6 +1,10 @@
 {pkgs, lib, config, ...}:
 
 {
+  imports = [
+    ../../hardware-configuration.nix
+  ];
+
   # see https://www.linode.com/docs/guides/install-nixos-on-linode/
   boot = {
     loader = {
@@ -23,6 +27,15 @@
     interfaces.eth0.useDHCP = false;
     useDHCP = false;
     usePredictableInterfaceNames = false;
+  };
+
+  users = {
+    mutableUsers = false;
+    users.esi = {
+      isNormalUser = true;
+      extraGroups = lib.mkDefault ["input" "pipewire" "video" "wheel"];
+      hashedPasswordFile = config.age.secrets.esi-passwordfile.path;
+    };
   };
 
   # see secrets repo for service config
