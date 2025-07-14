@@ -161,9 +161,12 @@ in
   };
 
   services = {
-    flatpak.packages = [
-      "app.grayjay.Grayjay"
-    ];
+    flatpak = {
+      packages = [
+        "app.grayjay.Grayjay"
+      ];
+      update.onActivation = true;
+    };
     hypridle = {
       enable = true;
       settings = {
