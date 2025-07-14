@@ -36,6 +36,17 @@
     usePredictableInterfaceNames = false;
   };
 
+  nix = {
+    buildMachines = [{
+      hostName = "esi-nixos";
+      system = "x86_64-linux";
+      protocol = "ssh-ng";
+      maxJobs = 3;
+      speedFactor = 10;
+    }];
+    distributedBuilds = true;
+  };
+
   users = {
     mutableUsers = false;
     users.esi = {
