@@ -45,6 +45,7 @@
       speedFactor = 10;
     }];
     distributedBuilds = true;
+    max-jobs = 0;
   };
 
   users = {
