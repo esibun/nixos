@@ -115,7 +115,7 @@
     },
     "nixos-avf": {
       "locked": {
-        "lastModified": 1752544996,
+        "lastModified": 1752631224,
         "narHash": "sha256-j779gJoRf08Ejoh4/oMrcnSxW/JKyeDJwtSbLZJPNNI=",
         "type": "tarball",
         "url": "https://github.com/nix-community/nixos-avf/releases/download/nixos-25.05/avf-channel-25.05-aarch64.tar.xz"
@@ -191,11 +191,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1752308619,
-        "narHash": "sha256-pzrVLKRQNPrii06Rm09Q0i0dq3wt2t2pciT/GNq5EZQ=",
+        "lastModified": 1752436162,
+        "narHash": "sha256-Kt1UIPi7kZqkSc5HVj6UY5YLHHEzPBkgpNUByuyxtlw=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "650e572363c091045cdbc5b36b0f4c1f614d3058",
+        "rev": "dfcd5b901dbab46c9c6e80b265648481aafb01f8",
         "type": "github"
       },
       "original": {
@@ -208,11 +208,11 @@
     "rofi-adi1090x": {
       "flake": false,
       "locked": {
-        "lastModified": 1750950297,
-        "narHash": "sha256-yMKpwxdwvp7ryz2XXunbjC/5ud9HHEDzyYRhM540958=",
+        "lastModified": 1752591895,
+        "narHash": "sha256-XJP7lKSataPkQayVzUElrUnOBJhhaZtrbIZZsRUX/Ew=",
         "owner": "adi1090x",
         "repo": "rofi",
-        "rev": "adfcc0770fa10daec5d87e3fb4ca6acd1d309491",
+        "rev": "d6ae47205a375108f7fc7c96b6dc9d647951dcad",
         "type": "github"
       },
       "original": {
