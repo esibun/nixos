@@ -81,7 +81,7 @@ in
           nix # nixos-rebuild dependency
           nixos-rebuild
           nvd
-          ssh
+          openssh
           sudo
         ];
         wantedBy = [];
