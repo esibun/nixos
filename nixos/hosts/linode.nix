@@ -46,7 +46,7 @@
     }];
     gc = {
       automatic = true;
-      options = "-d";
+      options = lib.mkForce "-d";
     };
     distributedBuilds = true;
     settings.max-jobs = 0;
