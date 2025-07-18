@@ -44,6 +44,10 @@
       maxJobs = 3;
       speedFactor = 10;
     }];
+    gc = {
+      automatic = true;
+      options = "-d";
+    };
     distributedBuilds = true;
     settings.max-jobs = 0;
   };
