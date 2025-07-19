@@ -10,10 +10,6 @@ let
     script = ../../files/scripts/swaymode.py;
   };
   icons = {
-    ffxiv = pkgs.fetchurl {
-      url = "https://cdn2.steamgriddb.com/icon_thumb/2b094148a9d10109b903715267c4dd14.png";
-      hash = "sha256-tCVON6h1GwPV6Fp+DZG7cNOC/u1N+8kP7155TSyQl0g=";
-    };
     genshin = pkgs.fetchurl {
       url = "https://cdn2.steamgriddb.com/icon_thumb/65ae27b8c33157282761f37083da12dd.png";
       hash = "sha256-IYUQR8JPkXprJ7xBbmbzroPzhIg8g1J/bHZXORfvUHo=";
@@ -38,20 +34,8 @@ in
       # Games
       ares
       fflogs
-      inputs.xivlauncher-rb.packages.${system}.default
       prismlauncher
 
-      (callPackage ../pkgs/native-game.nix {
-        title = "Final Fantasy XIV";
-        baseDir = "${config.home.homeDirectory}/.xlcore";
-        shortname = "ffxiv";
-        useGlobalPaths = true;
-        mainBinary = "XIVLauncher.Core";
-        icon = icons.ffxiv;
-        # FFXIV requires cursor grab to avoid facing floor/ceiling every time mouse is clicked
-        gamescopeFlags = config.gamescopeFlags + " --force-grab-cursor";
-        gamePrefix = "${pkgs.mangohud}/bin/mangohud ${pkgs.obs-studio-plugins.obs-vkcapture}/bin/obs-gamecapture";
-      })
       (callPackage ../pkgs/wine-game.nix {
         title = "Genshin Impact";
         baseDir = "${config.home.homeDirectory}/.local/share/games/genshin";

@@ -234,8 +234,7 @@
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "rofi-adi1090x": "rofi-adi1090x",
-        "secrets": "secrets",
-        "xivlauncher-rb": "xivlauncher-rb"
+        "secrets": "secrets"
       }
     },
     "secrets": {
@@ -266,26 +265,6 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
-        "type": "github"
-      }
-    },
-    "xivlauncher-rb": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1745492941,
-        "narHash": "sha256-NeUlC1jFi2V10sA5Vz3e83hpcFOw1ysaejroeINYuH4=",
-        "owner": "drakon64",
-        "repo": "nixos-xivlauncher-rb",
-        "rev": "a4f5639d8ee17cfd27d09b606cfa37a8f4e31422",
-        "type": "github"
-      },
-      "original": {
-        "owner": "drakon64",
-        "repo": "nixos-xivlauncher-rb",
         "type": "github"
       }
     }
