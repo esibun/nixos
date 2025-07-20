@@ -35,6 +35,7 @@
 
   users = {
     mutableUsers = false;
+    groups.nixbuilder = {};
     users = {
       esi = {
         isNormalUser = true;
