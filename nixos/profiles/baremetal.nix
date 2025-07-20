@@ -35,10 +35,17 @@
 
   users = {
     mutableUsers = false;
-    users.esi = {
-      isNormalUser = true;
-      extraGroups = lib.mkDefault ["input" "pipewire" "video" "wheel"];
-      hashedPasswordFile = config.age.secrets.esi-passwordfile.path;
+    users = {
+      esi = {
+        isNormalUser = true;
+        extraGroups = lib.mkDefault ["input" "pipewire" "video" "wheel"];
+        hashedPasswordFile = config.age.secrets.esi-passwordfile.path;
+      };
+      nixbuilder = {
+        isNormalUser = true;
+        group = "nixbuilder";
+        hashedPassword = "!"; # disable the account
+      };
     };
   };
 }
