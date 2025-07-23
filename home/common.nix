@@ -97,10 +97,10 @@
           Type = "oneshot";
           ExecStart = "${pkgs.writeShellScriptBin "reboot-nag" ''
             # Exit if hyprland isn't running
-            ${pkgs.uwsm}/bin/uwsm check is-active hyprland-uwsm.desktop || echo "Not in Hyprland, quitting" && exit 0
+            ${pkgs.uwsm}/bin/uwsm check is-active hyprland-uwsm.desktop || { echo "Not in Hyprland, quitting" && exit 0 }
 
             # Exit if hyprlock IS running (we're away)
-            ${pkgs.procps}/bin/pgrep -f "/bin/hyprlock" && echo "Locked, quitting" && exit 0
+            ${pkgs.procps}/bin/pgrep -f "/bin/hyprlock" && { echo "Locked, quitting" && exit 0 }
 
             # Send notification if we need to reboot for updates
             REASON=$(${inputs.nixos-needsreboot.packages.${system}.default}/bin/nixos-needsreboot --dry-run)
