@@ -73,6 +73,8 @@
                 inherit system;
                 config.allowUnfree = true;
               };
+              # use unstable comma to fix args change to nix-index dependency (see nix-community/comma#103)
+              comma = unstable.comma;
               # patch gamescope using unsupported scrgb extensions
               gamescope = pkgs.gamescope.overrideAttrs(final: prev: {
                 patches = prev.patches ++ [
