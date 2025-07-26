@@ -73,6 +73,12 @@
                 inherit system;
                 config.allowUnfree = true;
               };
+              # use an updated gamelist for arrpc
+              arrpc = pkgs.arrpc.overrideAttrs(final: prev: {
+                patches = [
+                  ./files/arrpc-gamelist.patch
+                ];
+              });
               # use unstable comma to fix args change to nix-index dependency (see nix-community/comma#103)
               comma = unstable.comma;
               # patch gamescope using unsupported scrgb extensions
