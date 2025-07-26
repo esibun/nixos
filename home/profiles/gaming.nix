@@ -19,6 +19,7 @@ let
       hash = "sha256-NXDkBBgIOUuaqG3gVtftrGz7Wa2hOAmnEEzMuaM0VsI=";
     };
   };
+  callPackage = pkgs.lib.callPackageWith (pkgs // {inherit config;});
 in
 {
   options = {
@@ -62,7 +63,7 @@ in
           "vcrun2022"
         ];
         # Genshin requires cursor grab to avoid cursor state issues (camera)
-        gamescopeFlags = config.gamescopeFlags + " --force-grab-cursor --cursor-scale-height 1080";
+        extraGamescopeFlags = "--force-grab-cursor --cursor-scale-height 1080";
         gamePrefix = "${pkgs.mangohud}/bin/mangohud";
         # wine doesn't appreciate being given a windows executable without the correct extension
         commandPrefix = "${pkgs.coreutils}/bin/ln -sf ${inputs.genshin-fpsunlock} ~/.local/share/games/genshin/fpsunlock.exe && ";
@@ -76,7 +77,6 @@ in
         mainBinary = "GF2Exilium/GF2 Game/GF2_Exilium.exe";
         icon = icons.gfl2;
         useUmu = true;
-        gamescopeFlags = config.gamescopeFlags;
         extraLib = [
           ffmpeg_4-headless # GStreamer H.264 support
           freetype

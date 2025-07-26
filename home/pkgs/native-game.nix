@@ -5,6 +5,7 @@
   writeShellScriptBin,
   lib,
   pkgs,
+  config,
 
   title,
   baseDir,
@@ -16,7 +17,7 @@
   mainBinary,
   icon ? "",
   comment ? "",
-  gamescopeFlags ? "",
+  extraGamescopeFlags ? "",
   extraBin ? [],
   extraLib ? [],
   commandPrefix ? "",
@@ -46,8 +47,8 @@ let
     fi
   '';
   gameDir = if useGlobalPaths then "" else "${baseDir}/";
-  script = writeShellScriptBin shortname (baseScript ''${scope} ${commandPrefix} ${pkgs.gamemode}/bin/gamemoderun ${pkgs.gamescope}/bin/gamescope ${gamescopeFlags} -- ${gamePrefix} "${gameDir}${mainBinary}" ${commandPostfix}'');
-  launcherScript = writeShellScriptBin (shortname + "-launcher") (baseScript ''${scope} ${commandPrefix} ${pkgs.gamemode}/bin/gamemoderun ${pkgs.gamescope}/bin/gamescope ${gamescopeFlags} -- "${gameDir}${launcherBinary}" ${commandPostfix}'');
+  script = writeShellScriptBin shortname (baseScript ''${scope} ${commandPrefix} ${pkgs.gamemode}/bin/gamemoderun ${pkgs.gamescope}/bin/gamescope ${config.gamescopeFlags} ${extraGamescopeFlags} -- ${gamePrefix} "${gameDir}${mainBinary}" ${commandPostfix}'');
+  launcherScript = writeShellScriptBin (shortname + "-launcher") (baseScript ''${scope} ${commandPrefix} ${pkgs.gamemode}/bin/gamemoderun ${pkgs.gamescope}/bin/gamescope ${config.gamescopeFlags} ${extraGamescopeFlags} -- "${gameDir}${launcherBinary}" ${commandPostfix}'');
 
   desktopItem = makeDesktopItem {
     name = shortname;

@@ -1,5 +1,8 @@
 {pkgs, config, ...}:
 
+let
+  callPackage = pkgs.lib.callPackageWith (pkgs // {inherit config;});
+in
 {
   home.packages = with pkgs; [
     (callPackage ../pkgs/native-game.nix {
@@ -9,7 +12,7 @@
       mainBinary = "beatoraja.sh";
       # TODO: icon?
       # mangohud from gamescope; in-process breaks obs-gamecapture
-      gamescopeFlags = config.gamescopeFlags + " --mangoapp --backend sdl";
+      extraGamescopeFlags = "--mangoapp --backend sdl";
       extraBin = [
         steam-run
         xorg.xrandr
@@ -17,6 +20,7 @@
       commandPrefix = "env SHUT_UP_TACHI=yes";
       gamePrefix = "${pkgs.obs-studio-plugins.obs-vkcapture}/bin/obs-gamecapture";
       commandPostfix = "-s";
+      inherit config;
     })
   ];
 }

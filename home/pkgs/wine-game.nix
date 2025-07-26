@@ -5,6 +5,7 @@
   writeShellScriptBin,
   lib,
   pkgs,
+  config,
   system,
 
   title,
@@ -19,7 +20,7 @@
   icon ? "",
   comment ? "",
   winetricksVerbs ? [],
-  gamescopeFlags ? "",
+  extraGamescopeFlags ? "",
   extraLib ? [],
   commandPrefix ? "",
   gamePrefix ? "",
@@ -118,8 +119,8 @@ let
       ${gameExecLine}
     fi
   '';
-  script = writeShellScriptBin shortname (baseScript ''${scope} ${commandPrefix} ${pkgs.gamemode}/bin/gamemoderun ${pkgs.gamescope}/bin/gamescope ${gamescopeFlags} -- ${gamePrefix} ${exeCommand} "${gameDir}${mainBinary}" ${commandPostfix}'');
-  launcherScript = writeShellScriptBin (shortname + "-launcher") (baseScript ''${scope} ${commandPrefix} ${pkgs.gamemode}/bin/gamemoderun ${pkgs.gamescope}/bin/gamescope ${gamescopeFlags} -- ${exeCommand} "${gameDir}${launcherBinary}" ${commandPostfix}'');
+  script = writeShellScriptBin shortname (baseScript ''${scope} ${commandPrefix} ${pkgs.gamemode}/bin/gamemoderun ${pkgs.gamescope}/bin/gamescope ${config.gamescopeFlags} ${extraGamescopeFlags} -- ${gamePrefix} ${exeCommand} "${gameDir}${mainBinary}" ${commandPostfix}'');
+  launcherScript = writeShellScriptBin (shortname + "-launcher") (baseScript ''${scope} ${commandPrefix} ${pkgs.gamemode}/bin/gamemoderun ${pkgs.gamescope}/bin/gamescope ${config.gamescopeFlags} ${extraGamescopeFlags} -- ${exeCommand} "${gameDir}${launcherBinary}" ${commandPostfix}'');
 
   desktopItem = makeDesktopItem {
     name = shortname;
