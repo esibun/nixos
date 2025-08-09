@@ -26,7 +26,7 @@
     "genshin-fpsunlock": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-beukpBGdPEZ4aKfW16VEsROQFWs7Y7x+ggiJOsa3qvg=",
+        "narHash": "sha256-s6+aepuQl9x2xFhveHFx+6obe0DO2eoE6gPpS3A9w9k=",
         "type": "file",
         "url": "https://codeberg.org/mkrsym1/fpsunlock/releases/download/latest/fpsunlock.exe"
       },
@@ -115,7 +115,7 @@
     },
     "nixos-avf": {
       "locked": {
-        "lastModified": 1754618664,
+        "lastModified": 1754704444,
         "narHash": "sha256-j779gJoRf08Ejoh4/oMrcnSxW/JKyeDJwtSbLZJPNNI=",
         "type": "tarball",
         "url": "https://github.com/nix-community/nixos-avf/releases/download/nixos-25.05/avf-channel-25.05-aarch64.tar.xz"
@@ -191,11 +191,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1754563854,
-        "narHash": "sha256-YzNTExe3kMY9lYs23mZR7jsVHe5TWnpwNrsPOpFs/b8=",
+        "lastModified": 1754689972,
+        "narHash": "sha256-eogqv6FqZXHgqrbZzHnq43GalnRbLTkbBbFtEfm1RSc=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "e728d7ae4bb6394bbd19eec52b7358526a44c414",
+        "rev": "fc756aa6f5d3e2e5666efcf865d190701fef150a",
         "type": "github"
       },
       "original": {
