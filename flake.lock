@@ -115,7 +115,7 @@
     },
     "nixos-avf": {
       "locked": {
-        "lastModified": 1754877868,
+        "lastModified": 1754963581,
         "narHash": "sha256-j779gJoRf08Ejoh4/oMrcnSxW/JKyeDJwtSbLZJPNNI=",
         "type": "tarball",
         "url": "https://github.com/nix-community/nixos-avf/releases/download/nixos-25.05/avf-channel-25.05-aarch64.tar.xz"
@@ -240,11 +240,11 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1752805386,
-        "narHash": "sha256-wMvmvz26P170b9+8qL5+huIzO6QS8MStK/MujEoI6Pg=",
+        "lastModified": 1754933913,
+        "narHash": "sha256-Mo3xHMa+ZalmGnMGLnM/GyhwCRNdsE58i9hNokaDUq4=",
         "ref": "refs/heads/master",
-        "rev": "e0c7d6d57158963a1f9cd32023507ba9031122c3",
-        "revCount": 20,
+        "rev": "a0f629798ced5c3c99e8508fdfad27d30a079cf3",
+        "revCount": 21,
         "type": "git",
         "url": "ssh://git@github.com/esibun/nixos-secrets.git"
       },
