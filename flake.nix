@@ -86,7 +86,7 @@
                 patches = prev.patches ++ [
                   (pkgs.fetchpatch {
                     url = "https://patch-diff.githubusercontent.com/raw/ValveSoftware/gamescope/pull/1867.patch";
-                    hash = "sha256-+Is4HOGAXS9q2L7s/D+9J5BpKYK6Tiho5xzTAEJGUWA=";
+                    hash = "sha256-ONjSInJ7M8niL5xWaNk5Z16ZMcM/A7M7bHTrgCFjrts=";
                   })
                 ];
               });
