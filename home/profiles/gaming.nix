@@ -72,7 +72,7 @@ in
         title = "Girls' Frontline 2: Exilium";
         baseDir = "${config.home.homeDirectory}/.local/share/games/gfl2";
         shortname = "gfl2";
-        installerUrl = "https://gf2-us-cdn-launcher.sunborngame.com/prod/download/launcher/1.0.0/GF2_Launcher_pc1_1_0_0_OverSeas_Mica_1732302259_6_1000005.exe";
+        installerUrl = "https://gf2-us-cdn.sunborngame.com/prod/download/launcher/1.0.2/GF2_Launcher_pc1_1_0_0_OverSeas_Mica_1747250420_12_1000005.exe";
         launcherBinary = "GF2Exilium/PCLauncher.exe";
         mainBinary = "GF2Exilium/GF2 Game/GF2_Exilium.exe";
         icon = icons.gfl2;
