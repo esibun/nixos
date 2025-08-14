@@ -120,7 +120,7 @@ let
     fi
   '';
   script = writeShellScriptBin shortname (baseScript ''${scope} ${commandPrefix} ${pkgs.gamemode}/bin/gamemoderun ${pkgs.gamescope}/bin/gamescope ${config.gamescopeFlags} ${extraGamescopeFlags} -- ${gamePrefix} ${exeCommand} "${gameDir}${mainBinary}" ${commandPostfix}'');
-  launcherScript = writeShellScriptBin (shortname + "-launcher") (baseScript ''${scope} ${commandPrefix} ${pkgs.gamemode}/bin/gamemoderun ${pkgs.gamescope}/bin/gamescope ${config.gamescopeFlags} ${extraGamescopeFlags} -- ${exeCommand} "${gameDir}${launcherBinary}" ${commandPostfix}'');
+  launcherScript = writeShellScriptBin (shortname + "-launcher") (baseScript ''${scope} ${commandPrefix} ${pkgs.gamemode}/bin/gamemoderun ${exeCommand} "${gameDir}${launcherBinary}" ${commandPostfix}'');
 
   desktopItem = makeDesktopItem {
     name = shortname;
