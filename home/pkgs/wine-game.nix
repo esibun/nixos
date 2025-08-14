@@ -66,44 +66,46 @@ let
     fi
 
     if ${lib.boolToString useUmu} && [ -n "$STEAM_LIBS_PATHS" ]; then
-      echo "** Lib injection: Updating UMU..."
-      # Update UMU-Latest if necessary by executing umu without game
-      umu-run whoami
+      echo "** Lib injection: Version check"
+
+      export UMU_GITHUB="Open-Wine-Components/umu-proton"
+      export UMU_VERSION="$(curl -I https://github.com/$UMU_GITHUB/releases/latest/download/source.tar.gz | grep "location:" | cut -d'/' -f8)"
+      if [ ! -d "$HOME/.local/share/Steam/compatibilitytools.d/$UMU_VERSION" ]; then
+        echo "** Lib injection: UMU out of date, updating..."
+        # Update UMU-Latest if necessary by executing umu without game
+        umu-run whoami
+      else
+        echo "** Lib injection: UMU is up to date!"
+      fi
 
       # Set directories/libraries to inject
-      export PROTONPATH="$(readlink -f $HOME/.local/share/Steam/compatibilitytools.d/UMU-Latest)-${shortname}"
-      export BASEPROTONPATH="$(readlink -f $HOME/.local/share/Steam/compatibilitytools.d/UMU-Latest)"
+      export PROTONPATH="${baseDir}/proton"
+      export BASEPROTONPATH="$HOME/.local/share/Steam/compatibilitytools.d/$UMU_VERSION"
       export STEAM_LIBS_INJECT_PATH="$PROTONPATH/files/lib64"
-
-      echo "** Lib injection: Cleaning up any old mounts..."
-
-      # Unmount any previous overlayfs mounts
-      fusermount3 -u $STEAM_LIBS_INJECT_PATH || true
-      rm -rf "$(dirname $PROTONPATH)/*-${shortname}" || true
 
       echo "** Lib injection: Overlaying Proton..."
 
+
       # Copy latest proton to it's own directory
-      #
-      # Ideally we'd be using some form of no-copy mount here, but overlayfs gets really upset when you try to
-      #  do a nested mount in userspace.  Tell CP to reflink if possible, but fallback to copy if not.
+      rm -rf $PROTONPATH
       mkdir -p $PROTONPATH
       cp --reflink=auto -r "$BASEPROTONPATH/." "$PROTONPATH"
 
       echo "** Lib injection: Injecting extraLib into Proton..."
 
       # Hack in extra libraries into Proton compatibility tool
-      # NOTE: lowerdir file priority is left-to-right
-      # NOTE: Maximum overlayfs depth is 2; if we want to do anything more complicated than this, we will need to
-      #  find another solution
-      fuse-overlayfs -o lowerdir=$STEAM_LIBS_PATHS:$STEAM_LIBS_INJECT_PATH $STEAM_LIBS_INJECT_PATH
+      (IFS=:
+        for PATH in $STEAM_LIBS_PATHS; do
+          ${pkgs.coreutils}/bin/cp --reflink=auto -r "$PATH" "$STEAM_LIBS_INJECT_PATH"
+        done
+      )
 
       echo "** Lib injection: Complete!"
     fi
 
     USER="$(whoami)"
 
-    if [ ! $PREFIXEXISTS ]; then
+    if [ ! $PREFIX_EXISTS ]; then
       ${if useUmu then "umu-run" else ""} winetricks ${lib.strings.concatStringsSep " " winetricksVerbs}
       if ${lib.boolToString (! useUmu)}; then
         ${pkgs.dxvk}/bin/setup_dxvk.sh install
