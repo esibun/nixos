@@ -79,6 +79,8 @@ let
 
 
       # Copy latest proton to it's own directory
+      # Set permissions; some paths are set 555 preventing removal
+      chmod -R 777 $PROTONPATH
       rm -rf $PROTONPATH
       mkdir -p $PROTONPATH
       cp --reflink=auto -r "$BASEPROTONPATH/." "$PROTONPATH"
@@ -86,11 +88,14 @@ let
       echo "** Lib injection: Injecting extraLib into Proton..."
 
       # Hack in extra libraries into Proton compatibility tool
+      chmod a+w $STEAM_LIBS_INJECT_PATH
       (IFS=:
         for PATH in $STEAM_LIBS_PATHS; do
-          ${pkgs.coreutils}/bin/cp --reflink=auto -r "$PATH" "$STEAM_LIBS_INJECT_PATH"
+          echo "** DEBUG: Copy $PATH --> $STEAM_LIBS_INJECT_PATH"
+          ${pkgs.coreutils}/bin/cp --reflink=auto -r "$PATH/." "$STEAM_LIBS_INJECT_PATH"
         done
       )
+      chmod a-w $STEAM_LIBS_INJECT_PATH
 
       echo "** Lib injection: Complete!"
     fi
