@@ -77,6 +77,9 @@ in
         mainBinary = "GF2Exilium/GF2 Game/GF2_Exilium.exe";
         icon = icons.gfl2;
         useUmu = true;
+        winetricksVerbs = [
+          "dotnetcore3"
+        ];
         extraLib = [
           ffmpeg_4-headless # GStreamer H.264 support
           freetype

@@ -57,14 +57,6 @@ let
       lib.makeLibraryPath extraLib
     }"
 
-    # Check if prefix exists before we run UMU; if it doesn't we need to run winetricks.
-    # umu-run will create the prefix the first time it's run regardless of the command.
-    if [ ! -d "$WINEPREFIX" ]; then
-      PREFIX_EXISTS=false
-    else
-      PREFIX_EXISTS=true
-    fi
-
     if ${lib.boolToString useUmu} && [ -n "$STEAM_LIBS_PATHS" ]; then
       echo "** Lib injection: Version check"
 
@@ -105,19 +97,24 @@ let
 
     USER="$(whoami)"
 
-    if [ ! $PREFIX_EXISTS ]; then
+    if [ ! -d "$WINEPREFIX" ]; then
+      echo "** Prefix: Creating new prefix and installing dependencies"
       ${if useUmu then "umu-run" else ""} winetricks ${lib.strings.concatStringsSep " " winetricksVerbs}
       if ${lib.boolToString (! useUmu)}; then
         ${pkgs.dxvk}/bin/setup_dxvk.sh install
       fi
+    else
+      echo "** Prefix: Prefix exists, skipping creation"
     fi
 
     if [ ! -f "${baseDir}/is_installed" ]; then
+      echo "** Game: Not installed, running installer"
       touch "${baseDir}/is_installed"
       TEMPDIR=$(mktemp -d)
       curl -L ${installerUrl} -o "$TEMPDIR/installer.exe"
       ${scope} ${pkgs.gamemode}/bin/gamemoderun ${exeCommand} "$TEMPDIR/installer.exe" "$@"
     else
+      echo "** Game: Already installed, launch!"
       ${gameExecLine}
     fi
   '';
