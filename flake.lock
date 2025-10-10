@@ -118,7 +118,7 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1759974094,
+        "lastModified": 1760060531,
         "narHash": "sha256-I7cLckLwnppaqoUFvTrgGKDevNnIn3qV/3ELxetm6jk=",
         "type": "tarball",
         "url": "https://github.com/nix-community/nixos-avf/releases/download/nixos-25.05/avf-channel-25.05-aarch64.tar.xz"
@@ -130,11 +130,11 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1759582739,
-        "narHash": "sha256-spZegilADH0q5OngM86u6NmXxduCNv5eX9vCiUPhOYc=",
+        "lastModified": 1760053573,
+        "narHash": "sha256-KwyyrQAdX1wD9HVhxotGxbSNdrVm4RGxAkbMKP6uSvE=",
         "owner": "nixos",
         "repo": "nixos-hardware",
-        "rev": "3441b5242af7577230a78ffb03542add264179ab",
+        "rev": "d232c6f9ccad3af6d1b66f7feccece66f9aec61a",
         "type": "github"
       },
       "original": {
