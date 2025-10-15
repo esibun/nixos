@@ -17,6 +17,7 @@
   useGlobalPaths ? false,
   launcherBinary ? "",
   mainBinary,
+  winePackage ? pkgs.wineWowPackages.full,
   icon ? "",
   comment ? "",
   winetricksVerbs ? [],
@@ -47,7 +48,7 @@ let
           fuse-overlayfs
         ])++
         lib.optionals (! useUmu) (with pkgs; [
-          wineWowPackages.full
+          winePackage
           winetricks
         ])
       )
