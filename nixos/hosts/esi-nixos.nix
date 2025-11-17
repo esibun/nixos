@@ -37,6 +37,8 @@
 
   programs.kdeconnect.enable = true;
 
+  services.printing.enable = true;
+
   system.stateVersion = "23.11";
 
   systemd = {
