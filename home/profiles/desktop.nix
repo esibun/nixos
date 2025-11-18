@@ -2,8 +2,8 @@
 
 let
   hyprbg = pkgs.fetchurl {
-    url = "https://cdn.donmai.us/original/47/8e/__hk416_ump45_ump9_g11_and_dinergate_girls_frontline_drawn_by_juna__478e9a2cd54a04d003d2610a77da4556.jpg";
-    hash = "sha256-nmXCeTkL7nRJSnmFaH581S+gxIy817WQl1aG9BmHv/Y=";
+    url = "https://cdn.donmai.us/original/62/df/__aa_12_and_lind_girls_frontline_and_1_more_drawn_by_yakupan__62dfeb4066ce6bf6c761cea62c5aa0c7.jpg";
+    hash = "sha256-MzW/idBeCF3t+CO60G1O74PUkh0CEldXWyY8tB8mH48=";
   };
 in
 {
