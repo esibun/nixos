@@ -37,7 +37,11 @@
 
   programs.kdeconnect.enable = true;
 
-  services.printing.enable = true;
+  services = {
+    avahi.enable = true;
+    printing.enable = true;
+    usbmuxd.enable = true;
+  };
 
   system.stateVersion = "23.11";
 

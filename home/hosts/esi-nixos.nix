@@ -16,6 +16,7 @@
     homeDirectory = "/home/esi";
     packages = with pkgs; [
       fcast-receiver
+      libimobiledevice
       qbittorrent
     ];
     stateVersion = "23.11";
