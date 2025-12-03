@@ -28,6 +28,7 @@
     borgbackup
     borgmatic
     cifs-utils
+    distrobox
     lact # amd overclocking tools
   ];
 
@@ -74,5 +75,10 @@
         Unit = "backup.service";
       };
     };
+  };
+
+  virtualisation.podman = {
+    enable = true;
+    dockerCompat = true;
   };
 }
