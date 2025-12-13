@@ -169,46 +169,11 @@
           inherit inputs;
         };
       };
-      esi-phone-avf = let
-        system = "aarch64-linux";
+      esi-razer = let
+        system = "x86_64-linux";
       in nixpkgs.lib.nixosSystem {
-        modules = [
-          inputs.nixos-avf.nixosModules.avf
-
-          {
-            nixpkgs = {
-              config.allowUnfree = true; # for stable
-              hostPlatform = "${system}";
-              overlays = let
-                pkgs = nixpkgs.legacyPackages.${system};
-              in [
-                (final: prev: rec {
-                  unstable = import nixpkgs-unstable {
-                    inherit system;
-                    config.allowUnfree = true;
-                    hostPlatform = "${system}";
-                  };
-                })
-              ];
-            };
-          }
-
-          ./nixos/common.nix
-          # not using secrets due to difference in login on AVF
-          # ./nixos/secrets.nix
-
-          ./nixos/hosts/esi-phone.nix
-
-          inputs.home-manager.nixosModules.home-manager {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              extraSpecialArgs = {
-                inherit inputs system;
-              };
-              users.droid = import ./home/hosts/esi-phone.nix;
-            };
-          }
+        modules = commonx64Modules ++ [
+          ./nixos/profiles/baremetal.nix
         ];
 
         specialArgs = {
