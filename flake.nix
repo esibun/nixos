@@ -174,6 +174,8 @@
       in nixpkgs.lib.nixosSystem {
         modules = commonx64Modules ++ [
           ./nixos/profiles/baremetal.nix
+
+          ./nixos/hosts/esi-razer.nix
         ];
 
         specialArgs = {
