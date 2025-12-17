@@ -5,6 +5,7 @@ let
     if [ $1 != "boot" ] && [ $1 != "switch" ]; then
       exec ${pkgs.nixos-rebuild}/bin/nixos-rebuild "$@"
     fi
+    sudo -v
     sudo ${pkgs.nixos-rebuild}/bin/nixos-rebuild "$@" 2>&1 | ${pkgs.nix-output-monitor}/bin/nom
     ${pkgs.coreutils-full}/bin/ls -dt /nix/var/nix/profiles/system-* | ${pkgs.coreutils-full}/bin/head -n2 | ${pkgs.coreutils-full}/bin/tac | ${pkgs.findutils}/bin/xargs ${pkgs.nvd}/bin/nvd diff
   '';
