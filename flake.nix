@@ -5,14 +5,13 @@
     #
     # OS Level Packages
     #
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    nixos-avf.url = "https://github.com/nix-community/nixos-avf/releases/download/nixos-25.05/avf-channel-25.05-aarch64.tar.xz";
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.05";
+      url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -73,23 +72,6 @@
                 inherit system;
                 config.allowUnfree = true;
               };
-              # use an updated gamelist for arrpc
-              arrpc = pkgs.arrpc.overrideAttrs(final: prev: {
-                patches = [
-                  ./files/arrpc-gamelist.patch
-                ];
-              });
-              # use unstable comma to fix args change to nix-index dependency (see nix-community/comma#103)
-              comma = unstable.comma;
-              # patch gamescope using unsupported scrgb extensions
-              gamescope = pkgs.gamescope.overrideAttrs(final: prev: {
-                patches = prev.patches ++ [
-                  (pkgs.fetchpatch {
-                    url = "https://patch-diff.githubusercontent.com/raw/ValveSoftware/gamescope/pull/1867.patch";
-                    hash = "sha256-ONjSInJ7M8niL5xWaNk5Z16ZMcM/A7M7bHTrgCFjrts=";
-                  })
-                ];
-              });
             })
           ];
         };

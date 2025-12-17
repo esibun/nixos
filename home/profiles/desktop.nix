@@ -41,7 +41,7 @@ in
       # Hyprland + Supporting Packages
       hypridle
       hyprpolkitagent # Authentication dialogs
-      rofi-wayland
+      rofi
       seatd # fix cursor size
       waybar
       xdg-utils
@@ -59,8 +59,7 @@ in
       nerd-fonts.symbols-only
       nerd-fonts.ubuntu
       roboto
-      source-han-sans-japanese
-      source-han-sans-korean
+      source-han-sans
       noto-fonts-color-emoji
       ttf_bitstream_vera # to fix certain emoji
       unifont
@@ -76,7 +75,7 @@ in
       mpv
 
       # Productivity
-      onlyoffice-bin
+      onlyoffice-desktopeditors
 
       # Social Media
       arrpc # equibop dependency
@@ -307,7 +306,7 @@ in
       ];
       bind = let
         theme = "${config.home.homeDirectory}/.config/rofi/launchers/type-1/style-5.rasi";
-        menu = "${pkgs.rofi-wayland}/bin/rofi -show drun -drun-match-fields name,generic,categories,keywords -run-command \"uwsm app -- {cmd}\"";
+        menu = "${pkgs.rofi}/bin/rofi -show drun -drun-match-fields name,generic,categories,keywords -run-command \"uwsm app -- {cmd}\"";
       in [
         "${mod}, space, exec, ${menu}"
         "${mod}, f, fullscreen, 0"
