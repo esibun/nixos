@@ -37,19 +37,10 @@
   };
 
   nix = {
-    buildMachines = [{
-      hostName = "esi-nixos";
-      system = "x86_64-linux";
-      protocol = "ssh-ng";
-      maxJobs = 3;
-      speedFactor = 10;
-    }];
     gc = {
       automatic = true;
       options = lib.mkForce "-d";
     };
-    distributedBuilds = true;
-    settings.max-jobs = 0;
   };
 
   users = {
