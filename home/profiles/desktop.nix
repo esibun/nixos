@@ -230,6 +230,9 @@ in
         };
         Service = {
           Type = "oneshot";
+          ExecStartPre = [
+            "${pkgs.bash}/bin/bash -c '! ${pkgs.procps}/bin/pgrep hyprlock'"
+          ];
           ExecStart = [
             "${pkgs.bash}/bin/bash ${inputs.konapaper}/konapaper.sh --rating \"s\""
           ];
