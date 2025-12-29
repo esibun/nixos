@@ -1,4 +1,4 @@
-{pkgs, lib, config, inputs, ...}:
+{pkgs, lib, config, inputs, system, ...}:
 
 let
   hyprbg = pkgs.fetchurl {
@@ -30,6 +30,7 @@ in
         recursive = true;
       };
 
+      ".config/konapaper/konapaper.conf".source = ../../files/configs/konapaper.conf;
       ".config/rofi/config.rasi".source = "${inputs.rofi-adi1090x}/files/launchers/type-1/style-5.rasi";
       ".config/rofi/shared/colors.rasi".source = ../../files/configs/rofi/shared/colors.rasi;
       ".config/rofi/shared/fonts.rasi".source = "${inputs.rofi-adi1090x}/files/launchers/type-1/shared/fonts.rasi";
@@ -45,6 +46,7 @@ in
       seatd # fix cursor size
       waybar
       xdg-utils
+      inputs.awww.packages.${system}.awww
 
       # General Dependencies
       libnotify
@@ -178,18 +180,6 @@ in
         ];
       };
     };
-    hyprpaper  = {
-      enable = true;
-      settings = {
-        preload = [
-          "${hyprbg}"
-        ];
-
-        wallpaper = [
-          ",${hyprbg}"
-        ];
-      };
-    };
     swaync = {
       enable = true;
       settings = {
@@ -199,38 +189,67 @@ in
     };
   };
 
-  systemd.user.services = {
-    # override hypridle autostart (seems no other way to do this)
-    hypridle = {
-      Install = {
-        WantedBy = lib.mkForce [];
+  systemd.user = {
+    services = {
+      # override hypridle autostart (seems no other way to do this)
+      hypridle = {
+        Install = {
+          WantedBy = lib.mkForce [];
+        };
+      };
+      hyprlock-daemon = {
+        Unit = {
+          Description = "Hyprlock Monitoring Service";
+          OnFailure = "hyprlock-recover.service";
+        };
+        Service = {
+          Type = "simple";
+          ExecStartPre = "${pkgs.systemd}/bin/systemctl --user start hypridle";
+          ExecStart = "${pkgs.hyprlock}/bin/hyprlock";
+          ExecStopPost = "${pkgs.systemd}/bin/systemctl --user stop hypridle";
+        };
+      };
+      hyprlock-recover = {
+        Unit = {
+          Description = "Hyprlock Recovery Script";
+        };
+        Service = {
+          Type = "oneshot";
+          ExecStart = [
+            "${pkgs.hyprland}/bin/hyprctl --instance 0 keyword 'misc:allow_session_lock_restore 1'"
+            "${pkgs.systemd}/bin/systemctl --user restart hypridle"
+            "${pkgs.systemd}/bin/systemctl --user restart hyprlock-daemon"
+            "${pkgs.coreutils}/bin/sleep 5"
+            "${pkgs.hyprland}/bin/hyprctl --instance 0 keyword 'misc:allow_session_lock_restore 0'"
+          ];
+        };
+      };
+      wallpaper-rotate = {
+        Unit = {
+          Description = "Wallpaper Rotator";
+        };
+        Service = {
+          Type = "oneshot";
+          ExecStart = [
+            "${pkgs.bash}/bin/bash ${inputs.konapaper}/konapaper.sh --rating \"s\""
+          ];
+        };
       };
     };
-    hyprlock-daemon = {
-      Unit = {
-        Description = "Hyprlock Monitoring Service";
-        OnFailure = "hyprlock-recover.service";
-      };
-      Service = {
-        Type = "simple";
-        ExecStartPre = "${pkgs.systemd}/bin/systemctl --user start hypridle";
-        ExecStart = "${pkgs.hyprlock}/bin/hyprlock";
-        ExecStopPost = "${pkgs.systemd}/bin/systemctl --user stop hypridle";
-      };
-    };
-    hyprlock-recover = {
-      Unit = {
-        Description = "Hyprlock Recovery Script";
-      };
-      Service = {
-        Type = "oneshot";
-        ExecStart = [
-          "${pkgs.hyprland}/bin/hyprctl --instance 0 keyword 'misc:allow_session_lock_restore 1'"
-          "${pkgs.systemd}/bin/systemctl --user restart hypridle"
-          "${pkgs.systemd}/bin/systemctl --user restart hyprlock-daemon"
-          "${pkgs.coreutils}/bin/sleep 5"
-          "${pkgs.hyprland}/bin/hyprctl --instance 0 keyword 'misc:allow_session_lock_restore 0'"
-        ];
+    timers = {
+      wallpaper-rotate = {
+        Unit = {
+          Description = "Wallpaper Rotator";
+        };
+        Timer = {
+          OnUnitActiveSec = "2m";
+          Unit = "wallpaper-rotate.service";
+        };
+        Install = {
+          WantedBy = [
+            "graphical-session.target"
+          ];
+        };
       };
     };
   };
@@ -336,7 +355,10 @@ in
         "systemctl --user restart hyprpolkitagent"
         "systemctl --user restart waybar"
       ];
-      exec-once = [
+      exec-once = let
+        awww = inputs.awww.packages.${system}.awww;
+      in [
+        "${awww}/bin/awww-daemon"
         "${pkgs.uwsm}/bin/uwsm app -- ${pkgs.arrpc}/bin/arrpc"
         "${pkgs.uwsm}/bin/uwsm app -- ${pkgs.easyeffects}/bin/easyeffects --gapplication-service"
         # config files don't seem to actually read

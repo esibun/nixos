@@ -29,6 +29,8 @@
     #
     # App Level Packages
     #
+    awww.url = "git+https://codeberg.org/LGFae/awww";
+
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
 
     nix-index-database = {
@@ -43,6 +45,11 @@
     #
     genshin-fpsunlock = {
       url = "https://codeberg.org/mkrsym1/fpsunlock/releases/download/latest/fpsunlock.exe";
+      flake = false;
+    };
+
+    konapaper = {
+      url = "github:esibun/konapaper";
       flake = false;
     };
 
