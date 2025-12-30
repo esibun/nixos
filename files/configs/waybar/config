@@ -3,6 +3,11 @@
         "name": "topbar",
         "layer": "top",
         "position": "top",
+        "output": [
+            "DP-2",
+            "eDP-2",
+            "HDMI-A-1"
+        ],
         "modules-left": [
             "hyprland/workspaces",
             "hyprland/submap"
