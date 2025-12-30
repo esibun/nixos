@@ -10,7 +10,7 @@
     ../profiles/vfio.nix
   ];
 
-  gamescopeFlags = "-w 3840 -h 2160 -r 144 -F fsr -f --backend sdl";
+  gamescopeFlags = "-w 3840 -h 2160 -r 480 -F fsr -f";
 
   home = {
     homeDirectory = "/home/esi";
