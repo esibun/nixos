@@ -367,8 +367,15 @@ in
         # config files don't seem to actually read
         "${pkgs.hyprland}/bin/hyprctl setcursor Nordzy-cursors-white 48"
       ];
+      experimental = {
+        xx_color_management_v4 = true;
+      };
       general = {
         gaps_out = 5;
+      };
+      render = {
+        direct_scanout = 1;
+        cm_fs_passthrough = 1;
       };
       workspace = [
         # smart gaps rules
