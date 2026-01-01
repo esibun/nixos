@@ -11,8 +11,6 @@ in
       shortname = "beatoraja";
       mainBinary = "beatoraja.sh";
       # TODO: icon?
-      # mangohud from gamescope; in-process breaks obs-gamecapture
-      extraGamescopeFlags = "--mangoapp --backend sdl";
       extraBin = [
         steam-run
         xorg.xrandr
