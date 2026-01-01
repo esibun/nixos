@@ -90,6 +90,7 @@ in
 
       # Game Tools
       gamescope
+      gamescope-wsi
       mangohud
       (steam.override {
         # gamescope fixes
