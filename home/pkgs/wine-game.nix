@@ -36,6 +36,7 @@ let
   baseScript = gameExecLine: ''
     export WINEPREFIX="${baseDir}/prefix"
     export WINEESYNC=1
+    export DXVK_HDR=1
 
     export GAMEID="${shortname}"
     export STORE="none"
