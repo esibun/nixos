@@ -10,7 +10,7 @@
     ../profiles/vfio.nix
   ];
 
-  gamescopeFlags = "-w 3840 -h 2160 -r 480 -F fsr -f";
+  gamescopeFlags = "-w 3840 -h 2160 -r 480 -F fsr --hdr-enabled -f";
 
   home = {
     homeDirectory = "/home/esi";
