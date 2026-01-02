@@ -57,6 +57,7 @@ in
           '';
           destination = "/bin/launch.bat";
         }}/bin/launch.bat";
+        gamePrefix = "${pkgs.obs-studio-plugins.obs-vkcapture}/bin/obs-gamecapture";
         icon = icons.genshin;
         useUmu = true;
         winetricksVerbs = [
@@ -75,6 +76,7 @@ in
         installerUrl = "https://gf2-us-cdn.sunborngame.com/prod/download/launcher/1.0.2/GF2_Launcher_pc1_1_0_0_OverSeas_Mica_1747250420_12_1000005.exe";
         launcherBinary = "GF2Exilium/PCLauncher.exe";
         mainBinary = "GF2Exilium/GF2 Game/GF2_Exilium.exe";
+        gamePrefix = "${pkgs.obs-studio-plugins.obs-vkcapture}/bin/obs-gamecapture";
         icon = icons.gfl2;
         useUmu = true;
         winetricksVerbs = [
