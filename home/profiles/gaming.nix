@@ -82,6 +82,7 @@ in
           "dotnetcore3"
         ];
         extraLib = [
+          libmpg123
           ffmpeg_4-headless # GStreamer H.264 support
           freetype
           harfbuzz
