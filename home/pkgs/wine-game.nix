@@ -29,7 +29,7 @@
 }:
 
 let
-  umu = pkgs.unstable.umu-launcher;
+  umu = pkgs.umu-launcher;
   scope = "systemd-run --user --scope --property TimeoutStopSec=${builtins.toString stopTimeout} --unit=\"${shortname}\"";
   exeCommand = if useUmu then "umu-run" else "wine";
   gameDir = if useGlobalPaths then "" else "${baseDir}/game/";
