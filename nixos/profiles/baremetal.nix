@@ -24,6 +24,15 @@
     };
   };
 
+  system = {
+    replaceDependencies.replacements = [
+      {
+        oldDependency = pkgs.unstable.libgbm;
+        newDependency = pkgs.libgbm;
+      }
+    ];
+  };
+
   users = {
     mutableUsers = false;
     groups.nixbuilder = {};
