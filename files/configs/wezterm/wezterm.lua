@@ -9,7 +9,7 @@ end
 config.front_end = "WebGpu"
 
 -- Colors & Appearance
-config.color_scheme = "nord-light"
+config.color_scheme = "nord"
 config.use_fancy_tab_bar = false
 config.tab_bar_at_bottom = true
 config.window_background_opacity = 0.95
