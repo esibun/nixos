@@ -118,7 +118,7 @@ let
       echo "** Game: Not installed, running installer"
       touch "${baseDir}/is_installed"
       TEMPDIR=$(mktemp -d)
-      curl -L ${installerUrl} -o "$TEMPDIR/installer.exe"
+      curl -L "${installerUrl}" -o "$TEMPDIR/installer.exe"
       ${scope} ${pkgs.gamemode}/bin/gamemoderun ${exeCommand} "$TEMPDIR/installer.exe" "$@"
     else
       echo "** Game: Already installed, launch!"
