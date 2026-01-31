@@ -370,10 +370,6 @@ in
       general = {
         gaps_out = 5;
       };
-      render = {
-        direct_scanout = 1;
-        cm_fs_passthrough = 2;
-      };
       workspace = [
         # smart gaps rules
         "w[tv1], gapsout:0, gapsin:0"
