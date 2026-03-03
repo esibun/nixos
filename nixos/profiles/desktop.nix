@@ -13,7 +13,7 @@
     dconf.enable = true; # GTK Settings
     hyprland = {
       enable = true;
-      package = pkgs.hyprland;
+      package = pkgs.unstable.hyprland;
       withUWSM = true;
     };
     seahorse.enable = true; # gnome-keyring secrets support
