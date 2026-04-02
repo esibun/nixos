@@ -63,7 +63,8 @@ let
       echo "** Lib injection: Version check"
 
       export UMU_GITHUB="Open-Wine-Components/umu-proton"
-      export UMU_VERSION="$(curl -I https://github.com/$UMU_GITHUB/releases/latest/download/source.tar.gz | grep "location:" | cut -d'/' -f8)"
+      #export UMU_VERSION="$(curl -I https://github.com/$UMU_GITHUB/releases/latest/download/source.tar.gz | grep "location:" | cut -d'/' -f8)"
+      export UMU_VERSION="UMU-Proton-9.0-4e"
       if [ ! -d "$HOME/.local/share/Steam/compatibilitytools.d/$UMU_VERSION" ]; then
         echo "** Lib injection: UMU out of date, updating..."
         # Update UMU-Latest if necessary by executing umu without game
@@ -75,7 +76,7 @@ let
       # Set directories/libraries to inject
       export PROTONPATH="${baseDir}/proton"
       export BASEPROTONPATH="$HOME/.local/share/Steam/compatibilitytools.d/$UMU_VERSION"
-      export STEAM_LIBS_INJECT_PATH="$PROTONPATH/files/lib/x86_64-linux-gnu"
+      export STEAM_LIBS_INJECT_PATH="$PROTONPATH/files/lib64"
 
       echo "** Lib injection: Overlaying Proton..."
 
