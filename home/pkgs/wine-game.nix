@@ -75,7 +75,7 @@ let
       # Set directories/libraries to inject
       export PROTONPATH="${baseDir}/proton"
       export BASEPROTONPATH="$HOME/.local/share/Steam/compatibilitytools.d/$UMU_VERSION"
-      export STEAM_LIBS_INJECT_PATH="$PROTONPATH/files/lib64"
+      export STEAM_LIBS_INJECT_PATH="$PROTONPATH/files/lib/x86_64-linux-gnu"
 
       echo "** Lib injection: Overlaying Proton..."
 
