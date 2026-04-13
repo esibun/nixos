@@ -30,11 +30,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1775929179,
-        "narHash": "sha256-rhQyE0CzqFkHWxhhxzapLGnRWKx6NAZo7KSrw6jUXwQ=",
+        "lastModified": 1776026467,
+        "narHash": "sha256-OxQHyQe+mcyJPbOalPhtdBFT5hcLS2FkrKomSne75E4=",
         "ref": "refs/heads/main",
-        "rev": "efc4c492a30d7e098541ad0ca95c22287cbc26ba",
-        "revCount": 1341,
+        "rev": "5e94382b5d39fbea13dcc4d873f418d4b2723ec4",
+        "revCount": 1352,
         "type": "git",
         "url": "https://codeberg.org/LGFae/awww"
       },
