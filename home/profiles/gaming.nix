@@ -42,7 +42,7 @@ in
         shortname = "endfield";
         installerUrl = "https://launcher.gryphline.com/launcher/get_latest_launcher?appcode=TiaytKBUIEdoEwRT&ta=endfield&channel=6&sub_channel=6";
         launcherBinary = "GRYPHLINK/1.3.0/Games.exe"; # TODO: autodetect latest version folder
-        mainBinary = "GRYPHLINK/1.3.0/Games.exe"; # TODO: autodetect latest version folder
+        mainBinary = "Arknights Endfield/Endfield.exe";
         icon = icons.endfield;
         useUmu = true;
         customProtonPath = "${config.home.homeDirectory}/.local/share/Steam/compatibilitytools.d/dwproton-10.0-21-x86_64"; # TODO: bring dwproton into flake
