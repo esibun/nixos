@@ -61,22 +61,25 @@ let
     }"
 
     if ${lib.boolToString useUmu} && [ -n "$STEAM_LIBS_PATHS" ]; then
-      echo "** Lib injection: Version check"
+      export BASEPROTONPATH="${customProtonPath}"
+      if [ $BASEPROTONPATH == "" ]; then
+        echo "** Lib injection: Version check"
 
-      export UMU_GITHUB="Open-Wine-Components/umu-proton"
-      #export UMU_VERSION="$(curl -I https://github.com/$UMU_GITHUB/releases/latest/download/source.tar.gz | grep "location:" | cut -d'/' -f8)"
-      export UMU_VERSION="UMU-Proton-9.0-4e"
-      if [ ! -d "$HOME/.local/share/Steam/compatibilitytools.d/$UMU_VERSION" ]; then
-        echo "** Lib injection: UMU out of date, updating..."
-        # Update UMU-Latest if necessary by executing umu without game
-        umu-run whoami
+        export UMU_GITHUB="Open-Wine-Components/umu-proton"
+        export UMU_VERSION="$(curl -I https://github.com/$UMU_GITHUB/releases/latest/download/source.tar.gz | grep "location:" | cut -d'/' -f8)"
+        if [ ! -d "$HOME/.local/share/Steam/compatibilitytools.d/$UMU_VERSION" ]; then
+          echo "** Lib injection: UMU out of date, updating..."
+          # Update UMU-Latest if necessary by executing umu without game
+          umu-run whoami
+        else
+          echo "** Lib injection: UMU is up to date!"
+        fi
       else
-        echo "** Lib injection: UMU is up to date!"
+        echo "** Lib injection: Using custom base prefix: ${customProtonPath}"
       fi
 
       # Set directories/libraries to inject
       export PROTONPATH="${baseDir}/proton"
-      export BASEPROTONPATH="${customProtonPath}"
       if [ $BASEPROTONPATH == "" ]; then
         export BASEPROTONPATH="$HOME/.local/share/Steam/compatibilitytools.d/$UMU_VERSION"
       fi
