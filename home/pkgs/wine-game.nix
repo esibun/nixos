@@ -13,6 +13,7 @@
   shortname,
   installerUrl,
   useUmu ? true,
+  customProtonPath ? "",
   stopTimeout ? 2,
   useGlobalPaths ? false,
   launcherBinary ? "",
@@ -75,7 +76,10 @@ let
 
       # Set directories/libraries to inject
       export PROTONPATH="${baseDir}/proton"
-      export BASEPROTONPATH="$HOME/.local/share/Steam/compatibilitytools.d/$UMU_VERSION"
+      export BASEPROTONPATH="${customProtonPath}"
+      if [ $BASEPROTONPATH == "" ]; then
+        export BASEPROTONPATH="$HOME/.local/share/Steam/compatibilitytools.d/$UMU_VERSION"
+      fi
       export STEAM_LIBS_INJECT_PATH="$PROTONPATH/files/lib64"
 
       echo "** Lib injection: Overlaying Proton..."
