@@ -43,11 +43,6 @@
     #
     # Non-Flake Inputs
     #
-    genshin-fpsunlock = {
-      url = "https://codeberg.org/mkrsym1/fpsunlock/releases/download/latest/fpsunlock.exe";
-      flake = false;
-    };
-
     konapaper = {
       url = "github:esibun/konapaper";
       flake = false;

@@ -59,18 +59,6 @@
         "type": "github"
       }
     },
-    "genshin-fpsunlock": {
-      "flake": false,
-      "locked": {
-        "narHash": "sha256-s6+aepuQl9x2xFhveHFx+6obe0DO2eoE6gPpS3A9w9k=",
-        "type": "file",
-        "url": "https://codeberg.org/mkrsym1/fpsunlock/releases/download/latest/fpsunlock.exe"
-      },
-      "original": {
-        "type": "file",
-        "url": "https://codeberg.org/mkrsym1/fpsunlock/releases/download/latest/fpsunlock.exe"
-      }
-    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -281,7 +269,6 @@
       "inputs": {
         "agenix": "agenix",
         "awww": "awww",
-        "genshin-fpsunlock": "genshin-fpsunlock",
         "home-manager": "home-manager_2",
         "konapaper": "konapaper",
         "nix-flatpak": "nix-flatpak",

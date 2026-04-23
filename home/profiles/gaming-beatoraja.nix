@@ -13,12 +13,11 @@ in
       # TODO: icon?
       extraBin = [
         steam-run
-        xorg.xrandr
+        xorg.xrandr # java can't initialize monitors without this for some reason
       ];
       commandPrefix = "env SHUT_UP_TACHI=yes";
       gamePrefix = "${pkgs.obs-studio-plugins.obs-vkcapture}/bin/obs-gamecapture";
       commandPostfix = "-s";
-      inherit config;
     })
   ];
 }

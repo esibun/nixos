@@ -10,10 +10,6 @@ let
     script = ../../files/scripts/swaymode.py;
   };
   icons = {
-    genshin = pkgs.fetchurl {
-      url = "https://cdn2.steamgriddb.com/icon_thumb/65ae27b8c33157282761f37083da12dd.png";
-      hash = "sha256-IYUQR8JPkXprJ7xBbmbzroPzhIg8g1J/bHZXORfvUHo=";
-    };
     gfl2 = pkgs.fetchurl {
       url = "https://cdn2.steamgriddb.com/icon_thumb/9f2dab581c42e1381065d4d6dbd75d1a.png";
       hash = "sha256-NXDkBBgIOUuaqG3gVtftrGz7Wa2hOAmnEEzMuaM0VsI=";
@@ -34,40 +30,8 @@ in
     home.packages = with pkgs; [
       # Games
       ares
-      fflogs
       prismlauncher
 
-      (callPackage ../pkgs/wine-game.nix {
-        title = "Genshin Impact";
-        baseDir = "${config.home.homeDirectory}/.local/share/games/genshin";
-        shortname = "genshin";
-        installerUrl = "https://sg-public-api.hoyoverse.com/event/download_porter/trace/ys_global/genshinimpactpc/default?appid=723";
-        useGlobalPaths = true;
-        launcherBinary = "${config.home.homeDirectory}/.local/share/games/genshin/game/HoYoPlay/launcher.exe";
-        mainBinary = "${pkgs.writeTextFile {
-          name = "genshin-launch";
-          text = ''
-            Z:
-
-            cd "${config.home.homeDirectory}/.local/share/games/genshin/game/HoYoPlay/games/Genshin Impact game"
-            start GenshinImpact.exe
-
-            cd "${config.home.homeDirectory}/.local/share/games/genshin"
-            start /wait fpsunlock.exe 144 1000
-          '';
-          destination = "/bin/launch.bat";
-        }}/bin/launch.bat";
-        gamePrefix = "${pkgs.obs-studio-plugins.obs-vkcapture}/bin/obs-gamecapture";
-        icon = icons.genshin;
-        useUmu = true;
-        winetricksVerbs = [
-          "vcrun2022"
-        ];
-        # Genshin requires cursor grab to avoid cursor state issues (camera)
-        extraGamescopeFlags = "--force-grab-cursor --cursor-scale-height 1080";
-        # wine doesn't appreciate being given a windows executable without the correct extension
-        commandPrefix = "${pkgs.coreutils}/bin/ln -sf ${inputs.genshin-fpsunlock} ~/.local/share/games/genshin/fpsunlock.exe && ";
-      })
       (callPackage ../pkgs/wine-game.nix {
         title = "Girls' Frontline 2: Exilium";
         baseDir = "${config.home.homeDirectory}/.local/share/games/gfl2";
