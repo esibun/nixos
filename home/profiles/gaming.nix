@@ -10,6 +10,10 @@ let
     script = ../../files/scripts/swaymode.py;
   };
   icons = {
+    endfield = pkgs.fetchurl {
+      url = "https://cdn2.steamgriddb.com/icon/a2959d14ad418268c4ecf73fb183ab8f.png";
+      hash = "sha256-H9HZYjshD350cUMghf7OlFjX8FXvoQug4fRl4HgB89U=";
+    };
     gfl2 = pkgs.fetchurl {
       url = "https://cdn2.steamgriddb.com/icon_thumb/9f2dab581c42e1381065d4d6dbd75d1a.png";
       hash = "sha256-NXDkBBgIOUuaqG3gVtftrGz7Wa2hOAmnEEzMuaM0VsI=";
@@ -32,6 +36,16 @@ in
       ares
       prismlauncher
 
+      (callPackage ../pkgs/wine-game.nix {
+        title = "Arknights: Endfield";
+        baseDir = "${config.home.homeDirectory}/.local/share/games/endfield";
+        shortname = "endfield";
+        installerUrl = "https://launcher.gryphline.com/launcher/get_latest_launcher?appcode=TiaytKBUIEdoEwRT&ta=endfield&channel=6&sub_channel=6";
+        mainBinary = "1.3.0/Games.exe"; # TODO: autodetect latest version folder
+        icon = icons.endfield;
+        useUmu = true;
+        customProtonPath = "${config.home.homeDirectory}/.local/share/Steam/compatibilitytools.d/dwproton-10.0-21-x86_64"; # TODO: bring dwproton into flake
+      })
       (callPackage ../pkgs/wine-game.nix {
         title = "Girls' Frontline 2: Exilium";
         baseDir = "${config.home.homeDirectory}/.local/share/games/gfl2";
