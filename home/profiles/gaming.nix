@@ -66,6 +66,7 @@ in
           freetype
           harfbuzz
         ];
+        customProtonPath = "${config.home.homeDirectory}/.local/share/Steam/compatibilitytools.d/UMU-Proton-9.0-4e";
       })
 
 
