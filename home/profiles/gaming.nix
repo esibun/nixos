@@ -41,10 +41,11 @@ in
         baseDir = "${config.home.homeDirectory}/.local/share/games/endfield";
         shortname = "endfield";
         installerUrl = "https://launcher.gryphline.com/launcher/get_latest_launcher?appcode=TiaytKBUIEdoEwRT&ta=endfield&channel=6&sub_channel=6";
-        launcherBinary = "GRYPHLINK/1.3.0/Games.exe"; # TODO: autodetect latest version folder
+        launcherBinary = "GRYPHLINK/Launcher.exe";
         mainBinary = "Arknights Endfield/Endfield.exe";
         icon = icons.endfield;
         useUmu = true;
+        extraGamescopeFlags = "--force-grab-cursor"; # prevent cursor getting stuck at edge of screen and preventing camera movement
         customProtonPath = "${config.home.homeDirectory}/.local/share/Steam/compatibilitytools.d/dwproton-10.0-21-x86_64"; # TODO: bring dwproton into flake
       })
       (callPackage ../pkgs/wine-game.nix {
