@@ -68,7 +68,13 @@ in
           freetype
           harfbuzz
         ];
-        customProtonPath = compatTool pkgs.unstable.proton-ge-bin;
+        customProtonPath = compatTool (pkgs.unstable.proton-ge-bin.overrideAttrs(old: {
+          src = fetchzip {
+            url = "https://github.com/Open-Wine-Components/umu-proton/releases/download/UMU-Proton-9.0-4e/UMU-Proton-9.0-4e.tar.gz";
+            hash = "sha256-YwrDmdNEeqE4DCnfEgo1bQv0GnMqaP0PcbVyV2JLbEE=";
+          };
+          preFixup = ""; # prevent unnecessary rename causing a build failure
+        }));
       })
 
 
