@@ -1,4 +1,4 @@
-{pkgs, inputs, lib, config, ...}:
+{pkgs, inputs, lib, config, system, ...}:
 
 let
   reaper = {
@@ -20,6 +20,7 @@ let
     };
   };
   callPackage = pkgs.lib.callPackageWith (pkgs // {inherit config;});
+  compatTool = pkg: lib.makeSearchPathOutput "steamcompattool" "" [ pkg ];
 in
 {
   options = {
@@ -46,7 +47,7 @@ in
         icon = icons.endfield;
         useUmu = true;
         extraGamescopeFlags = "--force-grab-cursor"; # prevent cursor getting stuck at edge of screen and preventing camera movement
-        customProtonPath = "${config.home.homeDirectory}/.local/share/Steam/compatibilitytools.d/dwproton-10.0-21-x86_64"; # TODO: bring dwproton into flake
+        customProtonPath = compatTool inputs.dwproton.packages.${system}.dw-proton;
       })
       (callPackage ../pkgs/wine-game.nix {
         title = "Girls' Frontline 2: Exilium";
@@ -67,7 +68,7 @@ in
           freetype
           harfbuzz
         ];
-        customProtonPath = "${config.home.homeDirectory}/.local/share/Steam/compatibilitytools.d/UMU-Proton-9.0-4e";
+        customProtonPath = compatTool pkgs.unstable.proton-ge-bin;
       })
 
 
