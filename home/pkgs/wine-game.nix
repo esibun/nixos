@@ -93,7 +93,7 @@ let
       chmod -R 777 $PROTONPATH
       rm -rf $PROTONPATH
       mkdir -p $PROTONPATH
-      cp --reflink=auto -r "$BASEPROTONPATH/." "$PROTONPATH"
+      cp --reflink=auto -L -r "$BASEPROTONPATH/." "$PROTONPATH"
 
       echo "** Lib injection: Injecting extraLib into Proton..."
 
