@@ -18,6 +18,10 @@ let
       url = "https://cdn2.steamgriddb.com/icon_thumb/9f2dab581c42e1381065d4d6dbd75d1a.png";
       hash = "sha256-NXDkBBgIOUuaqG3gVtftrGz7Wa2hOAmnEEzMuaM0VsI=";
     };
+    nte = pkgs.fetchurl {
+      url = "https://cdn2.steamgriddb.com/icon/92d69cf8519a334ced3f55142c811d95.png";
+      hash = "sha256-FOB4eQ+8Qj1VLpvMXg3U0NBwkmMZCGMieMaXDUGrb/8=";
+    };
   };
   callPackage = pkgs.lib.callPackageWith (pkgs // {inherit config;});
   compatTool = pkg: lib.makeSearchPathOutput "steamcompattool" "" [ pkg ];
@@ -76,7 +80,17 @@ in
           preFixup = ""; # prevent unnecessary rename causing a build failure
         }));
       })
-
+      (callPackage ../pkgs/wine-game.nix {
+        title = "Neverness to Everness";
+        baseDir = "${config.home.homeDirectory}/.local/share/games/nte";
+        shortname = "nte";
+        installerUrl = "https://ntecdn1.perfectworld.com/clientRes/installer-Global/YH_Singapore_common_setup_1.0.6.0423_20260424.exe";
+        launcherBinary = "Neverness To Everness/NTEGlobalLauncher.exe";
+        mainBinary = "Neverness To Everness/NTEGlobalLauncher.exe"; # direct launch causes login failure, no known workaround atm
+        icon = icons.nte;
+        useUmu = true;
+        customProtonPath = compatTool inputs.dwproton.packages.${system}.dw-proton;
+      })
 
       # Game Tools
       gamescope
