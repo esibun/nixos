@@ -88,7 +88,8 @@ in
         shortname = "nte";
         installerUrl = "https://ntecdn1.perfectworld.com/clientRes/installer-Global/YH_Singapore_common_setup_1.0.6.0423_20260424.exe";
         launcherBinary = "Neverness To Everness/NTEGlobalLauncher.exe";
-        mainBinary = "Neverness To Everness/NTEGlobalLauncher.exe"; # direct launch causes login failure, no known workaround atm
+        mainBinary = "Neverness To Everness/NTEGlobalLauncher.exe";
+        gamePostfix = "/autoplay";
         icon = icons.nte;
         useUmu = true;
         customProtonPath = compatTool inputs.dwproton.packages.${system}.dw-proton;

@@ -17,7 +17,7 @@ in
       ];
       commandPrefix = "env SHUT_UP_TACHI=yes";
       gamePrefix = "${pkgs.obs-studio-plugins.obs-vkcapture}/bin/obs-gamecapture";
-      commandPostfix = "-s";
+      gamePostfix = "-s";
     })
   ];
 }
