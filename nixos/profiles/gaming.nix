@@ -1,6 +1,9 @@
 {pkgs, lib, ...}:
 
 {
+  # Enable NTSync for Proton
+  boot.kernelModules = [ "ntsync" ];
+
   # Required for Steam Input to work
   hardware.uinput.enable = true;
 
