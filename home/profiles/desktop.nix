@@ -75,6 +75,7 @@ in
       # Media
       easyeffects
       mpv
+      open-in-mpv
 
       # Productivity
       onlyoffice-desktopeditors
