@@ -92,6 +92,7 @@ in
         gamePostfix = "/autoplay";
         icon = icons.nte;
         useUmu = true;
+        extraGamescopeFlags = "--force-grab-cursor"; # prevent cursor getting stuck at edge of screen and preventing camera movement
         customProtonPath = compatTool inputs.dwproton.packages.${system}.dw-proton;
       })
 
