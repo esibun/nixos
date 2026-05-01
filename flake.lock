@@ -272,11 +272,11 @@
     "rofi-adi1090x": {
       "flake": false,
       "locked": {
-        "lastModified": 1753542257,
-        "narHash": "sha256-iUX0Quae06tGd7gDgXZo1B3KYgPHU+ADPBrowHlv02A=",
+        "lastModified": 1777563407,
+        "narHash": "sha256-pM183MHOMuKJyLgthozM1MRsmhBM25VQgWc7CmLL2HI=",
         "owner": "adi1090x",
         "repo": "rofi",
-        "rev": "093c1a79f58daab358199c4246de50357e5bf462",
+        "rev": "b0bfe927531e365f009d01810c26878c003f7cb8",
         "type": "github"
       },
       "original": {
