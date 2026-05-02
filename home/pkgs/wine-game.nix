@@ -109,7 +109,7 @@ let
       chmod a-w $STEAM_LIBS_INJECT_PATH
 
       echo "** Lib injection: Complete!"
-    else
+    elif [ "${customProtonPath}" != "" ]; then
       echo "** Proton: Using custom prefix ${customProtonPath}"
       export PROTONPATH="${customProtonPath}"
     fi
