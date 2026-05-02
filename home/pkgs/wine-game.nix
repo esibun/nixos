@@ -25,6 +25,7 @@
   extraGamescopeFlags ? "",
   extraLib ? [],
   commandPrefix ? "",
+  scriptPre ? "",
   gamePrefix ? "",
   gamePostfix ? "",
   commandPostfix ? ""
@@ -133,6 +134,7 @@ let
       ${scope} ${pkgs.gamemode}/bin/gamemoderun ${exeCommand} "${baseDir}/installer.exe" "$@"
     else
       echo "** Game: Already installed, launch!"
+      ${scriptPre}
       ${gameExecLine}
     fi
   '';
