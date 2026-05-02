@@ -22,6 +22,10 @@ let
       url = "https://cdn2.steamgriddb.com/icon/92d69cf8519a334ced3f55142c811d95.png";
       hash = "sha256-FOB4eQ+8Qj1VLpvMXg3U0NBwkmMZCGMieMaXDUGrb/8=";
     };
+    wuwa = pkgs.fetchurl {
+      url = "https://cdn2.steamgriddb.com/icon/9d435d2e017f7a7384f4e1c6a6f2d169.png";
+      hash = "sha256-pBJnQ7kyCyGRv7Tdu3l1e7wELKLLLLN4Hd9hZQQWsy4=";
+    };
   };
   callPackage = pkgs.lib.callPackageWith (pkgs // {
     gamePrefix = "${pkgs.mangohud}/bin/mangohud ${pkgs.obs-studio-plugins.obs-vkcapture}/bin/obs-gamecapture";
@@ -94,6 +98,39 @@ in
         useUmu = true;
         extraGamescopeFlags = "--force-grab-cursor"; # prevent cursor getting stuck at edge of screen and preventing camera movement
         customProtonPath = compatTool inputs.dwproton.packages.${system}.dw-proton;
+      })
+      (callPackage ../pkgs/wine-game.nix {
+        title = "Wuthering Waves";
+        baseDir = "${config.home.homeDirectory}/.local/share/games/wuwa";
+        shortname = "wuwa";
+        # Unfortunately WuWa's website uses complicated javascript+JSON to grab the download URL, there is no simple URL redirect
+        installerUrl = "https://mirrors-package-mc.aki-game.net/client/download/20260423185747_sepu4waAMJhWDkBjgS/WutheringWaves_overseas_setup_2.6.1.0.exe";
+        launcherBinary = "Wuthering Waves/launcher.exe";
+        mainBinary = "Wuthering Waves/Wuthering Waves Game/Wuthering Waves.exe";
+        scriptPre = "${pkgs.writeTextFile {
+          name = "ensure-wuwa-patches";
+          text = ''
+            #!/usr/bin/env bash
+
+            cd $HOME/.local/share/games/wuwa/game/Wuthering\ Waves
+            # switch to latest game data directory
+            cd $(ls -td -- *.*/ | head -n1)
+
+            NOT_PATCHED=$(strings launcher_main.dll | grep AllowsTransparency | wc -l)
+            if [ $NOT_PATCHED -gt 0 ]; then
+              mv launcher_main.dll launcher_main.dll.bak
+              ${pkgs.bbe}/bin/bbe -e "s/\x12AllowsTransparency/\x09IsEnabled\x1bA\x00\x03AAAAA/" launcher_main.dll.bak > launcher_main.dll
+              rm launcher_main.dll.bak
+            fi
+          '';
+          executable = true;
+          destination = "/bin/ensure-wuwa-patches";
+        }}/bin/ensure-wuwa-patches"; # patch out AllowTransparency as this bugs out launcher window; see jadeite#69
+        commandPrefix = "env SteamOS=1"; # inform wuwa ac we're on linux
+        icon = icons.wuwa;
+        useUmu = true;
+        extraGamescopeFlags = "--force-grab-cursor"; # prevent cursor getting stuck at edge of screen and preventing camera movement
+        customProtonPath = compatTool pkgs.unstable.proton-ge-bin; # normal proton doesn't have correct codec for videos
       })
 
       # Game Tools
