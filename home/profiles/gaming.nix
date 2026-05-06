@@ -127,6 +127,7 @@ in
           destination = "/bin/ensure-wuwa-patches";
         }}/bin/ensure-wuwa-patches"; # patch out AllowTransparency as this bugs out launcher window; see jadeite#69
         commandPrefix = "env SteamOS=1"; # inform wuwa ac we're on linux
+        gamePostfix = "-dx11"; # use dx11 (better performance)
         icon = icons.wuwa;
         useUmu = true;
         extraGamescopeFlags = "--force-grab-cursor"; # prevent cursor getting stuck at edge of screen and preventing camera movement
