@@ -112,15 +112,29 @@ in
           text = ''
             #!/usr/bin/env bash
 
+            # --------
+            # Patch launcher appearing fully transparent
+            # --------
             cd $HOME/.local/share/games/wuwa/game/Wuthering\ Waves
             # switch to latest game data directory
             cd $(ls -td -- *.*/ | head -n1)
-
+            mkdir -p ${config.home.homeDirectory}/.local/share/games/wuwa/backup
             NOT_PATCHED=$(strings launcher_main.dll | grep AllowsTransparency | wc -l)
             if [ $NOT_PATCHED -gt 0 ]; then
               mv launcher_main.dll launcher_main.dll.bak
               ${pkgs.bbe}/bin/bbe -e "s/\x12AllowsTransparency/\x09IsEnabled\x1bA\x00\x03AAAAA/" launcher_main.dll.bak > launcher_main.dll
-              rm launcher_main.dll.bak
+              mv launcher_main.dll.bak ${config.home.homeDirectory}/.local/share/games/wuwa/backup/launcher_main.dll
+            fi
+
+            # -------
+            # Prevent one-time disconnect at around 10 minutes
+            # -------
+            cd $HOME/.local/share/games/wuwa/game/Wuthering\ Waves/Wuthering\ Waves\ Game/Client/Binaries/Win64/ThirdParty/KrPcSdk_Global/KRSDKRes
+            NOT_PATCHED=$(strings KRSDK.bin | grep "KR_ChannelID=240" | wc -l)
+            if [ $NOT_PATCHED -gt 0 ]; then
+              mv KRSDK.bin KRSDK.bin.bak
+              ${pkgs.bbe}/bin/bbe -e "s/KR_ChannelID=240/KR_ChannelID=205/" KRSDK.bin.bak > KRSDK.bin
+              mv KRSDK.bin.bak ${config.home.homeDirectory}/.local/share/games/wuwa/backup/KRSDK.bin
             fi
           '';
           executable = true;
