@@ -48,8 +48,7 @@ let
     fi
   '';
   gameDir = if useGlobalPaths then "" else "${baseDir}/";
-  /* override LD_PRELOAD to avoid stuttering after 30 mins (gamescope#697) */
-  script = writeShellScriptBin shortname (baseScript ''${scope} ${commandPrefix} ${pkgs.gamemode}/bin/gamemoderun env LD_PRELOAD= ${pkgs.gamescope}/bin/gamescope ${config.gamescopeFlags} ${extraGamescopeFlags} -- env LD_PRELOAD="$LD_PRELOAD" ${gamePrefix} "${gameDir}${mainBinary}" ${gamePostfix} ${commandPostfix}'');
+  script = writeShellScriptBin shortname (baseScript ''${scope} ${commandPrefix} ${pkgs.gamemode}/bin/gamemoderun ${pkgs.gamescope}/bin/gamescope ${config.gamescopeFlags} ${extraGamescopeFlags} -- ${gamePrefix} "${gameDir}${mainBinary}" ${gamePostfix} ${commandPostfix}'');
   launcherScript = writeShellScriptBin (shortname + "-launcher") (baseScript ''${scope} ${commandPrefix} ${pkgs.gamemode}/bin/gamemoderun "${gameDir}${launcherBinary}" ${commandPostfix}'');
 
   desktopItem = makeDesktopItem {
