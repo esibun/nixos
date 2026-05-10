@@ -35,6 +35,8 @@ in
       useGlobalPaths = true;
       launcherBinary = "${beatorajaScript}/bin/beatoraja";
       mainBinary = "${beatorajaScript}/bin/beatoraja";
+      # obs-gamecapture hates injecting into opengl games for some reason, unknown reason
+      gamePrefix = "env LD_PRELOAD=$\{LD_PRELOAD\}:${pkgs.unstable.obs-studio-plugins.obs-vkcapture}/lib/obs_glcapture/libobs_glcapture.so";
       gamePostfix = "-s";
       icon = icons.beatoraja;
       extraBin = [
