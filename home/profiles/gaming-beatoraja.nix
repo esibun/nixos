@@ -16,7 +16,7 @@ let
     destination = "/bin/beatoraja";
   };
   callPackage = pkgs.lib.callPackageWith (pkgs // {
-    gamePrefix = "${pkgs.mangohud}/bin/mangohud ${pkgs.obs-studio-plugins.obs-vkcapture}/bin/obs-gamecapture";
+    gamePrefix = "${pkgs.mangohud}/bin/mangohud ${pkgs.unstable.obs-studio-plugins.obs-vkcapture}/bin/obs-gamecapture";
     inherit config;
   });
   icons = {
