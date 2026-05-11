@@ -41,6 +41,10 @@ in
   };
 
   nix = {
+    registry = {
+      nixpkgs.flake = inputs.nixpkgs;
+      nixpkgs-unstable.flake = inputs.nixpkgs-unstable;
+    };
     settings = {
       auto-optimise-store = true;
       experimental-features = ["nix-command" "flakes"];
