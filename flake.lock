@@ -50,11 +50,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1778891640,
-        "narHash": "sha256-1vKLN0iU/7LAo15MotPa3XZwRh9rnzqUz8T3984pwl4=",
+        "lastModified": 1779166874,
+        "narHash": "sha256-LHUiPvJhZCxGSeLncROHJjN3mlwPhnhQ2iDU+8+J0iM=",
         "owner": "imaviso",
         "repo": "dwproton-flake",
-        "rev": "3fb8da71ace6f1ca28dfeb2909569ac730cda70e",
+        "rev": "822347d168c9edee43e50c3411c7eaa4b039a24e",
         "type": "github"
       },
       "original": {
