@@ -90,7 +90,7 @@ in
       gnome-disk-utility
       grim
       nautilus
-      orca-slicer
+      unstable.orca-slicer
       pavucontrol
       pulseaudio # for pactl
       slurp
