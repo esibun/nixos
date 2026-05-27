@@ -48,8 +48,8 @@
     #
     # Non-Flake Inputs
     #
-    konapaper = {
-      url = "github:esibun/konapaper";
+    boorupaper = {
+      url = "github:awtawsif/boorupaper";
       flake = false;
     };
 

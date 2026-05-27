@@ -30,7 +30,7 @@ in
         recursive = true;
       };
 
-      ".config/konapaper/konapaper.conf".source = ../../files/configs/konapaper.conf;
+      ".config/boorupaper/boorupaper.conf".source = ../../files/configs/boorupaper.conf;
       ".config/rofi/config.rasi".source = "${inputs.rofi-adi1090x}/files/launchers/type-1/style-5.rasi";
       ".config/rofi/shared/colors.rasi".source = ../../files/configs/rofi/shared/colors.rasi;
       ".config/rofi/shared/fonts.rasi".source = "${inputs.rofi-adi1090x}/files/launchers/type-1/shared/fonts.rasi";
@@ -236,7 +236,7 @@ in
             "${pkgs.bash}/bin/bash -c '! ${pkgs.procps}/bin/pgrep hyprlock'"
           ];
           ExecStart = [
-            "${pkgs.bash}/bin/bash ${inputs.konapaper}/konapaper.sh --rating \"s\""
+            "${pkgs.bash}/bin/bash ${inputs.boorupaper}/boorupaper.sh --rating \"s\""
           ];
         };
       };

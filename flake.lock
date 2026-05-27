@@ -43,6 +43,22 @@
         "url": "https://codeberg.org/LGFae/awww"
       }
     },
+    "boorupaper": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1777993448,
+        "narHash": "sha256-TI66p6DnWvP5lQfg0h6KichPqdD+kCY3D9cqUCjCGck=",
+        "owner": "awtawsif",
+        "repo": "boorupaper",
+        "rev": "ba5624005140b637dd4cc011b2450166a7fcc5d7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "awtawsif",
+        "repo": "boorupaper",
+        "type": "github"
+      }
+    },
     "dwproton": {
       "inputs": {
         "nixpkgs": [
@@ -118,22 +134,6 @@
         "owner": "nix-community",
         "ref": "release-25.11",
         "repo": "home-manager",
-        "type": "github"
-      }
-    },
-    "konapaper": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1766978299,
-        "narHash": "sha256-ZW03+V+00wUjikSgZIEW46FL/jwk9xBUYGofEOfahBw=",
-        "owner": "esibun",
-        "repo": "konapaper",
-        "rev": "118003236485981273a42c1a3ac368aca89be776",
-        "type": "github"
-      },
-      "original": {
-        "owner": "esibun",
-        "repo": "konapaper",
         "type": "github"
       }
     },
@@ -289,9 +289,9 @@
       "inputs": {
         "agenix": "agenix",
         "awww": "awww",
+        "boorupaper": "boorupaper",
         "dwproton": "dwproton",
         "home-manager": "home-manager_2",
-        "konapaper": "konapaper",
         "nix-flatpak": "nix-flatpak",
         "nix-index-database": "nix-index-database",
         "nixos-hardware": "nixos-hardware",
