@@ -232,11 +232,24 @@ in
         };
         Service = {
           Type = "oneshot";
+          Environment = "PATH=${lib.makeBinPath [
+            pkgs.curl
+            pkgs.flock
+            pkgs.jq
+            pkgs.libxml2
+
+            # dependencies not listed in readme
+            inputs.awww.packages.${system}.awww # awww (to put wallpaper tool in PATH)
+            pkgs.bash # bash (lib/display.sh to set image)
+            pkgs.coreutils # dirname
+            pkgs.findutils # find
+            pkgs.gawk # awk
+          ]}";
           ExecStartPre = [
             "${pkgs.bash}/bin/bash -c '! ${pkgs.procps}/bin/pgrep hyprlock'"
           ];
           ExecStart = [
-            "${pkgs.bash}/bin/bash ${inputs.boorupaper}/boorupaper.sh --rating \"s\""
+            "${pkgs.bash}/bin/bash ${inputs.boorupaper}/boorupaper.sh"
           ];
         };
       };
