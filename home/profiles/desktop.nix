@@ -231,7 +231,7 @@ in
           Description = "Wallpaper Rotator";
         };
         Service = {
-          Type = "oneshot";
+          Type = "forking";
           Environment = "PATH=${lib.makeBinPath [
             pkgs.curl
             pkgs.flock
