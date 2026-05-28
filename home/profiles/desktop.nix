@@ -113,6 +113,13 @@ in
         fi
       '';
     };
+    fish = {
+      shellInit = ''
+        function boorupaper
+          nix-shell -p curl flock jq libxml2 bash coreutils findutils gawk --command "bash ${inputs.boorupaper}/boorupaper.sh $argv"
+        end
+      '';
+    };
     hyprlock = {
       enable = true;
       package = pkgs.unstable.hyprlock;
