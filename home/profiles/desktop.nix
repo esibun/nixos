@@ -377,6 +377,8 @@ in
         awww = inputs.awww.packages.${system}.awww;
       in [
         "${awww}/bin/awww-daemon"
+        # timer doesn't seem to take effect until the service is started manually
+        "${pkgs.systemd}/bin/systemctl --user start wallpaper-rotate"
         "${pkgs.uwsm}/bin/uwsm app -- ${pkgs.arrpc}/bin/arrpc"
         "${pkgs.uwsm}/bin/uwsm app -- ${pkgs.easyeffects}/bin/easyeffects --gapplication-service"
         # config files don't seem to actually read
