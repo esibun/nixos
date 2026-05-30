@@ -7,6 +7,7 @@ let
       #!/usr/bin/env bash
 
       export _JAVA_OPTIONS='-Dsun.java2d.opengl=true -Djdk.gtk.version=2 -Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel -Dfile.encoding=UTF-8'
+      export LD_LIBRARY_PATH="${config.home.homeDirectory}/.local/share/games/bms:$LD_LIBRARY_PATH"
       export BASEDIR="${config.home.homeDirectory}/.local/share/games/bms"
 
       cd $BASEDIR
