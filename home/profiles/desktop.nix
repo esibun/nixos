@@ -15,12 +15,15 @@ in
     fontconfig.enable = true;
   };
 
-  gtk = {
-    enable = true;
-    theme = {
+  gtk = let
+    quartz-nord = {
       name = "Quartz Nord";
       package = (pkgs.callPackage ../pkgs/quartz-nord.nix {});
     };
+  in {
+    enable = true;
+    theme = quartz-nord;
+    gtk4.theme = quartz-nord;
   };
 
   home = {
@@ -344,6 +347,7 @@ in
   in {
     enable = true;
     package = null; # don't install hyprland to user profile (we're using system profile for uwsm)
+    configType = "hyprlang"; # TODO: migrate to lua
     settings = {
       animation = [
         "workspaces, 1, 3, default"
@@ -457,5 +461,22 @@ in
         submapPost) submaps))
       )
     );
+  };
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-gtk
+      # xdg-desktop-portal-hyprland (added by hyprland module)
+    ];
+    config = {
+      common = {
+        default = [
+          # prefer XDPH implementations
+          "hyprland"
+          "gtk"
+        ];
+      };
+    };
   };
 }

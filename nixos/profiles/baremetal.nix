@@ -25,12 +25,12 @@
   };
 
   system = {
-    replaceDependencies.replacements = [
+    replaceDependencies.replacements = (lib.optional (pkgs.unstable.libgbm != pkgs.libgbm) [
       {
         oldDependency = pkgs.unstable.libgbm;
         newDependency = pkgs.libgbm;
       }
-    ];
+    ]);
   };
 
   users = {

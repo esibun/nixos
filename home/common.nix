@@ -76,13 +76,11 @@
     };
     ssh = {
       enable = true;
-      matchBlocks = {
-        "esi-nixos".user = "esi";
-        "esi-laptop".user = "esi";
-        "esi-phone-avf".user = "droid";
-        "*" = lib.hm.dag.entryAfter ["esi-nixos" "esi-laptop" "esi-phone-avf"] {
-          user = "root";
-        };
+      enableDefaultConfig = false; # avoid deprecation warning, didn't use any of them
+      settings = {
+        "Host esi-nixos".User = "esi";
+        "Host esi-laptop".user = "esi";
+        "Host *" = lib.hm.dag.entryAfter ["Host esi-nixos" "Host esi-laptop"] { user = "root"; };
       };
     };
   };

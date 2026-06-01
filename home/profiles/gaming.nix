@@ -155,10 +155,10 @@ in
       (steam.override {
         # gamescope fixes
         extraPkgs = pkgs: with pkgs; [
-          xorg.libXcursor
-          xorg.libXi
-          xorg.libXinerama
-          xorg.libXScrnSaver
+          libxcursor
+          libxi
+          libxinerama
+          libxscrnsaver
           libpng
           libpulseaudio
           libvorbis
@@ -169,7 +169,7 @@ in
       })
 
       # Utilities
-      helvum # useful for rerouting game audio
+      crosspipe # useful for rerouting game audio
     ];
 
     systemd = {

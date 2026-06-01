@@ -41,7 +41,7 @@ in
       gamePostfix = "-s";
       icon = icons.beatoraja;
       extraBin = [
-        xorg.xrandr # java can't initialize monitors without this for some reason
+        xrandr # java can't initialize monitors without this for some reason
       ];
     })
   ];
