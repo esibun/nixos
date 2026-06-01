@@ -289,6 +289,28 @@ in
     down = "J";
     up = "K";
     right = "L";
+    # function helpers because honestly the nix -> lua syntax is really ass
+    # keybind { key = "key to bind"; func = (see below); flags = (passed unchanged) }
+    keybind = x: {
+      _args = [
+        x.key
+      ]
+      # func is a string e.g. "dsp.focus"
+      #  translates to hl.bind("key", (dsp.focus())
+      ++ (lib.optional (builtins.isString x.func) (
+        lib.mkLuaInline ("hl." + x.func + "()")
+      ))
+      # func = list, first elem is call, second elem is args e.g. ["dsp.window.move" "workspace = 1"]
+      #  translates to hl.bind("key", (dsp.window.move(workspace = 1)))
+      #  NOTE: use double single quotes for escaping, i.e. ''arg = "string"''
+      #  TODO: write something to properly interpret sets into arguments (lib.generators.toLua doesn't
+      #   for this since it doesn't insert commas)
+      ++ (lib.optional (builtins.isList x.func) (
+        lib.mkLuaInline ("hl." + (builtins.elemAt x.func 0) + "(" + (builtins.elemAt x.func 1) + ")")
+      ))
+      # pass flags as-is if defined
+      ++ (lib.optional (builtins.hasAttr "flags" x) x.flags);
+    };
     alwaysActiveKeybinds = [
       ", XF86AudioRaiseVolume, exec, ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ +5%"
       ", XF86AudioLowerVolume, exec, ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ -5%"
