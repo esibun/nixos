@@ -85,6 +85,21 @@ in
       enable = true;
       useRoutingFeatures = "both";
     };
+    udev.packages = [
+      # see systemd#39206 - files >= 73-* don't process uaccess correctly
+      (pkgs.writeTextFile {
+        name = "72-global-uaccess.rules";
+        # Note: Don't set permissions on block or input devices for security reasons, see
+        #  https://wiki.archlinux.org/title/Udev
+        text = ''
+          SUBSYSTEMS=="usb", SUBSYSTEM!="input", SUBSYSTEM!="block", MODE="0660", TAG+="uaccess"
+        '';
+        destination = "/lib/udev/rules.d/72-global-uaccess.rules";
+        checkPhase = ''
+          ${pkgs.systemd}/bin/udevadm verify $out/lib/udev/rules.d/72-global-uaccess.rules
+        '';
+      })
+    ];
   };
 
   systemd = {
