@@ -93,7 +93,7 @@ in
       gnome-disk-utility
       grim
       nautilus
-      unstable.orca-slicer
+      orca-slicer # unstable broken atm, see nixpkgs#513195
       pavucontrol
       pulseaudio # for pactl
       slurp
