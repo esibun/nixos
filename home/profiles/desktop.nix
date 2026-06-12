@@ -90,6 +90,7 @@ in
       # Utilities
       file-roller
       font-manager
+      freecad
       gnome-disk-utility
       grim
       nautilus
