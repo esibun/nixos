@@ -462,13 +462,13 @@ in
           "bind = , escape, submap, reset"
         ];
         system = [
-          "bind = , s, exec, shutdown now"
+          "bind = , s, exec, ${pkgs.hyprshutdown}/bin/hyprshutdown -p \"shutdown now\""
           "bind = , s, submap, reset"
-          "bind = , r, exec, reboot"
+          "bind = , r, exec, ${pkgs.hyprshutdown}/bin/hyprshutdown -t \"Rebooting...\" -p reboot"
           "bind = , r, submap, reset"
           "bind = , l, exec, ${pkgs.systemd}/bin/systemctl --user start hyprlock-daemon"
           "bind = , l, submap, reset"
-          "bind = , e , exec, ${pkgs.sway}/bin/swaynag -b \"OK\" \"uwsm stop\" -s \"Cancel\" -t warning -m \"End your hyprland session?\"" 
+          "bind = , e , exec, ${pkgs.sway}/bin/swaynag -b \"OK\" \"${pkgs.hyprshutdown}/bin/hyprshutdown -t \\\"Logging out...\\\"\" -s \"Cancel\" -t warning -m \"End your hyprland session?\"" 
           "bind = , e, submap, reset"
           "bind = , escape, submap, reset"
         ];
