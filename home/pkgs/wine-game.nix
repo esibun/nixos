@@ -32,7 +32,12 @@
 }:
 
 let
-  umu = pkgs.umu-launcher;
+  umu = pkgs.umu-launcher.override {
+    # fix timezone issues in certain games
+    extraProfile = ''
+      unset TZ
+    '';
+  };
   scope = "systemd-run --user --scope --property TimeoutStopSec=${builtins.toString stopTimeout} --unit=\"${shortname}\"";
   exeCommand = if useUmu then "umu-run" else "wine";
   gameDir = if useGlobalPaths then "" else "${baseDir}/game/";
