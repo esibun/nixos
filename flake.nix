@@ -29,8 +29,6 @@
     #
     # App Level Packages
     #
-    awww.url = "git+https://codeberg.org/LGFae/awww";
-
     dwproton = {
       url = "github:imaviso/dwproton-flake";
       inputs.nixpkgs.follows = "nixpkgs";

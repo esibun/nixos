@@ -44,12 +44,12 @@ in
     packages = with pkgs; [
       # Hyprland + Supporting Packages
       hypridle
+      hyprpaper
       hyprpolkitagent # Authentication dialogs
       rofi
       seatd # fix cursor size
       waybar
       xdg-utils
-      inputs.awww.packages.${system}.awww
 
       # General Dependencies
       libnotify
@@ -250,7 +250,8 @@ in
             pkgs.libxml2
 
             # dependencies not listed in readme
-            inputs.awww.packages.${system}.awww # awww (to put wallpaper tool in PATH)
+            pkgs.hyprpaper
+            pkgs.hyprland # for hyprctl
             pkgs.bash # bash (lib/display.sh to set image)
             pkgs.coreutils # dirname
             pkgs.findutils # find
@@ -403,16 +404,12 @@ in
       ];
       exec = [
         # no better way to do this sadly; HM systemd unit management is kinda bad
-        "systemctl --user restart hyprpaper"
+        # wallpaper-rotate should be done only after hyprpaper start
+        "systemctl --user restart hyprpaper && systemctl --user start wallpaper-rotate"
         "systemctl --user restart hyprpolkitagent"
         "systemctl --user restart waybar"
       ];
-      exec-once = let
-        awww = inputs.awww.packages.${system}.awww;
-      in [
-        "${awww}/bin/awww-daemon"
-        # timer doesn't seem to take effect until the service is started manually
-        "${pkgs.systemd}/bin/systemctl --user start wallpaper-rotate"
+      exec-once = [
         "${pkgs.uwsm}/bin/uwsm app -- ${pkgs.arrpc}/bin/arrpc"
         "${pkgs.uwsm}/bin/uwsm app -- ${pkgs.easyeffects}/bin/easyeffects --gapplication-service"
         # config files don't seem to actually read
