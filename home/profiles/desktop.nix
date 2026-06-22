@@ -402,6 +402,10 @@ in
       bindm = [
         "${mod}, mouse:272, movewindow"
       ];
+      ecosystem = {
+        no_update_news = true;
+        no_donation_nag = true;
+      };
       exec = [
         # no better way to do this sadly; HM systemd unit management is kinda bad
         # wallpaper-rotate should be done only after hyprpaper start
@@ -417,6 +421,10 @@ in
       ];
       general = {
         gaps_out = 5;
+      };
+      misc = {
+        disable_hyprland_logo = true;
+        disable_splash_rendering = true;
       };
       workspace = [
         # smart gaps rules
