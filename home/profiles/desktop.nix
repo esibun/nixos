@@ -258,7 +258,10 @@ in
             pkgs.gawk # awk
           ]}";
           ExecStartPre = [
+            # Don't run if hyprlock is running
             "${pkgs.bash}/bin/bash -c '! ${pkgs.procps}/bin/pgrep hyprlock'"
+            # Don't run if gamemode is on (latency)
+            "${pkgs.bash}/bin/bash -c '${pkgs.gamemode}/bin/gamemodelist | ${pkgs.coreutils}/bin/wc -l | ${pkgs.findutils}/bin/xargs ${pkgs.coreutils}/bin/test 0 -eq'"
           ];
           ExecStart = [
             "${pkgs.bash}/bin/bash ${inputs.boorupaper}/boorupaper.sh"
