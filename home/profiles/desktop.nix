@@ -193,6 +193,12 @@ in
         ];
       };
     };
+    hyprpaper = {
+      enable = true;
+      settings = {
+        splash = false;
+      };
+    };
     swaync = {
       enable = true;
       settings = {
