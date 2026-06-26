@@ -85,7 +85,11 @@ in
 
       # Social Media
       arrpc # equibop dependency
-      unstable.equibop
+      (unstable.equibop.overrideAttrs (final: prev: {
+        patches = unstable.equibop.patches ++ [
+          ../../files/equibop-cam-patch.patch
+        ];
+      }))
 
       # Utilities
       file-roller
