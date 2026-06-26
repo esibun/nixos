@@ -24,14 +24,15 @@
     };
   };
 
-  system = {
-    replaceDependencies.replacements = (lib.optional (pkgs.unstable.libgbm != pkgs.libgbm) [
-      {
-        oldDependency = pkgs.unstable.libgbm;
-        newDependency = pkgs.libgbm;
-      }
-    ]);
-  };
+  # TODO: absolutely no idea why this suddenly broke after last flake update
+  #system = {
+  #  replaceDependencies.replacements = (lib.optional (pkgs.unstable.libgbm != pkgs.libgbm) [
+  #    {
+  #      oldDependency = pkgs.unstable.libgbm;
+  #      newDependency = pkgs.libgbm;
+  #    }
+  #  ]);
+  #};
 
   users = {
     mutableUsers = false;
