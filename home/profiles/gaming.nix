@@ -57,6 +57,7 @@ in
         mainBinary = "Arknights Endfield/Endfield.exe";
         icon = icons.endfield;
         useUmu = true;
+        scriptPre = "export GAMESCOPE_ENABLE_WSI=0"; # required for lsvk support
         extraGamescopeFlags = "--force-grab-cursor"; # prevent cursor getting stuck at edge of screen and preventing camera movement
         customProtonPath = compatTool inputs.dwproton.packages.${system}.dw-proton;
       })
@@ -151,6 +152,8 @@ in
       # Game Tools
       gamescope
       gamescope-wsi
+      lsfg-vk
+      lsfg-vk-ui
       mangohud
       (steam.override {
         # gamescope fixes
@@ -212,5 +215,13 @@ in
     wayland.windowManager.hyprland.settings.exec = [
       "pidof steam || ${pkgs.uwsm}/bin/uwsm app -- ${pkgs.steam}/bin/steam -silent"
     ];
+
+    xdg.dataFile = {
+      # install LSFG vulkan layer
+      lsfg = {
+        source = "${pkgs.lsfg-vk}/share/vulkan/implicit_layer.d/VkLayer_LS_frame_generation.json";
+        target = "vulkan/implicit_layer.d/VkLayer_LS_frame_generation.json";
+      };
+    };
   };
 }
