@@ -48,7 +48,18 @@ in
       hyprpolkitagent # Authentication dialogs
       rofi
       seatd # fix cursor size
-      waybar
+      ((waybar.overrideAttrs (final: prev: {
+        # pull in commit fixing hyprland lua (no release available yet)
+        src = pkgs.fetchFromGitHub {
+          owner = "Alexays";
+          repo = "Waybar";
+          rev = "05945748dccce28bf96d26d8f64a9e69a8dd49ba";
+          hash = "sha256-51R3mIt8cLNvh/X5qe9vOqeJCj0U9KRyemVE5y+OhiU=";
+        };
+      })).override {
+        # requires way more overriding for something I'm not using
+        cavaSupport = false;
+      })
       xdg-utils
 
       # General Dependencies
