@@ -214,7 +214,7 @@ in
 
     wayland.windowManager.hyprland.extraConfig = lib.mkAfter ''
       hl.on("config.reloaded", function()
-        hl.dsp.exec_cmd("pidof steam || ${pkgs.uwsm}/bin/uwsm app -- ${pkgs.steam}/bin/steam -silent")
+        hl.exec_cmd("pidof steam || ${pkgs.uwsm}/bin/uwsm app -- ${pkgs.steam}/bin/steam -silent")
       end)
     '';
 

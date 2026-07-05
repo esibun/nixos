@@ -26,7 +26,7 @@
   wayland.windowManager.hyprland = {
     extraConfig = lib.mkAfter ''
       hl.on("config.reloaded", function()
-        hl.dsp.exec_cmd("${pkgs.uwsm}/bin/uwsm app -- ${pkgs.kdePackages.kdeconnect-kde}/bin/kdeconnect-indicator")
+        hl.exec_cmd("${pkgs.uwsm}/bin/uwsm app -- ${pkgs.kdePackages.kdeconnect-kde}/bin/kdeconnect-indicator")
       end)
     '';
     settings = {

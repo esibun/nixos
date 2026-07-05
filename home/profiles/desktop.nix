@@ -401,15 +401,15 @@ in
     # TODO: can make this a bit more elegant
     extraConfig = ''
       hl.on("hyprland.start", function()
-        hl.dsp.exec_cmd("${pkgs.uwsm}/bin/uwsm app -- ${pkgs.arrpc}/bin/arrpc")
-        hl.dsp.exec_cmd("${pkgs.uwsm}/bin/uwsm app -- ${pkgs.easyeffects}/bin/easyeffects --gapplication-service")
+        hl.exec_cmd("${pkgs.uwsm}/bin/uwsm app -- ${pkgs.arrpc}/bin/arrpc")
+        hl.exec_cmd("${pkgs.uwsm}/bin/uwsm app -- ${pkgs.easyeffects}/bin/easyeffects --gapplication-service")
         -- config files don't seem to actually read
-        hl.dsp.exec_cmd("${pkgs.hyprland}/bin/hyprctl setcursor Nordzy-cursors-white 48")
+        hl.exec_cmd("${pkgs.hyprland}/bin/hyprctl setcursor Nordzy-cursors-white 48")
       end)
       hl.on("config.reloaded", function()
-        hl.dsp.exec_cmd("systemctl --user restart hyprpaper && systemctl --user start wallpaper-rotate")
-        hl.dsp.exec_cmd("systemctl --user restart hyprpolkitagent")
-        hl.dsp.exec_cmd("systemctl --user restart waybar")
+        hl.exec_cmd("systemctl --user restart hyprpaper && systemctl --user start wallpaper-rotate")
+        hl.exec_cmd("systemctl --user restart hyprpolkitagent")
+        hl.exec_cmd("systemctl --user restart waybar")
       end)
     '';
     submaps = {
