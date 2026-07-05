@@ -93,7 +93,6 @@ in
 
       # Productivity
       onlyoffice-desktopeditors
-      wpsoffice
 
       # Social Media
       arrpc # equibop dependency
