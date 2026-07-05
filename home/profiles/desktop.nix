@@ -192,8 +192,8 @@ in
         listener = [
           {
             timeout = 5;
-            on-timeout = "hyprctl dispatch dpms off";
-            on-resume = "hyprctl dispatch dpms on";
+            on-timeout = ''hyprctl dispatch 'hl.dsp.dpms({action="off"})' '';
+            on-resume = ''hyprctl dispatch 'hl.dsp.dpms({action="on"})' '';
           }
         ];
       };
@@ -240,11 +240,11 @@ in
         Service = {
           Type = "oneshot";
           ExecStart = [
-            "${pkgs.hyprland}/bin/hyprctl --instance 0 keyword 'misc:allow_session_lock_restore 1'"
+            ''${pkgs.hyprland}/bin/hyprctl --instance 0 eval 'hl.config({misc = {allow_session_lock_restore = 1}})' ''
             "${pkgs.systemd}/bin/systemctl --user restart hypridle"
             "${pkgs.systemd}/bin/systemctl --user restart hyprlock-daemon"
             "${pkgs.coreutils}/bin/sleep 5"
-            "${pkgs.hyprland}/bin/hyprctl --instance 0 keyword 'misc:allow_session_lock_restore 0'"
+            ''${pkgs.hyprland}/bin/hyprctl --instance 0 eval 'hl.config({misc = {allow_session_lock_restore = 0}})' ''
           ];
         };
       };
@@ -314,197 +314,224 @@ in
       # func is a string e.g. "dsp.focus"
       #  translates to hl.bind("key", (dsp.focus())
       ++ (lib.optional (builtins.isString x.func) (
-        lib.mkLuaInline ("hl." + x.func + "()")
+        lib.mkLuaInline ("hl." + x.func)
       ))
-      # func = list, first elem is call, second elem is args e.g. ["dsp.window.move" "workspace = 1"]
-      #  translates to hl.bind("key", (dsp.window.move(workspace = 1)))
+      # func = list, first elem is call, second elem is args e.g. "dsp.window.move(workspace = 1)"
+      #  translates to hl.bind("key", dsp.window.move(workspace = 1))
       #  NOTE: use double single quotes for escaping, i.e. ''arg = "string"''
       #  TODO: write something to properly interpret sets into arguments (lib.generators.toLua doesn't
       #   for this since it doesn't insert commas)
       ++ (lib.optional (builtins.isList x.func) (
-        lib.mkLuaInline ("hl." + (builtins.elemAt x.func 0) + "(" + (builtins.elemAt x.func 1) + ")")
+        lib.mkLuaInline ("hl." + x.func)
       ))
       # pass flags as-is if defined
       ++ (lib.optional (builtins.hasAttr "flags" x) x.flags);
     };
+    # defined without keybind func so the set can be modified in-function
     alwaysActiveKeybinds = [
-      ", XF86AudioRaiseVolume, exec, ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ +5%"
-      ", XF86AudioLowerVolume, exec, ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ -5%"
-      "${mod}, XF86AudioMute, exec, ${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ toggle"
-      "${mod}, XF86AudioRaiseVolume, exec, ${pkgs.pulseaudio}/bin/pactl set-source-volume @DEFAULT_SOURCE@ +5%"
-      "${mod}, XF86AudioLowerVolume, exec, ${pkgs.pulseaudio}/bin/pactl set-source-volume @DEFAULT_SOURCE@ -5%"
-      ", XF86AudioMute, exec, ${pkgs.pulseaudio}/bin/pactl set-source-mute @DEFAULT_SOURCE@ toggle"
+      { key = "XF86AudioRaiseVolume"; func = ''dsp.exec_cmd("${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ +5%")''; }
+      { key = "XF86AudioLowerVolume"; func = ''dsp.exec_cmd("${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ -5%")''; }
+      { key = "${mod} + XF86AudioMute"; func = ''dsp.exec_cmd("${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ toggle")''; }
+      { key = "${mod} + XF86AudioRaiseVolume"; func = ''dsp.exec_cmd("${pkgs.pulseaudio}/bin/pactl set-source-volume @DEFAULT_SOURCE@ +5%")''; }
+      { key = "${mod} + XF86AudioLowerVolume"; func = ''dsp.exec_cmd("${pkgs.pulseaudio}/bin/pactl set-source-volume @DEFAULT_SOURCE@ -5%")''; }
+      { key = "XF86AudioMute"; func = ''dsp.exec_cmd("${pkgs.pulseaudio}/bin/pactl set-source-mute @DEFAULT_SOURCE@ toggle")''; }
 
-      "${mod}, c, exec, GRIM_DEFAULT_DIR=$HOME/Pictures ${pkgs.grim}/bin/grim -g \"\$(${pkgs.slurp}/bin/slurp)\""
+      { key = "${mod} + c"; func = ''dsp.exec_cmd("GRIM_DEFAULT_DIR=$HOME/Pictures ${pkgs.grim}/bin/grim -g \"$(${pkgs.slurp}/bin/slurp)\"")''; }
 
-      "${mod}, Return, exec, ${terminal}"
-      "${mod}_SHIFT, q, killactive"
+      { key = "${mod} + Return"; func = ''dsp.exec_cmd("${terminal}")''; }
+      { key = "${mod} + SHIFT + q"; func = ''dsp.window.close()''; }
 
-      "${mod}, ${left}, movefocus, l"
-      "${mod}, ${down}, movefocus, d"
-      "${mod}, ${up}, movefocus, u"
-      "${mod}, ${right}, movefocus, r"
+      { key = "${mod} + ${left}"; func = ''dsp.focus({direction = "l"})''; }
+      { key = "${mod} + ${down}"; func = ''dsp.focus({direction = "d"})''; }
+      { key = "${mod} + ${up}"; func = ''dsp.focus({direction = "u"})''; }
+      { key = "${mod} + ${right}"; func = ''dsp.focus({direction = "r"})''; }
 
-      "${mod}_SHIFT, ${left}, movewindow, l"
-      "${mod}_SHIFT, ${down}, movewindow, d"
-      "${mod}_SHIFT, ${up}, movewindow, u"
-      "${mod}_SHIFT, ${right}, movewindow, r"
+      { key = "${mod} + SHIFT + ${left}"; func = ''dsp.window.move({direction = "l"})''; }
+      { key = "${mod} + SHIFT + ${down}"; func = ''dsp.window.move({direction = "d"})''; }
+      { key = "${mod} + SHIFT + ${up}"; func = ''dsp.window.move({direction = "u"})''; }
+      { key = "${mod} + SHIFT + ${right}"; func = ''dsp.window.move({direction = "r"})''; }
 
-      "${mod}_CONTROL, 1, workspace, 1"
-      "${mod}_CONTROL, 2, workspace, 2"
-      "${mod}_CONTROL, 3, workspace, 3"
-      "${mod}_CONTROL, 4, workspace, 4"
-      "${mod}_CONTROL, 5, workspace, 5"
-      "${mod}_CONTROL, 6, workspace, 6"
-      "${mod}_CONTROL, 7, workspace, 7"
-      "${mod}_CONTROL, 8, workspace, 8"
-      "${mod}_CONTROL, 9, workspace, 9"
-      "${mod}_CONTROL, 0, workspace, 10"
+      { key = "${mod} + CONTROL + 1"; func = ''dsp.focus({workspace = 1})''; }
+      { key = "${mod} + CONTROL + 2"; func = ''dsp.focus({workspace = 2})''; }
+      { key = "${mod} + CONTROL + 3"; func = ''dsp.focus({workspace = 3})''; }
+      { key = "${mod} + CONTROL + 4"; func = ''dsp.focus({workspace = 4})''; }
+      { key = "${mod} + CONTROL + 5"; func = ''dsp.focus({workspace = 5})''; }
+      { key = "${mod} + CONTROL + 6"; func = ''dsp.focus({workspace = 6})''; }
+      { key = "${mod} + CONTROL + 7"; func = ''dsp.focus({workspace = 7})''; }
+      { key = "${mod} + CONTROL + 8"; func = ''dsp.focus({workspace = 8})''; }
+      { key = "${mod} + CONTROL + 9"; func = ''dsp.focus({workspace = 9})''; }
+      { key = "${mod} + CONTROL + 0"; func = ''dsp.focus({workspace = 10})''; }
 
-      "${mod}_SHIFT, 1, movetoworkspace, 1"
-      "${mod}_SHIFT, 2, movetoworkspace, 2"
-      "${mod}_SHIFT, 3, movetoworkspace, 3"
-      "${mod}_SHIFT, 4, movetoworkspace, 4"
-      "${mod}_SHIFT, 5, movetoworkspace, 5"
-      "${mod}_SHIFT, 6, movetoworkspace, 6"
-      "${mod}_SHIFT, 7, movetoworkspace, 7"
-      "${mod}_SHIFT, 8, movetoworkspace, 8"
-      "${mod}_SHIFT, 9, movetoworkspace, 9"
-      "${mod}_SHIFT, 0, movetoworkspace, 10"
+      { key = "${mod} + SHIFT + 1"; func = ''dsp.window.move({workspace = 1})''; }
+      { key = "${mod} + SHIFT + 2"; func = ''dsp.window.move({workspace = 2})''; }
+      { key = "${mod} + SHIFT + 3"; func = ''dsp.window.move({workspace = 3})''; }
+      { key = "${mod} + SHIFT + 4"; func = ''dsp.window.move({workspace = 4})''; }
+      { key = "${mod} + SHIFT + 5"; func = ''dsp.window.move({workspace = 5})''; }
+      { key = "${mod} + SHIFT + 6"; func = ''dsp.window.move({workspace = 6})''; }
+      { key = "${mod} + SHIFT + 7"; func = ''dsp.window.move({workspace = 7})''; }
+      { key = "${mod} + SHIFT + 8"; func = ''dsp.window.move({workspace = 8})''; }
+      { key = "${mod} + SHIFT + 9"; func = ''dsp.window.move({workspace = 9})''; }
+      { key = "${mod} + SHIFT + 0"; func = ''dsp.window.move({workspace = 10})''; }
 
-      "${mod}_CONTROL, bracketleft, movecurrentworkspacetomonitor, -1"
-      "${mod}_CONTROL, bracketright, movecurrentworkspacetomonitor, +1"
+      { key = "${mod} + CONTROL + bracketleft"; func = ''dsp.workspace.move({monitor = "-1"})''; }
+      { key = "${mod} + CONTROL + bracketright"; func = ''dsp.workspace.move({monitor = "+1"})''; }
 
-      "${mod}_SHIFT, space, togglefloating"
-      #"${mod}_CONTROL, SHIFT+space, floating enable; resize set 320 180; move position 0 0"
-      "${mod}, backslash, exec, ${pkgs.swaynotificationcenter}/bin/swaync-client --toggle-panel"
+      { key = "${mod} + SHIFT + space"; func = ''dsp.window.float()''; }
+      { key = "${mod} + backslash"; func = ''dsp.exec_cmd("${pkgs.swaynotificationcenter}/bin/swaync-client --toggle-panel")''; }
 
-      "${mod}_SHIFT, minus, movetoworkspace, special"
-      "${mod}, minus, togglespecialworkspace"
+      { key = "${mod} + SHIFT + minus"; func = ''dsp.window.move({workspace = "special"})''; }
+      { key = "${mod} + minus"; func = ''dsp.workspace.toggle_special()''; }
     ];
   in {
     enable = true;
     package = null; # don't install hyprland to user profile (we're using system profile for uwsm)
-    configType = "hyprlang"; # TODO: migrate to lua
+    configType = "lua";
+    # hl.on() doesn't seem to be natively supported by hyprland nix config
+    # TODO: can make this a bit more elegant
+    extraConfig = ''
+      hl.on("hyprland.start", function()
+        hl.dsp.exec_cmd("${pkgs.uwsm}/bin/uwsm app -- ${pkgs.arrpc}/bin/arrpc")
+        hl.dsp.exec_cmd("${pkgs.uwsm}/bin/uwsm app -- ${pkgs.easyeffects}/bin/easyeffects --gapplication-service")
+        -- config files don't seem to actually read
+        hl.dsp.exec_cmd("${pkgs.hyprland}/bin/hyprctl setcursor Nordzy-cursors-white 48")
+      end)
+      hl.on("config.reloaded", function()
+        hl.dsp.exec_cmd("systemctl --user restart hyprpaper && systemctl --user start wallpaper-rotate")
+        hl.dsp.exec_cmd("systemctl --user restart hyprpolkitagent")
+        hl.dsp.exec_cmd("systemctl --user restart waybar")
+      end)
+    '';
+    submaps = {
+      gaming.settings.bind = [
+        (keybind { key = "${mod} + F11"; func = ''dsp.submap("reset")''; flags = { locked = true; }; })
+      ] ++ (map (x: keybind (x // { flags = { locked = true; }; } )) alwaysActiveKeybinds);
+      resize.settings.bind = [
+        (keybind { key = "${left}"; func = ''dsp.window.resize({x = -10, y = 0, relative = true})''; })
+        (keybind { key = "${down}"; func = ''dsp.window.resize({x = 0, y = 10, relative = true})''; })
+        (keybind { key = "${up}"; func = ''dsp.window.resize({x = 0, y = -10, relative = true})''; })
+        (keybind { key = "${right}"; func = ''dsp.window.resize({x = 10, y = 0, relative = true})''; })
+        (keybind { key = "SHIFT + ${left}"; func = ''dsp.window.resize({x = -50, y = 0, relative = true})''; })
+        (keybind { key = "SHIFT + ${down}"; func = ''dsp.window.resize({x = 0, y = 50, relative = true})''; })
+        (keybind { key = "SHIFT + ${up}"; func = ''dsp.window.resize({x = 0, y = -50, relative = true})''; })
+        (keybind { key = "SHIFT + ${right}"; func = ''dsp.window.resize({x = 50, y = 0, relative = true})''; })
+        (keybind { key = "escape"; func = ''dsp.submap("reset")''; })
+      ];
+      system = {
+        onDispatch = "reset";
+        settings = {
+          bind = [
+            (keybind { key = "s"; func = ''dsp.exec_cmd("${pkgs.hyprshutdown}/bin/hyprshutdown -p \"shutdown now\"")''; })
+            (keybind { key = "r"; func = ''dsp.exec_cmd("${pkgs.hyprshutdown}/bin/hyprshutdown -t \"Rebooting...\" -p reboot")''; })
+            (keybind { key = "l"; func = ''dsp.exec_cmd("${pkgs.systemd}/bin/systemctl --user start hyprlock-daemon")''; })
+            (keybind { key = "e "; func = ''dsp.exec_cmd("${pkgs.sway}/bin/swaynag -b \"OK\" \"${pkgs.hyprshutdown}/bin/hyprshutdown -t \\\"Logging out...\\\"\" -s \"Cancel\" -t warning -m \"End your hyprland session?\"")''; })
+            (keybind { key = "escape"; func = ''dsp.submap("reset")''; })
+          ];
+        };
+      };
+    };
     settings = {
+      config = {
+        ecosystem = {
+          no_update_news = true;
+          no_donation_nag = true;
+        };
+        general = {
+          gaps_out = 5;
+        };
+        misc = {
+          disable_hyprland_logo = true;
+          disable_splash_rendering = true;
+        };
+        # broken, see hyprwm/Hyprland#10278
+        #xwayland = {
+        #  force_zero_scaling = true;
+        #};
+      };
       animation = [
-        "workspaces, 1, 3, default"
+        {
+          leaf = "workspaces";
+          enabled = true;
+          speed = 3;
+          bezier = "default";
+        }
       ];
       bind = let
         theme = "${config.home.homeDirectory}/.config/rofi/launchers/type-1/style-5.rasi";
-        menu = "${pkgs.rofi}/bin/rofi -show drun -drun-match-fields name,generic,categories,keywords -run-command \"uwsm app -- {cmd}\"";
+        menu = ''${pkgs.rofi}/bin/rofi -show drun -drun-match-fields name,generic,categories,keywords -run-command \"uwsm app -- {cmd}\"'';
       in [
-        "${mod}, space, exec, ${menu}"
-        "${mod}, f, fullscreen, 0"
-        "${mod}, x, submap, system"
-        "${mod}, r, submap, resize"
+        (keybind { key = "${mod} + space"; func = ''dsp.exec_cmd("${menu}")''; })
+        (keybind { key = "${mod} + f"; func = ''dsp.window.fullscreen()''; })
+        (keybind { key = "${mod} + x"; func = ''dsp.submap("system")''; })
+        (keybind { key = "${mod} + r"; func = ''dsp.submap("resize")''; })
 
-        "${mod}, 1, workspace, 1"
-        "${mod}, 2, workspace, 2"
-        "${mod}, 3, workspace, 3"
-        "${mod}, 4, workspace, 4"
-        "${mod}, 5, workspace, 5"
-        "${mod}, 6, workspace, 6"
-        "${mod}, 7, workspace, 7"
-        "${mod}, 8, workspace, 8"
-        "${mod}, 9, workspace, 9"
-        "${mod}, 0, workspace, 10"
+        (keybind { key = "${mod} + 1"; func = ''dsp.focus({workspace = 1})''; })
+        (keybind { key = "${mod} + 2"; func = ''dsp.focus({workspace = 2})''; })
+        (keybind { key = "${mod} + 3"; func = ''dsp.focus({workspace = 3})''; })
+        (keybind { key = "${mod} + 4"; func = ''dsp.focus({workspace = 4})''; })
+        (keybind { key = "${mod} + 5"; func = ''dsp.focus({workspace = 5})''; })
+        (keybind { key = "${mod} + 6"; func = ''dsp.focus({workspace = 6})''; })
+        (keybind { key = "${mod} + 7"; func = ''dsp.focus({workspace = 7})''; })
+        (keybind { key = "${mod} + 8"; func = ''dsp.focus({workspace = 8})''; })
+        (keybind { key = "${mod} + 9"; func = ''dsp.focus({workspace = 9})''; })
+        (keybind { key = "${mod} + 0"; func = ''dsp.focus({workspace = 10})''; })
 
-        "${mod}, F11, submap, gaming"
-      ];
-      bindl = alwaysActiveKeybinds;
-      bindm = [
-        "${mod}, mouse:272, movewindow"
-      ];
-      ecosystem = {
-        no_update_news = true;
-        no_donation_nag = true;
-      };
-      exec = [
-        # no better way to do this sadly; HM systemd unit management is kinda bad
-        # wallpaper-rotate should be done only after hyprpaper start
-        "systemctl --user restart hyprpaper && systemctl --user start wallpaper-rotate"
-        "systemctl --user restart hyprpolkitagent"
-        "systemctl --user restart waybar"
-      ];
-      exec-once = [
-        "${pkgs.uwsm}/bin/uwsm app -- ${pkgs.arrpc}/bin/arrpc"
-        "${pkgs.uwsm}/bin/uwsm app -- ${pkgs.easyeffects}/bin/easyeffects --gapplication-service"
-        # config files don't seem to actually read
-        "${pkgs.hyprland}/bin/hyprctl setcursor Nordzy-cursors-white 48"
-      ];
-      general = {
-        gaps_out = 5;
-      };
-      misc = {
-        disable_hyprland_logo = true;
-        disable_splash_rendering = true;
-      };
-      workspace = [
+        (keybind { key = "${mod} + F11"; func = ''dsp.submap("gaming")''; })
+
+        (keybind { key = "${mod} + mouse:272"; func = ''dsp.window.drag()''; flags = "mouse"; })
+      ] ++ (map (x: keybind (x // { flags = { locked = true; }; } )) alwaysActiveKeybinds);
+      workspace_rule = [
         # smart gaps rules
-        "w[tv1], gapsout:0, gapsin:0"
-        "f[1], gapsout:0, gapsin:0"
+        {
+          workspace = "w[tv1]";
+          gaps_out = 0;
+          gaps_in = 0;
+        }
+        {
+          workspace = "f[1]";
+          gaps_out = 0;
+          gaps_in = 0;
+        }
       ];
-      windowrule = [
+      window_rule = [
         # smart gaps rules
-        "border_size 0, match:float 0, match:workspace w[tv1]"
-        "rounding 0, match:float 0, match:workspace w[tv1]"
-        "border_size 0, match:float 0, match:workspace f[1]"
-        "rounding 0, match:float 0, match:workspace f[1]"
+        {
+          match = {
+            float = false;
+            workspace = "w[tv1]";
+          };
+          border_size = 0;
+        }
+        {
+          match = {
+            float = false;
+            workspace = "w[tv1]";
+          };
+          rounding = 0;
+        }
+        {
+          match = {
+            float = false;
+            workspace = "f[1]";
+          };
+          border_size = 0;
+        }
+        {
+          match = {
+            float = false;
+            workspace = "f[1]";
+          };
+          rounding = 0;
+        }
         # center all floating windows
-        "center on, match:float 1"
+        {
+          match = {
+            float = true;
+          };
+          center = true;
+        }
       ];
-      # broken, see hyprwm/Hyprland#10278
-      #xwayland = {
-      #  force_zero_scaling = true;
-      #};
     };
     systemd.enable = false; # conflicts with uwsm
-    extraConfig = let
-      submapPre = ''
-        submap = @SUBMAP@
-      '';
-      submapPost = ''
-        submap = reset
-      '';
-      submaps = {
-        gaming = [
-          "bindl = ${mod}, F11, submap, reset"
-        ] ++ (builtins.map (bind: "bindl = " + bind) alwaysActiveKeybinds);
-        resize = [
-          "bind = , ${left}, resizeactive, -10 0"
-          "bind = , ${down}, resizeactive, 0 10"
-          "bind = , ${up}, resizeactive, 0 -10"
-          "bind = , ${right}, resizeactive, 10 0"
-          "bind = SHIFT, ${left}, resizeactive, -50 0"
-          "bind = SHIFT, ${down}, resizeactive, 0 50"
-          "bind = SHIFT, ${up}, resizeactive, 0 -50"
-          "bind = SHIFT, ${right}, resizeactive, 50 0"
-          "bind = , escape, submap, reset"
-        ];
-        system = [
-          "bind = , s, exec, ${pkgs.hyprshutdown}/bin/hyprshutdown -p \"shutdown now\""
-          "bind = , s, submap, reset"
-          "bind = , r, exec, ${pkgs.hyprshutdown}/bin/hyprshutdown -t \"Rebooting...\" -p reboot"
-          "bind = , r, submap, reset"
-          "bind = , l, exec, ${pkgs.systemd}/bin/systemctl --user start hyprlock-daemon"
-          "bind = , l, submap, reset"
-          "bind = , e , exec, ${pkgs.sway}/bin/swaynag -b \"OK\" \"${pkgs.hyprshutdown}/bin/hyprshutdown -t \\\"Logging out...\\\"\" -s \"Cancel\" -t warning -m \"End your hyprland session?\"" 
-          "bind = , e, submap, reset"
-          "bind = , escape, submap, reset"
-        ];
-      };
-      # concatenate the calculated submap strings together
-    in (lib.concatStrings (builtins.attrValues (
-      (builtins.mapAttrs (mapName: mapBinds:
-        # prefix submap with pre-text
-        (builtins.replaceStrings ["@SUBMAP@"] [mapName] submapPre) +
-        # add newlines to each submap value and concatenate
-        (lib.concatStrings (builtins.map (line: line + "\n") mapBinds)) +
-        # add escape as submap reset key and finish submap binding text
-        submapPost) submaps))
-      )
-    );
   };
 
   xdg.portal = {

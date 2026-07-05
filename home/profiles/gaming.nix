@@ -212,9 +212,11 @@ in
       };
     };
 
-    wayland.windowManager.hyprland.settings.exec = [
-      "pidof steam || ${pkgs.uwsm}/bin/uwsm app -- ${pkgs.steam}/bin/steam -silent"
-    ];
+    wayland.windowManager.hyprland.extraConfig = lib.mkAfter ''
+      hl.on("config.reloaded", function()
+        hl.dsp.exec_cmd("pidof steam || ${pkgs.uwsm}/bin/uwsm app -- ${pkgs.steam}/bin/steam -silent")
+      end)
+    '';
 
     xdg.dataFile = {
       # install LSFG vulkan layer

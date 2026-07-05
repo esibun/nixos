@@ -1,4 +1,4 @@
-{pkgs, ...}:
+{pkgs, lib, ...}:
 
 {
   imports = [
@@ -23,25 +23,63 @@
     username = "esi";
   };
 
-  wayland.windowManager.hyprland.settings = {
-    monitor = [
-      "DP-1, 3840x2160@240, 0x0, 1, vrr, 1"
-      "DP-2, 3840x2160@144, 3840x-200, 1.5, vrr, 1"
-      "HDMI-A-1, 1920x1080@60, 0x0, 1"
-    ];
-    exec = [
-      "${pkgs.uwsm}/bin/uwsm app -- ${pkgs.kdePackages.kdeconnect-kde}/bin/kdeconnect-indicator"
-    ];
-    input = {
-      sensitivity = -0.333;
-      accel_profile = "flat";
+  wayland.windowManager.hyprland = {
+    extraConfig = lib.mkAfter ''
+      hl.on("config.reloaded", function()
+        hl.dsp.exec_cmd("${pkgs.uwsm}/bin/uwsm app -- ${pkgs.kdePackages.kdeconnect-kde}/bin/kdeconnect-indicator")
+      end)
+    '';
+    settings = {
+      config = {
+        input = {
+          sensitivity = -0.333;
+          accel_profile = "flat";
+        };
+      };
+      monitor = [
+        {
+          output = "DP-1";
+          mode = "3840x2160@240";
+          position = "0x0";
+          scale = 1;
+          vrr = 1;
+        }
+        {
+          output = "DP-2";
+          mode = "3840x2160@144";
+          position = "3840x-200";
+          scale = 1.5;
+          vrr = 1;
+        }
+        {
+          output = "HDMI-A-1";
+          mode = "1920x1080@60";
+          position = "0x0";
+          scale = 1;
+        }
+      ];
+      workspace_rule = [
+        {
+          workspace = 1;
+          monitor = "DP-1";
+        }
+        {
+          workspace = 2;
+          monitor = "DP-2";
+        }
+        {
+          workspace = 3;
+          monitor = "DP-2";
+        }
+        {
+          workspace = 4;
+          monitor = "DP-2";
+        }
+        {
+          workspace = 5;
+          monitor = "DP-2";
+        }
+      ];
     };
-    workspace = [
-      "1, monitor:DP-1"
-      "2, monitor:DP-2"
-      "3, monitor:DP-2"
-      "4, monitor:DP-2"
-      "5, monitor:DP-2"
-    ];
   };
 }

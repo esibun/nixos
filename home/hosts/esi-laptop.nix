@@ -20,24 +20,49 @@
     username = "esi";
   };
 
-  wayland.windowManager.hyprland.settings = {
-    monitor = [
-      "eDP-2, preferred, auto, 1, vrr, 0"
-    ];
-    bind = [
-      ", XF86MonBrightnessUp, exec, ${pkgs.brightnessctl}/bin/brightnessctl s 10%+"
-      ", XF86MonBrightnessDown, exec, ${pkgs.brightnessctl}/bin/brightnessctl s 10%-"
-    ];
-    input = {
-      sensitivity = 0.75;
-      accel_profile = "flat";
+  wayland.windowManager.hyprland = let
+    # TODO: this isn't DRY; this really should be in a common file
+    keybind = x: {
+      _args = [
+        x.key
+      ]
+      # func is a string e.g. "dsp.focus"
+      #  translates to hl.bind("key", (dsp.focus())
+      ++ (lib.optional (builtins.isString x.func) (
+        lib.mkLuaInline ("hl." + x.func)
+      ))
+      # func = list, first elem is call, second elem is args e.g. "dsp.window.move(workspace = 1)"
+      #  translates to hl.bind("key", dsp.window.move(workspace = 1))
+      #  NOTE: use double single quotes for escaping, i.e. ''arg = "string"''
+      #  TODO: write something to properly interpret sets into arguments (lib.generators.toLua doesn't
+      #   for this since it doesn't insert commas)
+      ++ (lib.optional (builtins.isList x.func) (
+        lib.mkLuaInline ("hl." + x.func)
+      ))
+      # pass flags as-is if defined
+      ++ (lib.optional (builtins.hasAttr "flags" x) x.flags);
     };
-    workspace = [
-      "1, monitor:DP-1"
-      "2, monitor:DP-2"
-      "3, monitor:DP-2"
-      "4, monitor:DP-2"
-      "5, monitor:DP-2"
-    ];
+  in {
+    settings = {
+      config = {
+        input = {
+          sensitivity = 0.75;
+          accel_profile = "flat";
+        };
+      };
+      monitor = [
+        {
+          output = "eDP-2";
+          mode = "preferred";
+          position = "auto";
+          scale = 1;
+          vrr = 0;
+        }
+      ];
+      bind = [
+        (keybind { key = "XF86MonBrightnessUp"; func = ''dsp.exec_cmd("${pkgs.brightnessctl}/bin/brightnessctl s 10%+")''; })
+        (keybind { key = "XF86MonBrightnessDown"; func = ''dsp.exec_cmd("${pkgs.brightnessctl}/bin/brightnessctl s 10%-")''; })
+      ];
+    };
   };
 }
