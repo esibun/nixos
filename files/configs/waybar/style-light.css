@@ -39,7 +39,7 @@ window#waybar.empty {
 }
 
 .topbar {
-  border-bottom: 4.53px solid @nord4;
+  border-bottom: 4.5px solid @nord4;
 }
 
 #workspaces button {
