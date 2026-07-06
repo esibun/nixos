@@ -119,7 +119,7 @@ in
       x11.enable = true;
       package = pkgs.nordzy-cursor-theme;
       name = "Nordzy-cursors-white";
-      size = 48;
+      size = 64;
     };
   };
 
@@ -403,7 +403,7 @@ in
         hl.exec_cmd("${pkgs.uwsm}/bin/uwsm app -- ${pkgs.arrpc}/bin/arrpc")
         hl.exec_cmd("${pkgs.uwsm}/bin/uwsm app -- ${pkgs.easyeffects}/bin/easyeffects --gapplication-service")
         -- config files don't seem to actually read
-        hl.exec_cmd("${pkgs.hyprland}/bin/hyprctl setcursor Nordzy-cursors-white 48")
+        hl.exec_cmd("${pkgs.hyprland}/bin/hyprctl setcursor Nordzy-cursors-white 64")
       end)
       hl.on("config.reloaded", function()
         hl.exec_cmd("systemctl --user restart hyprpaper && systemctl --user start wallpaper-rotate")
