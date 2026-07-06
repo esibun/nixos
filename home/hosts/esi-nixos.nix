@@ -10,6 +10,12 @@
     ../profiles/vfio.nix
   ];
 
+  dconf.settings = {
+    "org/gnome/desktop/interface" = {
+      text-scaling-factor = 1.5;
+    };
+  };
+
   gamescopeFlags = "-w 3840 -h 2160 -r 480 -F fsr --hdr-enabled -f";
 
   home = {
@@ -48,7 +54,7 @@
           output = "DP-2";
           mode = "3840x2160@144";
           position = "3840x-200";
-          scale = 1.5;
+          scale = 1;
           vrr = 1;
         }
         {

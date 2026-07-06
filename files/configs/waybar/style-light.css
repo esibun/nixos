@@ -21,26 +21,17 @@
 }
 
 window * {
-  font-size: 13px;
-}
-
-window .modules-center {
-  padding: 5px 0;
-}
-
-/* scale DP-1 1.5x */
-window.DP-1 * {
   font-size: 19.5px;
 }
 
-window.DP-1 .modules-center {
+window .modules-center {
   padding: 7.5px 0;
 }
 
 window#waybar {
   background-color: @nord6;
   color: @nord0;
-  margin: 3px 0;
+  margin: 4.5px 0;
 }
 
 window#waybar.empty {
@@ -48,11 +39,11 @@ window#waybar.empty {
 }
 
 .topbar {
-  border-bottom: 3px solid @nord4;
+  border-bottom: 4.53px solid @nord4;
 }
 
 #workspaces button {
-  padding: 0 2px;
+  padding: 0 3px;
   border: 0;
   background-color: transparent;
   color: @nord0;
@@ -67,7 +58,7 @@ window#waybar.empty {
 }
 
 #workspaces button.urgent {
-  box-shadow: inset 0 -3px @nord4;
+  box-shadow: inset 0 -4.5px @nord4;
   background-color: @nord8;
 }
 
@@ -76,6 +67,6 @@ window#waybar.empty {
 #custom-weather,
 #pulseaudio,
 #tray {
-  padding: 0 6px;
+  padding: 0 9px;
   color: @nord0;
 }

@@ -31,7 +31,7 @@ config.font = wezterm.font_with_fallback({
     family = "Font Awesome 5 Brands"
   },
 })
-config.font_size = 10.0
+config.font_size = 15.0
 
 -- Key Binding
 config.keys = {

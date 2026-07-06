@@ -41,7 +41,7 @@
             }
         },
         "privacy": {
-            "icon-size": 12,
+            "icon-size": 27,
             "ignore-monitor": false,
             "modules": [
             {
@@ -54,6 +54,9 @@
                 "type": "audio-in"
             }
             ]
+        },
+        "tray": {
+            "icon-size": 27
         },
         "clock": {
             /* note: padding modifiers don't work despite docs saying they do (Waybar#1447) */
