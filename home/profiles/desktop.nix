@@ -96,7 +96,22 @@ in
       onlyoffice-desktopeditors
 
       # Social Media
-      (unstable.equibop.overrideAttrs (final: prev: {
+      (unstable.equibop.overrideAttrs (final: prev: rec {
+        # UGLY HACK ALERT (remove all this garbage after nixpkgs updates to 3.2.1)
+        node-modules = unstable.equibop.node-modules.overrideAttrs (final: prev: {
+            patches = [
+              ../../files/equibop-update-arrpc.patch
+            ];
+            outputHash = "sha256-J0cTZrMNVj6jL4g3DF4Y5Gji4FVuhjBp+ykpUh6+NOw=";
+          });
+        # needed so above actually applies
+        configurePhase = ''
+          runHook preConfigure
+
+          cp -R ${node-modules} node_modules
+
+          runHook postConfigure
+        '';
         patches = unstable.equibop.patches ++ [
           ../../files/equibop-cam-patch.patch
         ];
