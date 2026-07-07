@@ -33,6 +33,7 @@ in
         recursive = true;
       };
 
+      ".config/arrpc/detectable_fixes.json".source = ../../files/detectable_fixes.json;
       ".config/boorupaper/boorupaper.conf".source = ../../files/configs/boorupaper.conf;
       ".config/rofi/config.rasi".source = "${inputs.rofi-adi1090x}/files/launchers/type-1/style-5.rasi";
       ".config/rofi/shared/colors.rasi".source = ../../files/configs/rofi/shared/colors.rasi;
@@ -95,11 +96,11 @@ in
       onlyoffice-desktopeditors
 
       # Social Media
-      arrpc # equibop dependency
       (unstable.equibop.overrideAttrs (final: prev: {
         patches = unstable.equibop.patches ++ [
           ../../files/equibop-cam-patch.patch
         ];
+        postFixup = builtins.replaceStrings ["app.asar \\"] ["app.asar \\\n--set ARRPC_DATA_DIR ${config.home.homeDirectory}/.config/arrpc \\"] prev.postFixup;
       }))
 
       # Utilities
