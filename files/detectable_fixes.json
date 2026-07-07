@@ -8,5 +8,16 @@
         "os": "win32"
       }
     ]
+  },
+  {
+    "id": "beatoraja",
+    "name": "Beatoraja",
+    "executables": [
+      {
+        "is_launcher": false,
+        "name": "jre-new/bin/java",
+        "os": "linux"
+      }
+    ]
   }
 ]
