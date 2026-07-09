@@ -548,13 +548,6 @@ in
           };
           rounding = 0;
         }
-        # center all floating windows
-        {
-          match = {
-            float = true;
-          };
-          center = true;
-        }
       ];
     };
     systemd.enable = false; # conflicts with uwsm
