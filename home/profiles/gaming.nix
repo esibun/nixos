@@ -118,7 +118,7 @@ in
             # --------
             cd $HOME/.local/share/games/wuwa/game/Wuthering\ Waves
             # switch to latest game data directory
-            cd $(ls -td -- *.*/ | head -n1)
+            cd $(ls -rvtd -- *.*/ | head -n1)
             mkdir -p ${config.home.homeDirectory}/.local/share/games/wuwa/backup
             NOT_PATCHED=$(strings launcher_main.dll | grep AllowsTransparency | wc -l)
             if [ $NOT_PATCHED -gt 0 ]; then
