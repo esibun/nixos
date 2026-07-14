@@ -39,26 +39,6 @@
         "type": "github"
       }
     },
-    "dwproton": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1783901888,
-        "narHash": "sha256-wVDguGi6lAInnCFUKcO0a1JEqNVixsQQZgi2VnLAVaA=",
-        "owner": "imaviso",
-        "repo": "dwproton-flake",
-        "rev": "02ccde54467590d0776bddea8e346c09e9295d6b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "imaviso",
-        "repo": "dwproton-flake",
-        "type": "github"
-      }
-    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -253,7 +233,6 @@
       "inputs": {
         "agenix": "agenix",
         "boorupaper": "boorupaper",
-        "dwproton": "dwproton",
         "home-manager": "home-manager_2",
         "nix-flatpak": "nix-flatpak",
         "nix-index-database": "nix-index-database",
