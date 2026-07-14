@@ -59,7 +59,7 @@ in
         useUmu = true;
         scriptPre = "export GAMESCOPE_ENABLE_WSI=0"; # required for lsvk support
         extraGamescopeFlags = "--force-grab-cursor"; # prevent cursor getting stuck at edge of screen and preventing camera movement
-        customProtonPath = compatTool inputs.dwproton.packages.${system}.dw-proton;
+        customProtonPath = compatTool pkgs.unstable.dwproton-bin;
       })
       (callPackage ../pkgs/wine-game.nix {
         title = "Girls' Frontline 2: Exilium";
@@ -98,7 +98,7 @@ in
         icon = icons.nte;
         useUmu = true;
         extraGamescopeFlags = "--force-grab-cursor"; # prevent cursor getting stuck at edge of screen and preventing camera movement
-        customProtonPath = compatTool inputs.dwproton.packages.${system}.dw-proton;
+        customProtonPath = compatTool pkgs.unstable.dwproton-bin;
       })
       (callPackage ../pkgs/wine-game.nix {
         title = "Wuthering Waves";
