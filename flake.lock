@@ -26,11 +26,11 @@
     "boorupaper": {
       "flake": false,
       "locked": {
-        "lastModified": 1784477703,
-        "narHash": "sha256-xOiqbmIz4hsTsmbG7uXFoNLpsdGp0lLZKgaDTkyxvf4=",
+        "lastModified": 1784747050,
+        "narHash": "sha256-R6NLK4XwY8wBP70Dzm4uqUUEqFHTZpLv/QSLAGP2y/E=",
         "owner": "awtawsif",
         "repo": "boorupaper",
-        "rev": "9d26e2e63fbe48493c2230966136c8afc4369001",
+        "rev": "93eb18b8436aba8185b382c0d9a06c1e8da33882",
         "type": "github"
       },
       "original": {
@@ -122,11 +122,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1784310968,
-        "narHash": "sha256-rkSPTePrKqs4dg+i7ZFCq93+HrClac6oSwXX927SVjA=",
+        "lastModified": 1784723954,
+        "narHash": "sha256-1CfD8ZUjCkTgjsneLZ/lxCHhgDfqxxE7/GX0MmsgiqA=",
         "owner": "nixos",
         "repo": "nixos-hardware",
-        "rev": "779c32a00155994c86cde8213a8dd4df139d4355",
+        "rev": "a017f5b72210026af5b3ac5949f08d94380a6fbd",
         "type": "github"
       },
       "original": {
