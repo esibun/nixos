@@ -239,9 +239,15 @@ in
         };
         Service = {
           Type = "simple";
-          ExecStartPre = "${pkgs.systemd}/bin/systemctl --user start hypridle";
+          ExecStartPre = [
+            "${pkgs.systemd}/bin/systemctl --user start hypridle"
+            "${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ on"
+          ];
           ExecStart = "${pkgs.hyprlock}/bin/hyprlock";
-          ExecStopPost = "${pkgs.systemd}/bin/systemctl --user stop hypridle";
+          ExecStopPost = [
+            "${pkgs.systemd}/bin/systemctl --user stop hypridle"
+            "${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ off"
+          ];
         };
       };
       hyprlock-recover = {
