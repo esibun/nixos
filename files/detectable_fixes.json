@@ -1,5 +1,15 @@
 [
   {
+    "id": "1441993124996972685",
+    "executables": [
+      {
+        "is_launcher": false,
+        "name": "arknights_en/arknights.exe",
+        "os": "win32"
+      }
+    ]
+  },
+  {
     "id": "1339098696419246110",
     "executables": [
       {
