@@ -10,6 +10,10 @@ let
     script = ../../files/scripts/swaymode.py;
   };
   icons = {
+    arknights = pkgs.fetchurl {
+      url = "https://cdn2.steamgriddb.com/icon/7298332f04ac004a0ca44cc69ecf6f6b.png";
+      hash = "sha256-PEI6T6O6ln++zEyb9TaKnPbqzaghB7bqnBBymL+Rhhk=";
+    };
     endfield = pkgs.fetchurl {
       url = "https://cdn2.steamgriddb.com/icon/a2959d14ad418268c4ecf73fb183ab8f.png";
       hash = "sha256-H9HZYjshD350cUMghf7OlFjX8FXvoQug4fRl4HgB89U=";
@@ -47,6 +51,19 @@ in
       # Games
       ares
       prismlauncher
+
+      (callPackage ../pkgs/wine-game.nix {
+        title = "Arknights";
+        baseDir = "${config.home.homeDirectory}/.local/share/games/arknights";
+        shortname = "arknights";
+        # provisional URL
+        installerUrl = "https://launcher-pkg-ark-en.yo-star.com/install_pkg/game_launcher/Arknights_EN/Arknights_EN_Gamelauncher-1.8.1-setup.exe";
+        mainBinary = "YostarGames/Arknights_EN/Arknights.exe";
+        launcherBinary = "YostarGames/Arknights_EN_Gamelauncher/Arknights_EN_Gamelauncher.exe";
+        icon = icons.arknights;
+        useUmu = true;
+        customProtonPath = compatTool pkgs.unstable.dwproton-bin; # unknown if we need dwproton yet
+      })
 
       (callPackage ../pkgs/wine-game.nix {
         title = "Arknights: Endfield";
