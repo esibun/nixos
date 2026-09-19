@@ -98,67 +98,6 @@ in
         ];
         customProtonPath = compatTool pkgs.unstable.dwproton-bin;
       })
-      (callPackage ../pkgs/wine-game.nix {
-        title = "Neverness to Everness";
-        baseDir = "${config.home.homeDirectory}/.local/share/games/nte";
-        shortname = "nte";
-        installerUrl = "https://ntecdn1.perfectworld.com/clientRes/installer-Global/YH_Singapore_common_setup_1.0.6.0423_20260424.exe";
-        launcherBinary = "Neverness To Everness/NTEGlobalLauncher.exe";
-        mainBinary = "Neverness To Everness/NTEGlobalLauncher.exe";
-        gamePostfix = "/autoplay";
-        icon = icons.nte;
-        useUmu = true;
-        extraGamescopeFlags = "--force-grab-cursor"; # prevent cursor getting stuck at edge of screen and preventing camera movement
-        customProtonPath = compatTool pkgs.unstable.dwproton-bin;
-      })
-      (callPackage ../pkgs/wine-game.nix {
-        title = "Wuthering Waves";
-        baseDir = "${config.home.homeDirectory}/.local/share/games/wuwa";
-        shortname = "wuwa";
-        # Unfortunately WuWa's website uses complicated javascript+JSON to grab the download URL, there is no simple URL redirect
-        installerUrl = "https://mirrors-package-mc.aki-game.net/client/download/20260423185747_sepu4waAMJhWDkBjgS/WutheringWaves_overseas_setup_2.6.1.0.exe";
-        launcherBinary = "Wuthering Waves/launcher.exe";
-        mainBinary = "Wuthering Waves/Wuthering Waves Game/Wuthering Waves.exe";
-        scriptPre = "${pkgs.writeTextFile {
-          name = "ensure-wuwa-patches";
-          text = ''
-            #!/usr/bin/env bash
-
-            # --------
-            # Patch launcher appearing fully transparent
-            # --------
-            cd $HOME/.local/share/games/wuwa/game/Wuthering\ Waves
-            # switch to latest game data directory
-            cd $(ls -rvtd -- *.*/ | head -n1)
-            mkdir -p ${config.home.homeDirectory}/.local/share/games/wuwa/backup
-            NOT_PATCHED=$(strings launcher_main.dll | grep AllowsTransparency | wc -l)
-            if [ $NOT_PATCHED -gt 0 ]; then
-              mv launcher_main.dll launcher_main.dll.bak
-              ${pkgs.bbe}/bin/bbe -e "s/\x12AllowsTransparency/\x09IsEnabled\x1bA\x00\x03AAAAA/" launcher_main.dll.bak > launcher_main.dll
-              mv launcher_main.dll.bak ${config.home.homeDirectory}/.local/share/games/wuwa/backup/launcher_main.dll
-            fi
-
-            # -------
-            # Prevent one-time disconnect at around 10 minutes
-            # -------
-            cd $HOME/.local/share/games/wuwa/game/Wuthering\ Waves/Wuthering\ Waves\ Game/Client/Binaries/Win64/ThirdParty/KrPcSdk_Global/KRSDKRes
-            NOT_PATCHED=$(strings KRSDK.bin | grep "KR_ChannelID=240" | wc -l)
-            if [ $NOT_PATCHED -gt 0 ]; then
-              mv KRSDK.bin KRSDK.bin.bak
-              ${pkgs.bbe}/bin/bbe -e "s/KR_ChannelID=240/KR_ChannelID=205/" KRSDK.bin.bak > KRSDK.bin
-              mv KRSDK.bin.bak ${config.home.homeDirectory}/.local/share/games/wuwa/backup/KRSDK.bin
-            fi
-          '';
-          executable = true;
-          destination = "/bin/ensure-wuwa-patches";
-        }}/bin/ensure-wuwa-patches"; # patch out AllowTransparency as this bugs out launcher window; see jadeite#69
-        commandPrefix = "env SteamOS=1"; # inform wuwa ac we're on linux
-        gamePostfix = "-dx11"; # use dx11 (better performance)
-        icon = icons.wuwa;
-        useUmu = true;
-        extraGamescopeFlags = "--force-grab-cursor"; # prevent cursor getting stuck at edge of screen and preventing camera movement
-        customProtonPath = compatTool pkgs.unstable.proton-ge-bin; # normal proton doesn't have correct codec for videos
-      })
 
       # Game Tools
       gamescope
