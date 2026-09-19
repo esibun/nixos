@@ -66,6 +66,7 @@ in
       libraries = with pkgs; [
         (pkgs.runCommand "steamrun-lib" {} "mkdir $out; ln -s ${pkgs.steam-run.fhsenv}/usr/lib64 $out/lib")
         (pkgs.runCommand "appimgrun-lib" {} "mkdir $out; ln -s ${pkgs.appimage-run.fhsenv}/usr/lib64 $out/lib")
+        glew # for xsanity
       ];
     };
   };
