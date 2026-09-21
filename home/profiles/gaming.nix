@@ -98,6 +98,43 @@ in
         ];
         customProtonPath = compatTool pkgs.unstable.dwproton-bin;
       })
+      (callPackage ../pkgs/wine-game.nix {
+        title = "Wuthering Waves";
+        baseDir = "${config.home.homeDirectory}/.local/share/games/wuwa";
+        shortname = "wuwa";
+        # Unfortunately WuWa's website uses complicated javascript+JSON to grab the download URL, there is no simple URL redirect
+        installerUrl = "https://mirrors-package-mc.aki-game.net/client/download/20260423185747_sepu4waAMJhWDkBjgS/WutheringWaves_overseas_setup_2.6.1.0.exe";
+        launcherBinary = "Wuthering Waves/launcher.exe";
+        mainBinary = "Wuthering Waves/Wuthering Waves Game/Wuthering Waves.exe";
+        scriptPre = "${pkgs.writeTextFile {
+          name = "ensure-wuwa-patches";
+          text = ''
+            #!/usr/bin/env bash
+
+            # --------
+            # Patch launcher appearing fully transparent
+            # --------
+            cd $HOME/.local/share/games/wuwa/game/Wuthering\ Waves
+            # switch to latest game data directory
+            cd $(ls -rtvd -- *.*/ | head -n1)
+            mkdir -p ${config.home.homeDirectory}/.local/share/games/wuwa/backup
+            NOT_PATCHED=$(strings launcher_main.dll | grep AllowsTransparency | wc -l)
+            if [ $NOT_PATCHED -gt 0 ]; then
+              mv launcher_main.dll launcher_main.dll.bak
+              ${pkgs.bbe}/bin/bbe -e "s/\x12AllowsTransparency/\x09IsEnabled\x1bA\x00\x03AAAAA/" launcher_main.dll.bak > launcher_main.dll
+              mv launcher_main.dll.bak ${config.home.homeDirectory}/.local/share/games/wuwa/backup/launcher_main.dll
+            fi
+          '';
+          executable = true;
+          destination = "/bin/ensure-wuwa-patches";
+        }}/bin/ensure-wuwa-patches"; # patch out AllowTransparency as this bugs out launcher window; see jadeite#69
+        commandPrefix = "env UMU_USE_STEAM=1"; # tell UMU to use steam to get the game's AC to run
+        gamePostfix = "-ForceEnableCSharpEnvironment"; # use dx11 (better performance)
+        icon = icons.wuwa;
+        useUmu = true;
+        extraGamescopeFlags = "--force-grab-cursor"; # prevent cursor getting stuck at edge of screen and preventing camera movement
+        customProtonPath = compatTool pkgs.unstable.dwproton-bin; # normal proton doesn't have correct codec for videos
+      })
 
       # Game Tools
       gamescope
