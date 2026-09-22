@@ -52,6 +52,9 @@ in
       ares
       prismlauncher
 
+      # Arknights
+      #
+      # No issues to report, it just works!
       (callPackage ../pkgs/wine-game.nix {
         title = "Arknights";
         baseDir = "${config.home.homeDirectory}/.local/share/games/arknights";
@@ -62,9 +65,12 @@ in
         launcherBinary = "YostarGames/Arknights_EN_Gamelauncher/Arknights_EN_Gamelauncher.exe";
         icon = icons.arknights;
         useUmu = true;
-        customProtonPath = compatTool pkgs.unstable.dwproton-bin; # unknown if we need dwproton yet
+        customProtonPath = compatTool pkgs.unstable.dwproton-bin; # game has no AC issues, can use any version of proton here
       })
 
+      # Arknights: Endfield
+      #
+      # This game uses ACE, getting it to run requires workarounds.  Just use DWproton, they support the calls required to get everything working.
       (callPackage ../pkgs/wine-game.nix {
         title = "Arknights: Endfield";
         baseDir = "${config.home.homeDirectory}/.local/share/games/endfield";
@@ -76,8 +82,13 @@ in
         useUmu = true;
         scriptPre = "export GAMESCOPE_ENABLE_WSI=0"; # required for lsvk support
         extraGamescopeFlags = "--force-grab-cursor"; # prevent cursor getting stuck at edge of screen and preventing camera movement
-        customProtonPath = compatTool pkgs.unstable.dwproton-bin;
+        customProtonPath = compatTool pkgs.unstable.dwproton-bin; # game uses ACE, dwproton recommended
       })
+
+      # Girls' Frontline 2: Exilium
+      #
+      # No issues to report, it just works!  I have had issues with proton 10, but it looks like those issues have been resolved by Proton.
+      # The extraLib here is a NixOS issue - proton doesn't properly inject gstreamer dependencies to play the intro video so we have to fix it ourselves.
       (callPackage ../pkgs/wine-game.nix {
         title = "Girls' Frontline 2: Exilium";
         baseDir = "${config.home.homeDirectory}/.local/share/games/gfl2";
@@ -96,14 +107,26 @@ in
           freetype
           harfbuzz
         ];
-        customProtonPath = compatTool pkgs.unstable.dwproton-bin;
+        customProtonPath = compatTool pkgs.unstable.dwproton-bin; # game has no AC issues, can use any version of proton here
       })
+
+      # Wuthering Waves
+      #
+      # This game does run on linux, but has a decent number of compatibility issues.
+      # Firstly, launcher will go full transparent - the patch below should solve that issue without needing to manually patch anything.
+      # Secondly, login is a separate webview window; gamescope will cause the window to go black if enabled so we disable gamescope.
+      #  Hyprland loves to flicker the windows - ideally a window rule would fix this but it doesn't look like there is any unique
+      #   identifier that we can use to identify the window to apply float to.  Instead, float the window (alt+shift+space) to fix the
+      #   flickering.
+      #
+      # There used to be a disconnection issue with the standalone client but I believe that is actually resolved so that patch has been
+      #  removed as unnecessary.
       (callPackage ../pkgs/wine-game.nix {
         title = "Wuthering Waves";
         baseDir = "${config.home.homeDirectory}/.local/share/games/wuwa";
         shortname = "wuwa";
         # Unfortunately WuWa's website uses complicated javascript+JSON to grab the download URL, there is no simple URL redirect
-        installerUrl = "https://mirrors-package-mc.aki-game.net/client/download/20260423185747_sepu4waAMJhWDkBjgS/WutheringWaves_overseas_setup_2.6.1.0.exe";
+        installerUrl = "https://mirrors-package-mc.aki-game.net/client/download/20260812144849_xsp8mKAA2em6Mr6dgd/WutheringWaves_overseas_setup_2.6.5.0.exe";
         launcherBinary = "Wuthering Waves/launcher.exe";
         mainBinary = "Wuthering Waves/Wuthering Waves Game/Wuthering Waves.exe";
         scriptPre = "${pkgs.writeTextFile {
@@ -128,12 +151,12 @@ in
           executable = true;
           destination = "/bin/ensure-wuwa-patches";
         }}/bin/ensure-wuwa-patches"; # patch out AllowTransparency as this bugs out launcher window; see jadeite#69
-        commandPrefix = "env UMU_USE_STEAM=1"; # tell UMU to use steam to get the game's AC to run
-        gamePostfix = "-ForceEnableCSharpEnvironment"; # use dx11 (better performance)
+        commandPrefix = "env UMU_USE_STEAM=1"; # tell UMU to use steam to get the game's AC to run correctly
+        gamePostfix = "-ForceEnableCSharpEnvironment"; # Force opt-in to the CSharp rewrite (helps with stuttering)
         icon = icons.wuwa;
         useUmu = true;
-        useGamescope = false; # webview loves to break gamescope for this game
-        customProtonPath = compatTool pkgs.unstable.dwproton-bin; # normal proton doesn't have correct codec for videos
+        useGamescope = false; # any webview window will completely break gamescope and make everything go black; also possible steam input latency after a delay
+        customProtonPath = compatTool pkgs.unstable.dwproton-bin; # normal proton doesn't have correct codec for videos. game uses ACE, dwproton recommended
       })
 
       # Game Tools
