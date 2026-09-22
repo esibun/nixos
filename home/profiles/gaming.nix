@@ -222,11 +222,25 @@ in
       };
     };
 
-    wayland.windowManager.hyprland.extraConfig = lib.mkAfter ''
-      hl.on("config.reloaded", function()
-        hl.exec_cmd("pidof steam || ${pkgs.uwsm}/bin/uwsm app -- ${pkgs.steam}/bin/steam -silent")
-      end)
-    '';
+    wayland.windowManager.hyprland = {
+      extraConfig = lib.mkAfter ''
+        hl.on("config.reloaded", function()
+          hl.exec_cmd("pidof steam || ${pkgs.uwsm}/bin/uwsm app -- ${pkgs.steam}/bin/steam -silent")
+        end)
+      '';
+      settings.window_rule = [
+        # Open windows on workspace 1 from steam that aren't fullscreened as not floating, maximized (fixes wuwa)
+        {
+          match = {
+            fullscreen_state_client = 0;
+            initial_class = "steam_app_0";
+            workspace = 1;
+          };
+          float = 0;
+          fullscreen_state = 2;
+        }
+      ];
+    };
 
     xdg.dataFile = {
       # install LSFG vulkan layer
