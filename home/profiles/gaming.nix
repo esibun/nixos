@@ -132,7 +132,7 @@ in
         gamePostfix = "-ForceEnableCSharpEnvironment"; # use dx11 (better performance)
         icon = icons.wuwa;
         useUmu = true;
-        extraGamescopeFlags = "--force-grab-cursor"; # prevent cursor getting stuck at edge of screen and preventing camera movement
+        useGamescope = false; # webview loves to break gamescope for this game
         customProtonPath = compatTool pkgs.unstable.dwproton-bin; # normal proton doesn't have correct codec for videos
       })
 
