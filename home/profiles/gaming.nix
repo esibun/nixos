@@ -65,6 +65,7 @@ in
         launcherBinary = "YostarGames/Arknights_EN_Gamelauncher/Arknights_EN_Gamelauncher.exe";
         icon = icons.arknights;
         useUmu = true;
+        useGamescope = false; # attempting to fix random client crashes
         customProtonPath = compatTool pkgs.unstable.dwproton-bin; # game has no AC issues, can use any version of proton here
       })
 
