@@ -181,7 +181,13 @@ in
       enable = true;
       package = pkgs.unstable.obs-studio;
       plugins = with pkgs.unstable.obs-studio-plugins; [
-        obs-composite-blur
+        (obs-composite-blur.overrideAttrs(final: prev: {
+          patches = pkgs.fetchpatch {
+            # temp: fixes 1.5.2 build until point release is made
+            url = "https://github.com/FiniteSingularity/obs-composite-blur/commit/4773875d2ac1335f752b31ca4fb16229bff1a4aa.patch";
+            hash = "sha256-V9Mt48a4dALX3t4nXz45tNtKrlEgznjdyPeXYPMpGno=";
+          };
+        }))
         obs-pipewire-audio-capture
         obs-vkcapture
         wlrobs
