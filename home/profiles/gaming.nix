@@ -111,55 +111,6 @@ in
         customProtonPath = compatTool pkgs.unstable.dwproton-bin; # game has no AC issues, can use any version of proton here
       })
 
-      # Wuthering Waves
-      #
-      # This game does run on linux, but has a decent number of compatibility issues.
-      # Firstly, launcher will go full transparent - the patch below should solve that issue without needing to manually patch anything.
-      # Secondly, login is a separate webview window; gamescope will cause the window to go black if enabled so we disable gamescope.
-      #  Hyprland loves to flicker the windows - ideally a window rule would fix this but it doesn't look like there is any unique
-      #   identifier that we can use to identify the window to apply float to.  Instead, float the window (alt+shift+space) to fix the
-      #   flickering.
-      #
-      # There used to be a disconnection issue with the standalone client but I believe that is actually resolved so that patch has been
-      #  removed as unnecessary.
-      (callPackage ../pkgs/wine-game.nix {
-        title = "Wuthering Waves";
-        baseDir = "${config.home.homeDirectory}/.local/share/games/wuwa";
-        shortname = "wuwa";
-        # Unfortunately WuWa's website uses complicated javascript+JSON to grab the download URL, there is no simple URL redirect
-        installerUrl = "https://mirrors-package-mc.aki-game.net/client/download/20260812144849_xsp8mKAA2em6Mr6dgd/WutheringWaves_overseas_setup_2.6.5.0.exe";
-        launcherBinary = "Wuthering Waves/launcher.exe";
-        mainBinary = "Wuthering Waves/Wuthering Waves Game/Wuthering Waves.exe";
-        scriptPre = "${pkgs.writeTextFile {
-          name = "ensure-wuwa-patches";
-          text = ''
-            #!/usr/bin/env bash
-
-            # --------
-            # Patch launcher appearing fully transparent
-            # --------
-            cd $HOME/.local/share/games/wuwa/game/Wuthering\ Waves
-            # switch to latest game data directory
-            cd $(ls -rtvd -- *.*/ | head -n1)
-            mkdir -p ${config.home.homeDirectory}/.local/share/games/wuwa/backup
-            NOT_PATCHED=$(strings launcher_main.dll | grep AllowsTransparency | wc -l)
-            if [ $NOT_PATCHED -gt 0 ]; then
-              mv launcher_main.dll launcher_main.dll.bak
-              ${pkgs.bbe}/bin/bbe -e "s/\x12AllowsTransparency/\x09IsEnabled\x1bA\x00\x03AAAAA/" launcher_main.dll.bak > launcher_main.dll
-              mv launcher_main.dll.bak ${config.home.homeDirectory}/.local/share/games/wuwa/backup/launcher_main.dll
-            fi
-          '';
-          executable = true;
-          destination = "/bin/ensure-wuwa-patches";
-        }}/bin/ensure-wuwa-patches"; # patch out AllowTransparency as this bugs out launcher window; see jadeite#69
-        commandPrefix = "env UMU_USE_STEAM=1"; # tell UMU to use steam to get the game's AC to run correctly
-        gamePostfix = "-ForceEnableCSharpEnvironment"; # Force opt-in to the CSharp rewrite (helps with stuttering)
-        icon = icons.wuwa;
-        useUmu = true;
-        useGamescope = false; # any webview window will completely break gamescope and make everything go black; also possible steam input latency after a delay
-        customProtonPath = compatTool pkgs.unstable.dwproton-bin; # normal proton doesn't have correct codec for videos. game uses ACE, dwproton recommended
-      })
-
       # Game Tools
       gamescope
       gamescope-wsi
