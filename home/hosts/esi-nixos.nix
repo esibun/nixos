@@ -52,17 +52,11 @@
           vrr = 1;
         }
         {
-          output = "DP-2";
+          output = "HDMI-A-1";
           mode = "3840x2160@144";
           position = "3840x-200";
           scale = 1;
           vrr = 1;
-        }
-        {
-          output = "HDMI-A-1";
-          mode = "1920x1080@60";
-          position = "0x0";
-          scale = 1;
         }
       ];
       workspace_rule = [

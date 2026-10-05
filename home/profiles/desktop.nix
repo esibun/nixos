@@ -196,12 +196,7 @@ in
       enable = true;
       setAsDefaultBrowser = true;
 
-      profiles.default.sine = {
-        enable = true;
-        mods = [
-          "Zen-Tidy-Tabs"
-        ];
-      };
+      profiles.default.sine.enable = true;
     };
   };
 
