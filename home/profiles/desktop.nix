@@ -9,6 +9,7 @@ in
 {
   imports = [
     inputs.nix-flatpak.homeManagerModules.nix-flatpak
+    inputs.zen-browser.homeModules.beta
   ];
 
   fonts = {
@@ -80,9 +81,6 @@ in
       noto-fonts-color-emoji
       ttf_bitstream_vera # to fix certain emoji
       unifont
-
-      # Browser
-      unstable.firefox # follow unstable, Twitch requires it
 
       # Command Prompt
       wezterm
@@ -193,6 +191,17 @@ in
         wlrobs
         looking-glass-obs
       ];
+    };
+    zen-browser = {
+      enable = true;
+      setAsDefaultBrowser = true;
+
+      profiles.default.sine = {
+        enable = true;
+        mods = [
+          "Zen-Tidy-Tabs"
+        ];
+      };
     };
   };
 
