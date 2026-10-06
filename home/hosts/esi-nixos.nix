@@ -66,19 +66,19 @@
         }
         {
           workspace = 2;
-          monitor = "DP-2";
+          monitor = "HDMI-A-1";
         }
         {
           workspace = 3;
-          monitor = "DP-2";
+          monitor = "HDMI-A-1";
         }
         {
           workspace = 4;
-          monitor = "DP-2";
+          monitor = "HDMI-A-1";
         }
         {
           workspace = 5;
-          monitor = "DP-2";
+          monitor = "HDMI-A-1";
         }
       ];
     };
