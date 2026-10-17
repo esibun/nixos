@@ -54,6 +54,11 @@
       flake = false;
     };
 
+    endfield-wine-crossover = {
+      url = "github:/mary-ext/crossover-wine-endfield";
+      flake = false;
+    };
+
     rofi-adi1090x = {
       url = "github:adi1090x/rofi";
       flake = false;

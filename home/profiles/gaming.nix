@@ -77,10 +77,28 @@ in
         shortname = "endfield";
         installerUrl = "https://launcher.gryphline.com/launcher/get_latest_launcher?appcode=TiaytKBUIEdoEwRT&ta=endfield&channel=6&sub_channel=6";
         launcherBinary = "GRYPHLINK/Launcher.exe";
-        mainBinary = "Arknights Endfield/Endfield.exe";
+        mainBinary = "direct-launch.exe";
         icon = icons.endfield;
         useUmu = true;
-        scriptPre = "export GAMESCOPE_ENABLE_WSI=0"; # required for lsvk support
+        scriptPre = "${pkgs.writeTextFile {
+          name = "ensure-endfield-patches";
+          text = ''
+            if [ ! -f "~/.local/share/games/endfield/game/direct-launch.exe" ]; then
+              cd ~/.local/share/games/endfield/game
+
+              # native cross compile packages on nixos seem broken
+              BUILDDIR=$(mktemp -d)
+              cd $BUILDDIR
+              cp ${inputs.endfield-wine-crossover}/tools/direct-launch.c $BUILDDIR
+              ${pkgs.podman}/bin/podman run -it --rm -v $BUILDDIR:/mnt devitllc/mingw-w64 /usr/local/bin/x86_64-w64-mingw32-gcc -O2 -municode -o direct-launch.exe direct-launch.c -luser32 || exit 1
+              cp $BUILDDIR/direct-launch.exe ~/.local/share/games/endfield/game/
+            fi
+          '';
+          executable = true;
+          destination = "/bin/ensure-endfield-patches";
+        }}/bin/ensure-endfield-patches || exit 1";
+        # TODO: Autodetect launcher version - probably better done as a direct-launch patch
+        gamePostfix = ''--launcher "Z:\home\esi\.local\share\games\endfield\game\GRYPHLINK\1.6.0\Games.exe" --game-dir "Z:\home\esi\.local\share\games\endfield\game\Arknights Endfield"'';
         extraGamescopeFlags = "--force-grab-cursor"; # prevent cursor getting stuck at edge of screen and preventing camera movement
         customProtonPath = compatTool pkgs.unstable.dwproton-bin; # game uses ACE, dwproton recommended
       })
