@@ -1,7 +1,8 @@
 name: update-flake-lock
 on:
   schedule:
-    - cron: "0 10 * * *"
+    - cron: "0 5 * * *"
+      timezone: "America/New_York"
   workflow_dispatch:
 
 jobs:
@@ -10,7 +11,7 @@ jobs:
     environment: flake-update
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@main
       - name: Add Secrets SSH Key
