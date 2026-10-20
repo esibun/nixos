@@ -1,8 +1,5 @@
 name: update-flake-lock
 on:
-  schedule:
-    - cron: "0 5 * * *"
-      timezone: "America/New_York"
   workflow_dispatch:
 
 jobs:
