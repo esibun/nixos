@@ -14,6 +14,10 @@ let
       url = "https://cdn2.steamgriddb.com/icon/7298332f04ac004a0ca44cc69ecf6f6b.png";
       hash = "sha256-PEI6T6O6ln++zEyb9TaKnPbqzaghB7bqnBBymL+Rhhk=";
     };
+    beatoraja = pkgs.fetchurl {
+      url = "https://images.sftcdn.net/images/t_app-icon-s/p/47d51c3c-7677-487a-b486-6a887aeabac2/2686950718/beatoraja-logo";
+      hash = "sha256-ZZ+A1tKk+CNT+BL8K0GHgmYURKrGqtq3pzpk0v1aZFU=";
+    };
     endfield = pkgs.fetchurl {
       url = "https://cdn2.steamgriddb.com/icon/a2959d14ad418268c4ecf73fb183ab8f.png";
       hash = "sha256-H9HZYjshD350cUMghf7OlFjX8FXvoQug4fRl4HgB89U=";
@@ -35,6 +39,7 @@ let
     gamePrefix = "${pkgs.mangohud}/bin/mangohud ${pkgs.obs-studio-plugins.obs-vkcapture}/bin/obs-gamecapture";
     inherit config;
   });
+  # convenience handler to let us specify proton tool in the same way nixpkgs uses it
   compatTool = pkg: lib.makeSearchPathOutput "steamcompattool" "" [ pkg ];
 in
 {
@@ -104,6 +109,52 @@ in
         customProtonPath = compatTool pkgs.unstable.dwproton-bin; # game uses ACE, dwproton recommended
       })
 
+      # LR2oraja
+      #
+      # Runs natively (written in Java), can have frame stutter issues if the game window isn't kept as the active window.
+      # Song management is done through Backbeat; that is installed via AppImage.
+      (let ed = inputs.lr2oraja-endlessdream-nix.packages.${system}.lr2oraja-endlessdream.overrideAttrs (final: prev:
+        rec {
+          gitsrc = fetchFromGitHub {
+            owner = "seraxis";
+            repo = "lr2oraja-endlessdream";
+            rev = "0.4.0";
+            hash = "sha256-e9yjO1jbfPKPgozlURP7Sv3ci14T/1sj+1Cl1IYQgsY=";
+          };
+          installPhase = ''
+            runHook preInstall
+            mkdir -p $out/opt/lr2oraja-endlessdream
+            mkdir -p $out/bin
+            ln -s ${prev.startupScript} $out/bin/lr2oraja-endlessdream
+            mv * $out/opt/lr2oraja-endlessdream/
+
+            cp ${prev.src} $out/opt/lr2oraja-endlessdream/lr2oraja-endlessdream.jar
+            cp -r ${gitsrc}/assets/* "$out/opt/lr2oraja-endlessdream/"
+            install -Dm644 ${prev.icon} $out/share/icons/lr2oraja-endlessdream-icon.png
+
+            wrapProgram $out/bin/lr2oraja-endlessdream \
+             --set out $out \
+             --suffix PATH : "${prev.binPath}" \
+             --prefix LD_LIBRARY_PATH : "${pkgs.addDriverRunpath.driverLink}/lib:${prev.libPath}" \
+             --prefix XDG_DATA_DIRS : ${pkgs.gtk3}/share/gsettings-schemas/* \
+
+            runHook postInstall
+          '';
+        });
+      in
+      (callPackage ../pkgs/native-game.nix {
+        title = "LR2oraja";
+        baseDir = "${config.home.homeDirectory}/.local/share/lr2oraja-endlessdream";
+        shortname = "lr2oraja";
+        useGlobalPaths = true;
+        launcherBinary = "${ed}/bin/lr2oraja-endlessdream";
+        mainBinary = "${ed}/bin/lr2oraja-endlessdream";
+        # obs-gamecapture hates injecting into opengl games for some reason, unknown reason
+        gamePrefix = "env LD_PRELOAD=$\{LD_PRELOAD\}:${pkgs.unstable.obs-studio-plugins.obs-vkcapture}/lib/obs_glcapture/libobs_glcapture.so";
+        gamePostfix = "-s";
+        icon = icons.beatoraja;
+      }))
+
       # Girls' Frontline 2: Exilium
       #
       # No issues to report, it just works!  I have had issues with proton 10, but it looks like those issues have been resolved by Proton.
@@ -151,6 +202,26 @@ in
         ];
       })
 
+      # Backbeat - used for song management for LR2oraja
+      (
+        let
+          name = "backbeat";
+        in runCommand "${name}" {
+          nativeBuildInputs = [ makeWrapper ];
+          meta = {
+            mainProgram = "${name}";
+          };
+        }
+        ''
+          mkdir -p $out/bin
+          install -m +x ${inputs.backbeat} $out/bin/${name}
+
+          # appimage-run fails under native wayland
+          wrapProgram $out/bin/${name} \
+          --add-flag ${pkgs.appimage-run}/bin/appimage-run \
+          --prefix GDK_BACKEND : "x11"
+        ''
+      )
       # Utilities
       crosspipe # useful for rerouting game audio
     ];

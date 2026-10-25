@@ -6,7 +6,6 @@
 
     ../profiles/desktop.nix
     ../profiles/gaming.nix
-    ../profiles/gaming-beatoraja.nix
   ];
 
   gamescopeFlags = "-w 2560 -h 1600 -r 144 -F fsr -f";

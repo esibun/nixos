@@ -6,7 +6,6 @@
 
     ../profiles/desktop.nix
     ../profiles/gaming.nix
-    ../profiles/gaming-beatoraja.nix
     ../profiles/gaming-xsanity.nix
     ../profiles/vfio.nix
   ];

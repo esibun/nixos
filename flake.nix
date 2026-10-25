@@ -28,6 +28,11 @@
     #
     # App Level Packages
     #
+    lr2oraja-endlessdream-nix = {
+      url = "github:benjiae/lr2oraja-endlessdream-nix";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
 
     nix-index-database = {
@@ -49,6 +54,11 @@
     #
     # Non-Flake Inputs
     #
+    backbeat = {
+      url = "https://github.com/zkldi/backbeat/releases/download/v1.0.0/Backbeat_1.0.0_amd64.AppImage";
+      flake = false;
+    };
+
     boorupaper = {
       url = "github:awtawsif/boorupaper";
       flake = false;
