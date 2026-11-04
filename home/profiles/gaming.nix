@@ -106,7 +106,7 @@ in
         # TODO: Autodetect launcher version - probably better done as a direct-launch patch
         gamePostfix = ''--launcher "Z:\home\esi\.local\share\games\endfield\game\GRYPHLINK\1.6.0\Games.exe" --game-dir "Z:\home\esi\.local\share\games\endfield\game\Arknights Endfield"'';
         extraGamescopeFlags = "--force-grab-cursor"; # prevent cursor getting stuck at edge of screen and preventing camera movement
-        # dwproton 11.0-15 is broken, see dawn.wine/dwproton#84
+        # dwproton 11.0-15 is broken, see dawn.wine/dwproton#84, NixOS/nixpkgs#581490 for upstream packaging fix for root issue
         customProtonPath = compatTool (pkgs.unstable.dwproton-bin.overrideAttrs (final: prev:
           rec {
             version = "dwproton-11.0-14";
