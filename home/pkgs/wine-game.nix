@@ -29,16 +29,45 @@
   scriptPre ? "",
   gamePrefix ? "",
   gamePostfix ? "",
-  commandPostfix ? ""
+  commandPostfix ? "",
+  fileIsolation ? true
 }:
 
 let
-  umu = pkgs.umu-launcher.override {
+  umu = (pkgs.callPackage ./umu-launcher-isolhome.nix {
     # fix timezone issues in certain games
     extraProfile = ''
       unset TZ
     '';
-  };
+    extraPreBwrapCmds = if fileIsolation then ''
+      # list of directories to secure
+      ignored+=(/home /mnt)
+
+      # create fake home dir if it doesn't exist
+      ${pkgs.coreutils}/bin/mkdir -p "$HOME/.local/share/games/${shortname}/fakehome"
+
+      # bind the fake home directory
+      symlinks+=(--bind "$HOME" "$HOME/.local/share/games/${shortname}/fakehome")
+
+      # bind umu dependencies
+      symlinks+=(--bind "$HOME/.local/share/umu" "$HOME/.local/share/umu")
+
+      # check if the games directory is symlinked
+      if [ -L "$HOME/.local/share/games" ]; then
+        # bind mount the link ref to the sandbox
+        symlinks+=(--bind "$(${pkgs.coreutils}/bin/readlink -f "$HOME/.local/share/games")/${shortname}" "$(${pkgs.coreutils}/bin/readlink -f "$HOME/.local/share/games")/${shortname}")
+      fi
+
+      # and bind the real game data directory into it's proper place so the game can still run from S:/Z:
+      symlinks+=(--bind "$HOME/.local/share/games/${shortname}" "$HOME/.local/share/games/${shortname}")
+
+      echo $symlinks[@]
+
+      # cd to $HOME to avoid bwrap complaining
+      cd $HOME
+    '' else "";
+  });
+
   scope = "systemd-run --user --scope --property TimeoutStopSec=${builtins.toString stopTimeout} --unit=\"${shortname}\"";
   exeCommand = if useUmu then "umu-run" else "wine";
   gameDir = if useGlobalPaths then "" else "${baseDir}/game/";
