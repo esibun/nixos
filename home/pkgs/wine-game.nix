@@ -52,6 +52,9 @@ let
       # bind umu dependencies
       symlinks+=(--bind "$HOME/.local/share/umu" "$HOME/.local/share/umu")
 
+      # bind MangoHud so we can share config
+      symlinks+=(--bind "$HOME/.config/MangoHud" "$HOME/.config/MangoHud")
+
       # check if the games directory is symlinked
       if [ -L "$HOME/.local/share/games" ]; then
         # bind mount the link ref to the sandbox
