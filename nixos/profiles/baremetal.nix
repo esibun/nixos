@@ -24,7 +24,7 @@
     };
   };
 
-  # TODO: absolutely no idea why this suddenly broke after last flake update
+  # Hasn't been necessary for a while (since MH:Wilds release); though keeping this here just in case drivers decide to break again
   #system = {
   #  replaceDependencies.replacements = (lib.optional (pkgs.unstable.libgbm != pkgs.libgbm) [
   #    {
@@ -36,17 +36,11 @@
 
   users = {
     mutableUsers = false;
-    groups.nixbuilder = {};
     users = {
       esi = {
         isNormalUser = true;
         extraGroups = lib.mkDefault ["input" "pipewire" "video" "wheel"];
         hashedPasswordFile = config.age.secrets.esi-passwordfile.path;
-      };
-      nixbuilder = {
-        isNormalUser = true;
-        group = "nixbuilder";
-        hashedPassword = "!"; # disable the account
       };
     };
   };

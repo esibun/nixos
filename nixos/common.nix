@@ -1,15 +1,4 @@
 {lib, pkgs, inputs, config, ...}:
-let
-  # simple nixos-rebuild wrapper showing some more details
-  nr = pkgs.writeShellScriptBin "nr" ''
-    if [ $1 != "boot" ] && [ $1 != "switch" ]; then
-      exec ${pkgs.nixos-rebuild}/bin/nixos-rebuild "$@"
-    fi
-    sudo -v
-    sudo ${pkgs.nixos-rebuild}/bin/nixos-rebuild "$@" 2>&1 | ${pkgs.nix-output-monitor}/bin/nom
-    ${pkgs.coreutils-full}/bin/ls -dt /nix/var/nix/profiles/system-* | ${pkgs.coreutils-full}/bin/head -n2 | ${pkgs.coreutils-full}/bin/tac | ${pkgs.findutils}/bin/xargs ${pkgs.nvd}/bin/nvd diff
-  '';
-in
 {
   imports = [
     inputs.nix-index-database.nixosModules.nix-index
@@ -30,10 +19,7 @@ in
   };
 
   environment = {
-    pathsToLink = ["/share/fish" "/share/qemu"];
-    systemPackages = [
-      nr
-    ];
+    pathsToLink = ["/share/fish"];
   };
 
   networking = {
@@ -66,7 +52,7 @@ in
       libraries = with pkgs; [
         (pkgs.runCommand "steamrun-lib" {} "mkdir $out; ln -s ${pkgs.steam-run.fhsenv}/usr/lib64 $out/lib")
         (pkgs.runCommand "appimgrun-lib" {} "mkdir $out; ln -s ${pkgs.appimage-run.fhsenv}/usr/lib64 $out/lib")
-        glew # for xsanity
+        glew # for xsanity (TODO: can we move this to a wrapper?)
       ];
     };
   };
@@ -87,6 +73,7 @@ in
       useRoutingFeatures = "both";
     };
     udev.packages = [
+      # allow permission to write to certain usb devices (keyboard updaters, etc.)
       # see systemd#39206 - files >= 73-* don't process uaccess correctly
       (pkgs.writeTextFile {
         name = "72-global-uaccess.rules";

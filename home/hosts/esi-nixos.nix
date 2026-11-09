@@ -7,7 +7,6 @@
     ../profiles/desktop.nix
     ../profiles/gaming.nix
     ../profiles/gaming-xsanity.nix
-    ../profiles/vfio.nix
   ];
 
   dconf.settings = {
@@ -21,20 +20,13 @@
   home = {
     homeDirectory = "/home/esi";
     packages = with pkgs; [
-      fcast-receiver
       libimobiledevice
-      qbittorrent
     ];
     stateVersion = "23.11";
     username = "esi";
   };
 
   wayland.windowManager.hyprland = {
-    extraConfig = lib.mkAfter ''
-      hl.on("config.reloaded", function()
-        hl.exec_cmd("${pkgs.uwsm}/bin/uwsm app -- ${pkgs.kdePackages.kdeconnect-kde}/bin/kdeconnect-indicator")
-      end)
-    '';
     settings = {
       config = {
         input = {

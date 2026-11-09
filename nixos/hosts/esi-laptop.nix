@@ -7,6 +7,7 @@
 
   services = {
     fwupd.enable = true; # framework firmware updates through fwupd
+    # TODO: is this still necessary?
     #udev.extraRules = ''
     #  ACTION=="add", SUBSYSTEM="backlight", RUN+="${pkgs.coreutils-full}/bin/chgrp video /sys/class/backlight/%k/brightness"
     #  ACTION=="add", SUBSYSTEM="backlight", RUN+="${pkgs.coreutils-full}/bin/chmod g+w video /sys/class/backlight/%k/brightness"

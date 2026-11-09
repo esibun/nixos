@@ -51,7 +51,7 @@ in
       rofi
       seatd # fix cursor size
       ((waybar.overrideAttrs (final: prev: {
-        # pull in commit fixing hyprland lua (no release available yet)
+        # pull in commit fixing hyprland lua (0.16.0 fixes this, but not in nixpkgs yet)
         src = pkgs.fetchFromGitHub {
           owner = "Alexays";
           repo = "Waybar";
@@ -98,6 +98,7 @@ in
         patches = unstable.equibop.patches ++ [
           ../../files/equibop-cam-patch.patch
         ];
+        # apply updated game list
         postFixup = builtins.replaceStrings ["app.asar \\"] ["app.asar \\\n--set ARRPC_DATA_DIR ${config.home.homeDirectory}/.config/arrpc \\"] prev.postFixup;
       }))
 
@@ -108,7 +109,7 @@ in
       gnome-disk-utility
       grim
       nautilus
-      orca-slicer # unstable broken atm, see nixpkgs#513195
+      orca-slicer
       pavucontrol
       pulseaudio # for pactl
       slurp
@@ -132,6 +133,7 @@ in
       '';
     };
     fish = {
+      # FIXME: wrap this properly instead of this being a fish function
       shellInit = ''
         function boorupaper
           nix-shell -p curl flock jq libxml2 bash coreutils findutils gawk --command "bash ${inputs.boorupaper}/boorupaper.sh $argv"
@@ -179,17 +181,8 @@ in
       enable = true;
       package = pkgs.unstable.obs-studio;
       plugins = with pkgs.unstable.obs-studio-plugins; [
-        (obs-composite-blur.overrideAttrs(final: prev: {
-          patches = pkgs.fetchpatch {
-            # temp: fixes 1.5.2 build until point release is made
-            url = "https://github.com/FiniteSingularity/obs-composite-blur/commit/4773875d2ac1335f752b31ca4fb16229bff1a4aa.patch";
-            hash = "sha256-V9Mt48a4dALX3t4nXz45tNtKrlEgznjdyPeXYPMpGno=";
-          };
-        }))
         obs-pipewire-audio-capture
         obs-vkcapture
-        wlrobs
-        looking-glass-obs
       ];
     };
     zen-browser = {
@@ -201,12 +194,6 @@ in
   };
 
   services = {
-    flatpak = {
-      packages = [
-        "app.grayjay.Grayjay"
-      ];
-      update.onActivation = true;
-    };
     hypridle = {
       enable = true;
       settings = {
@@ -260,6 +247,7 @@ in
           ];
         };
       };
+      # TODO: is this still necessary?
       hyprlock-recover = {
         Unit = {
           Description = "Hyprlock Recovery Script";

@@ -114,7 +114,6 @@
           ./nixos/profiles/baremetal.nix
           ./nixos/profiles/desktop.nix
           ./nixos/profiles/gaming.nix
-          ./nixos/profiles/vfio.nix
           ./nixos/hosts/esi-nixos.nix
 
           inputs.home-manager.nixosModules.home-manager {
@@ -168,19 +167,6 @@
           "${inputs.secrets}/profiles/linode.nix"
 
           ./nixos/hosts/linode.nix
-        ];
-
-        specialArgs = {
-          inherit inputs;
-        };
-      };
-      esi-razer = let
-        system = "x86_64-linux";
-      in nixpkgs.lib.nixosSystem {
-        modules = commonx64Modules ++ [
-          ./nixos/profiles/baremetal.nix
-
-          ./nixos/hosts/esi-razer.nix
         ];
 
         specialArgs = {

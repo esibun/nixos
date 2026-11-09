@@ -57,6 +57,8 @@ in
       ares
       prismlauncher
 
+      # TODO: write shell script to actively update install urls automatically
+
       # Arknights
       #
       # No issues to report, it just works!
@@ -64,13 +66,12 @@ in
         title = "Arknights";
         baseDir = "${config.home.homeDirectory}/.local/share/games/arknights";
         shortname = "arknights";
-        # provisional URL
         installerUrl = "https://launcher-pkg-ark-en.yo-star.com/install_pkg/game_launcher/Arknights_EN/Arknights_EN_Gamelauncher-1.8.1-setup.exe";
         mainBinary = "YostarGames/Arknights_EN/Arknights.exe";
         launcherBinary = "YostarGames/Arknights_EN_Gamelauncher/Arknights_EN_Gamelauncher.exe";
         icon = icons.arknights;
         useUmu = true;
-        useGamescope = false; # gamescope causes random game freezing (music still plays but video is frozen in place)
+        useGamescope = false; # FIXME: gamescope causes random game freezing (music still plays but video is frozen in place)
         customProtonPath = compatTool pkgs.unstable.dwproton-bin; # game has no AC issues, can use any version of proton here
       })
 
@@ -83,7 +84,7 @@ in
         shortname = "endfield";
         installerUrl = "https://launcher.gryphline.com/launcher/get_latest_launcher?appcode=TiaytKBUIEdoEwRT&ta=endfield&channel=6&sub_channel=6";
         launcherBinary = "GRYPHLINK/Launcher.exe";
-        mainBinary = "direct-launch.exe";
+        mainBinary = "direct-launch.exe"; # bypass launcher checks by running launcher in suspended state; see below patches
         icon = icons.endfield;
         useUmu = true;
         scriptPre = "${pkgs.writeTextFile {
@@ -120,9 +121,10 @@ in
       # LR2oraja
       #
       # Runs natively (written in Java), can have frame stutter issues if the game window isn't kept as the active window.
-      # Song management is done through Backbeat; that is installed via AppImage.
+      # Song management is done through Backbeat; that is installed via AppImage elsewhere.
       (let ed = inputs.lr2oraja-endlessdream-nix.packages.${system}.lr2oraja-endlessdream.overrideAttrs (final: prev:
         rec {
+          # upstream flake references invalid git tag (git only used for assets)
           gitsrc = fetchFromGitHub {
             owner = "seraxis";
             repo = "lr2oraja-endlessdream";
@@ -171,7 +173,7 @@ in
         title = "Girls' Frontline 2: Exilium";
         baseDir = "${config.home.homeDirectory}/.local/share/games/gfl2";
         shortname = "gfl2";
-        installerUrl = "https://gf2-us-cdn.sunborngame.com/prod/download/launcher/1.0.2/GF2_Launcher_pc1_1_0_0_OverSeas_Mica_1747250420_12_1000005.exe";
+        installerUrl = "https://gf2-us-cdn.sunborngame.com/prod/download/launcher/1.0.3/GF2_Launcher_pc1_1_0_3_OverSeas_Mica_1792428415_36_1000005.exe";
         launcherBinary = "GF2Exilium/PCLauncher.exe";
         mainBinary = "GF2Exilium/GF2 Game/GF2_Exilium.exe";
         icon = icons.gfl2;
@@ -233,43 +235,6 @@ in
       # Utilities
       crosspipe # useful for rerouting game audio
     ];
-
-    systemd = {
-      user.services.game-reaper = {
-        Unit = {
-          Description = "Game Process Reaper";
-          Wants = ["graphical-session.target"];
-          After = ["graphical-session.target"];
-        };
-        Service = {
-          Type = "simple";
-          ExecStart = "${reaper.python}/bin/python ${reaper.script}";
-          Restart = "on-failure";
-          RestartSec = 1;
-          TimeoutStopSec = 10;
-        };
-        Install = {
-          WantedBy = ["graphical-session.target"];
-        };
-      };
-      user.services.sway-mode = {
-        Unit = {
-          Description = "Sway Gaming Mode Daemon";
-          Wants = ["graphical-session.target"];
-          After = ["graphical-session.target"];
-        };
-        Service = {
-          Type = "simple";
-          ExecStart = "${swaymode.python}/bin/python ${swaymode.script}";
-          Restart = "on-failure";
-          RestartSec = 1;
-          TimeoutStopSec = 10;
-        };
-        Install = {
-          WantedBy = ["graphical-session.target"];
-        };
-      };
-    };
 
     wayland.windowManager.hyprland = {
       extraConfig = lib.mkAfter ''

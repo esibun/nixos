@@ -13,6 +13,7 @@ let
   };
 in
 {
+  # TODO: create proper package and switch over (same thing we did with beatoraja)
   home.packages = with pkgs; [
     (callPackage ../pkgs/native-game.nix {
       title = "XSanity";
