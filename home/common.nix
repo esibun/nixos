@@ -22,6 +22,7 @@
       # Utilities
       inputs.agenix.packages.${system}.default
       any-nix-shell
+      nh
       unzip
     ];
     sessionVariables = {

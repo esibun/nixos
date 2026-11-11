@@ -97,9 +97,8 @@
           coreutils-full
           findutils
           git
-          nix # nixos-rebuild dependency
-          nixos-rebuild
-          nvd
+          nh
+          nix # nh dependency
           openssh
           sudo
         ];
@@ -108,9 +107,7 @@
           cd /etc/nixos
           git fetch
           git reset --hard origin/main
-          # nix-output-monitor causes excessive logging
-          nixos-rebuild switch
-          ls -dt /nix/var/nix/profiles/system-* | head -n2 | tac | xargs nvd diff
+          NH_ELEVATION_STRATEGY=none nh os switch
         '';
         serviceConfig = {
           Type = "oneshot";
