@@ -1,6 +1,20 @@
 {pkgs, lib, config, inputs, system, ...}:
 
 let
+  boorupaperDependencies = with pkgs; [
+    curl
+    flock
+    jq
+    libxml2
+
+    # dependencies not listed in readme
+    hyprpaper
+    hyprland # for hyprctl
+    bash # bash (lib/display.sh to set image)
+    coreutils # dirname
+    findutils # find
+    gawk # awk
+  ];
   hyprbg = pkgs.fetchurl {
     url = "https://cdn.donmai.us/original/62/df/__aa_12_and_lind_girls_frontline_and_1_more_drawn_by_yakupan__62dfeb4066ce6bf6c761cea62c5aa0c7.jpg";
     hash = "sha256-MzW/idBeCF3t+CO60G1O74PUkh0CEldXWyY8tB8mH48=";
@@ -113,6 +127,30 @@ in
       pavucontrol
       pulseaudio # for pactl
       slurp
+
+      # Custom commands
+      (
+        runCommand "boorupaper" {
+          nativeBuildInputs = [ makeWrapper ];
+          buildInputs = boorupaperDependencies;
+          meta = {
+            mainProgram = "boorupaper";
+          };
+        }
+        ''
+          mkdir -p $out/bin/lib
+
+          install -m +x ${inputs.boorupaper}/lib/* $out/bin/lib
+
+          # patch shebang (patchShebang seems to not work here)
+          substitute ${inputs.boorupaper}/boorupaper.sh $out/bin/boorupaper \
+            --replace "#!/bin/bash" "#!${pkgs.runtimeShell}"
+          chmod +x $out/bin/boorupaper
+
+          wrapProgram $out/bin/boorupaper \
+            --prefix PATH : "${lib.makeBinPath boorupaperDependencies}" \
+        ''
+      )
     ];
     pointerCursor = {
       gtk.enable = true;
@@ -130,14 +168,6 @@ in
         if ${pkgs.uwsm}/bin/uwsm check may-start 1 &> /dev/null && ${pkgs.uwsm}/bin/uwsm select; then
           exec ${pkgs.uwsm}/bin/uwsm start default
         fi
-      '';
-    };
-    fish = {
-      # FIXME: wrap this properly instead of this being a fish function
-      shellInit = ''
-        function boorupaper
-          nix-shell -p curl flock jq libxml2 bash coreutils findutils gawk --command "bash ${inputs.boorupaper}/boorupaper.sh $argv"
-        end
       '';
     };
     hyprlock = {
@@ -269,20 +299,7 @@ in
         };
         Service = {
           Type = "forking";
-          Environment = "PATH=${lib.makeBinPath [
-            pkgs.curl
-            pkgs.flock
-            pkgs.jq
-            pkgs.libxml2
-
-            # dependencies not listed in readme
-            pkgs.hyprpaper
-            pkgs.hyprland # for hyprctl
-            pkgs.bash # bash (lib/display.sh to set image)
-            pkgs.coreutils # dirname
-            pkgs.findutils # find
-            pkgs.gawk # awk
-          ]}";
+          Environment = "PATH=${lib.makeBinPath boorupaperDependencies}";
           ExecStartPre = [
             # Don't run if hyprlock is running
             "${pkgs.bash}/bin/bash -c '! ${pkgs.procps}/bin/pgrep hyprlock'"
