@@ -21,6 +21,7 @@
     homeDirectory = "/home/esi";
     packages = with pkgs; [
       libimobiledevice
+      (pkgs.callPackage ../pkgs/magewell-capture.nix {})
     ];
     stateVersion = "23.11";
     username = "esi";
