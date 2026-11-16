@@ -111,11 +111,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794520225,
-        "narHash": "sha256-qMmhL7rpnZgk8aq+cnpttwZwvqVVSbvtWAs3usqmmNw=",
+        "lastModified": 1794751331,
+        "narHash": "sha256-ktHxsC6eqIG7VapDEnvXLjHAC2hUkdUMSquY4sFSE7o=",
         "owner": "benjiae",
         "repo": "lr2oraja-endlessdream-nix",
-        "rev": "dcb0c8ffe983a8e4b448709b632ccb35774b6582",
+        "rev": "d54eaae6552168367c8a598c4ec317e968d65085",
         "type": "github"
       },
       "original": {
