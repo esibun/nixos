@@ -118,6 +118,31 @@ in
           })); # game uses ACE, dwproton recommended
       })
 
+      # Girls' Frontline 2: Exilium
+      #
+      # No issues to report, it just works!  I have had issues with proton 10, but it looks like those issues have been resolved by Proton.
+      # The extraLib here is a NixOS issue - proton doesn't properly inject gstreamer dependencies to play the intro video so we have to fix it ourselves.
+      (callPackage ../pkgs/wine-game.nix {
+        title = "Girls' Frontline 2: Exilium";
+        baseDir = "${config.home.homeDirectory}/.local/share/games/gfl2";
+        shortname = "gfl2";
+        installerUrl = "https://gf2-us-cdn.sunborngame.com/prod/download/launcher/1.0.3/GF2_Launcher_pc1_1_0_3_OverSeas_Mica_1792428415_36_1000005.exe";
+        launcherBinary = "GF2Exilium/PCLauncher.exe";
+        mainBinary = "GF2Exilium/GF2 Game/GF2_Exilium.exe";
+        icon = icons.gfl2;
+        useUmu = true;
+        winetricksVerbs = [
+          "dotnetcore3"
+        ];
+        extraLib = [
+          libmpg123
+          ffmpeg_4-headless # GStreamer H.264 support
+          freetype
+          harfbuzz
+        ];
+        customProtonPath = compatTool pkgs.unstable.dwproton-bin; # game has no AC issues, can use any version of proton here
+      })
+
       # LR2oraja
       #
       # Runs natively (written in Java), can have frame stutter issues if the game window isn't kept as the active window.
@@ -164,31 +189,6 @@ in
         gamePostfix = "-s";
         icon = icons.beatoraja;
       }))
-
-      # Girls' Frontline 2: Exilium
-      #
-      # No issues to report, it just works!  I have had issues with proton 10, but it looks like those issues have been resolved by Proton.
-      # The extraLib here is a NixOS issue - proton doesn't properly inject gstreamer dependencies to play the intro video so we have to fix it ourselves.
-      (callPackage ../pkgs/wine-game.nix {
-        title = "Girls' Frontline 2: Exilium";
-        baseDir = "${config.home.homeDirectory}/.local/share/games/gfl2";
-        shortname = "gfl2";
-        installerUrl = "https://gf2-us-cdn.sunborngame.com/prod/download/launcher/1.0.3/GF2_Launcher_pc1_1_0_3_OverSeas_Mica_1792428415_36_1000005.exe";
-        launcherBinary = "GF2Exilium/PCLauncher.exe";
-        mainBinary = "GF2Exilium/GF2 Game/GF2_Exilium.exe";
-        icon = icons.gfl2;
-        useUmu = true;
-        winetricksVerbs = [
-          "dotnetcore3"
-        ];
-        extraLib = [
-          libmpg123
-          ffmpeg_4-headless # GStreamer H.264 support
-          freetype
-          harfbuzz
-        ];
-        customProtonPath = compatTool pkgs.unstable.dwproton-bin; # game has no AC issues, can use any version of proton here
-      })
 
       # Game Tools
       gamescope
