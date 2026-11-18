@@ -5,10 +5,17 @@ on:
 jobs:
   update:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./
     environment: flake-update
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v7
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install curl jq
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@main
       - name: Add Secrets SSH Key
@@ -25,6 +32,12 @@ jobs:
           ssh-agent -a $SSH_AUTH_SOCK > /dev/null
           # add secrets key to SSH keyring so the action can see it
           ssh-add /home/runner/.ssh/secrets_key
+      - name: Update Game URLs
+        run: |
+          ./update-urls.sh
+          if [ "$(git status -s | wc -l)" > 0 ]; then
+            git commit -A -m "Update Game URLs"
+          fi
       - name: Update Nix Flake Lock
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
@@ -32,5 +45,4 @@ jobs:
         with:
           pr-title: "Update flake.lock"
           pr-labels: |
-            dependencies
             automated
