@@ -36,7 +36,7 @@ jobs:
         run: |
           ./update-urls.sh
           if [ "$(git status -s | wc -l)" > 0 ]; then
-            git commit -A -m "Update Game URLs"
+            git commit -a -m "Update Game URLs"
           fi
       - name: Update Nix Flake Lock
         env:
