@@ -36,6 +36,8 @@ jobs:
         run: |
           ./update-urls.sh
           if [ "$(git status -s | wc -l)" > 0 ]; then
+            GIT_AUTHOR_NAME="github-actions[bot]" \
+            GIT_AUTHOR_EMAIL="github-actions[bot]@users.noreply.github.com" \
             git commit -a -m "Update Game URLs"
           fi
       - name: Update Nix Flake Lock
