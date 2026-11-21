@@ -121,12 +121,11 @@ in
       font-manager
       freecad
       gnome-disk-utility
-      grim
       nautilus
       orca-slicer
       pavucontrol
       pulseaudio # for pactl
-      slurp
+      unstable.waytator
 
       # Custom commands
       (
@@ -368,7 +367,7 @@ in
       { key = "${mod} + XF86AudioLowerVolume"; func = ''dsp.exec_cmd("${pkgs.pulseaudio}/bin/pactl set-source-volume @DEFAULT_SOURCE@ -5%")''; }
       { key = "XF86AudioMute"; func = ''dsp.exec_cmd("${pkgs.pulseaudio}/bin/pactl set-source-mute @DEFAULT_SOURCE@ toggle")''; }
 
-      { key = "${mod} + c"; func = ''dsp.exec_cmd("GRIM_DEFAULT_DIR=$HOME/Pictures ${pkgs.grim}/bin/grim -g \"$(${pkgs.slurp}/bin/slurp)\"")''; }
+      { key = "${mod} + c"; func = ''dsp.exec_cmd("${pkgs.unstable.waytator}/bin/waytator --screenshot")''; }
 
       { key = "${mod} + Return"; func = ''dsp.exec_cmd("${terminal}")''; }
       { key = "${mod} + SHIFT + q"; func = ''dsp.window.close()''; }
