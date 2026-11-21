@@ -51,11 +51,11 @@
     "endfield-wine-crossover": {
       "flake": false,
       "locked": {
-        "lastModified": 1792216928,
-        "narHash": "sha256-JPHoPiP1UnAAkj81z8NmTwUp0/K1AaKw+LgCHxbpvLA=",
+        "lastModified": 1795184663,
+        "narHash": "sha256-LD8Jo+gyC2BKyZF8PEpWusXqGtAq/kovtfnscqdsmpM=",
         "owner": "mary-ext",
         "repo": "crossover-wine-endfield",
-        "rev": "3ac05a11efff0379e4bdd08df7dc358460b76e1c",
+        "rev": "c2af623cf05df4a1241abe3b3599a531c333f033",
         "type": "github"
       },
       "original": {
@@ -242,11 +242,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1795031880,
-        "narHash": "sha256-Obi0Kr71SBfU9aaDxSncVRT4wYTjLzjMyCmmuC2XGd0=",
+        "lastModified": 1795137884,
+        "narHash": "sha256-iKXCN36qYfBni+3nH4vAd98/kshoIsPB2S9mYWhma30=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "3457b69ac4aba6d9ea9a743370af160fb502db29",
+        "rev": "ab5c18fdedfc8f9bbc9d773f10a540790e2787a7",
         "type": "github"
       },
       "original": {
