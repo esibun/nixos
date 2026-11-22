@@ -474,6 +474,11 @@ in
           disable_hyprland_logo = true;
           disable_splash_rendering = true;
         };
+        render = {
+          # prevent hyprland from trying to always switch to HDR in fullscreen
+          cm_auto_hdr = false;
+          direct_scanout = true;
+        };
         # broken, see hyprwm/Hyprland#10278
         #xwayland = {
         #  force_zero_scaling = true;
