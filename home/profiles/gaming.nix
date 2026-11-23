@@ -237,9 +237,13 @@ in
     ];
 
     wayland.windowManager.hyprland = {
-      extraConfig = lib.mkAfter ''
+      extraConfig = let
+        OnReloadCmds = [
+          "pidof steam || ${pkgs.uwsm}/bin/uwsm app -- ${pkgs.steam}/bin/steam -client"
+        ];
+      in lib.mkAfter ''
         hl.on("config.reloaded", function()
-          hl.exec_cmd("pidof steam || ${pkgs.uwsm}/bin/uwsm app -- ${pkgs.steam}/bin/steam -silent")
+        ${lib.concatLines (map (x: "  hl.exec_cmd(\"${x}\")") OnReloadCmds)}
         end)
       '';
     };

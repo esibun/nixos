@@ -419,18 +419,24 @@ in
     package = null; # don't install hyprland to user profile (we're using system profile for uwsm)
     configType = "lua";
     # hl.on() doesn't seem to be natively supported by hyprland nix config
-    # TODO: can make this a bit more elegant
-    extraConfig = ''
+    extraConfig = let
+      OnStartupCmds = [
+        "${pkgs.uwsm}/bin/uwsm app -- ${pkgs.arrpc}/bin/arrpc"
+        "${pkgs.uwsm}/bin/uwsm app -- ${pkgs.easyeffects}/bin/easyeffects --gapplication-service"
+        # config files don't seem to actually read
+        "${pkgs.hyprland}/bin/hyprctl setcursor Nordzy-cursors-white 64"
+      ];
+      OnReloadCmds = [
+        "systemctl --user restart hyprpaper && systemctl --user start wallpaper-rotate"
+        "systemctl --user restart hyprpolkitagent"
+        "systemctl --user restart waybar"
+      ];
+    in ''
       hl.on("hyprland.start", function()
-        hl.exec_cmd("${pkgs.uwsm}/bin/uwsm app -- ${pkgs.arrpc}/bin/arrpc")
-        hl.exec_cmd("${pkgs.uwsm}/bin/uwsm app -- ${pkgs.easyeffects}/bin/easyeffects --gapplication-service")
-        -- config files don't seem to actually read
-        hl.exec_cmd("${pkgs.hyprland}/bin/hyprctl setcursor Nordzy-cursors-white 64")
+      ${lib.concatLines (map (x: "  hl.exec_cmd(\"${x}\")") OnStartupCmds)}
       end)
       hl.on("config.reloaded", function()
-        hl.exec_cmd("systemctl --user restart hyprpaper && systemctl --user start wallpaper-rotate")
-        hl.exec_cmd("systemctl --user restart hyprpolkitagent")
-        hl.exec_cmd("systemctl --user restart waybar")
+      ${lib.concatLines (map (x: "  hl.exec_cmd(\"${x}\")") OnReloadCmds)}
       end)
     '';
     submaps = {
