@@ -1,8 +1,14 @@
 diff --git a/packages/discord-rpc/src/games.ts b/packages/discord-rpc/src/games.ts
-index 69e0e95..5528d71 100644
+index 69e0e95..fc678ae 100644
 --- a/packages/discord-rpc/src/games.ts
 +++ b/packages/discord-rpc/src/games.ts
-@@ -23,6 +23,29 @@ const OBS: DetectableGame = {
+@@ -18,11 +18,34 @@ const OBS: DetectableGame = {
+     id: STREAMER_MODE_ID,
+     name: "OBS",
+     executables: [
+-        { is_launcher: false, name: "obs", os: "linux" },
++        { is_launcher: false, name: ".obs-wrapped", os: "linux" },
+         { is_launcher: false, name: "obs.exe", os: "win32" }
      ]
  };
  
@@ -24,7 +30,7 @@ index 69e0e95..5528d71 100644
 +        id: "beatoraja",
 +        name: "Beatoraja",
 +        executables: [
-+            { is_launcher: false, name: "bin/java", os: "linux" }
++            { is_launcher: false, name: "bin/.java-wrapped", os: "linux" }
 +        ]
 +    }
 +];
