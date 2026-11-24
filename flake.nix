@@ -8,9 +8,6 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    # Revert to 3.2.2
-    nixpkgs-equibop.url = "github:nixos/nixpkgs/89b8986f97aa3a5e9bf2b28a822ff4a06b6ebf66";
-
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
 
     home-manager = {
@@ -83,7 +80,7 @@
     };
   };
 
-  outputs = inputs@{self, nixpkgs, nixpkgs-unstable, nixpkgs-equibop, ...}: let
+  outputs = inputs@{self, nixpkgs, nixpkgs-unstable, ...}: let
     commonx64Modules = let
       system = "x86_64-linux";
     in [
@@ -95,10 +92,6 @@
           in [
             (final: prev: rec {
               unstable = import nixpkgs-unstable {
-                inherit system;
-                config.allowUnfree = true;
-              };
-              equibopcommit = import nixpkgs-equibop {
                 inherit system;
                 config.allowUnfree = true;
               };

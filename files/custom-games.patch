@@ -1,0 +1,64 @@
+diff --git a/packages/discord-rpc/src/games.ts b/packages/discord-rpc/src/games.ts
+index 69e0e95..5528d71 100644
+--- a/packages/discord-rpc/src/games.ts
++++ b/packages/discord-rpc/src/games.ts
+@@ -23,6 +23,29 @@ const OBS: DetectableGame = {
+     ]
+ };
+ 
++// List of custom games; would be better to load these from a file
++const CUSTOM: DetectableGame[] = [
++    {
++        id: 1441993124996972685,
++        executables: [
++            { is_launcher: false, name: "arknights_en/arknights.exe", os: "win32" }
++        ]
++    },
++    {
++        id: 1339098696419246110,
++        executables: [
++            { is_launcher: false, name: "gf2 game/gf2_exilium.exe", os: "win32" }
++        ]
++    },
++    {
++        id: "beatoraja",
++        name: "Beatoraja",
++        executables: [
++            { is_launcher: false, name: "bin/java", os: "linux" }
++        ]
++    }
++];
++
+ export type { RunningGame as DetectedGame } from "@vencord/game-detection";
+ 
+ export interface GameDetectionOptions {
+@@ -59,9 +82,28 @@ export function startGameDetection({ nativePath, cachePath, onChange }: GameDete
+     async function init() {
+         const native: typeof import("@vencord/game-detection") = require(nativePath);
+ 
+-        const database = await loadDatabase(cachePath);
++        let database = await loadDatabase(cachePath);
+         if (stopped) return;
+ 
++        // Inject database with custom games
++        let isUpdate = false;
++        for (const customGame of CUSTOM) {
++            isUpdate = false;
++            database.forEach((dbEntry, index) => {
++                if ( customGame.id == dbEntry.id ) {
++                    for ( const [key, value] of Object.entries(customGame) ) {
++                        // TODO: match arrpc-bun's implementation by appending to entries instead of overwriting it
++                        database[index][key] = customGame[key];
++                    }
++                    console.log(database[index]);
++                    isUpdate = true;
++                }
++            });
++            if ( !isUpdate ) {
++                database.push(customGame);
++            }
++        }
++
+         native.setDetectableDatabase([...database, OBS]);
+ 
+         const scan = async () => {
