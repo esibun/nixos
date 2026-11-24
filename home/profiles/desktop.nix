@@ -108,10 +108,9 @@ in
       onlyoffice-desktopeditors
 
       # Social Media
-      (unstable.equibop.overrideAttrs (final: prev: {
+      (equibopcommit.equibop.overrideAttrs (final: prev: {
         patches = unstable.equibop.patches ++ [
-          # dropped - needs rebase against screenshare updates (caused by Vesktop#1388, original pr: Vesktop#195)
-          #../../files/equibop-cam-patch.patch
+          ../../files/equibop-cam-patch.patch
         ];
         # apply updated game list
         postFixup = builtins.replaceStrings ["app.asar \\"] ["app.asar \\\n--set ARRPC_DATA_DIR ${config.home.homeDirectory}/.config/arrpc \\"] prev.postFixup;
