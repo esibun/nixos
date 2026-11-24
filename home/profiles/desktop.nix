@@ -479,7 +479,8 @@ in
         render = {
           # prevent hyprland from trying to always switch to HDR in fullscreen
           cm_auto_hdr = false;
-          direct_scanout = true;
+          # causes heavy CPU thrashing with beatoraja
+          #direct_scanout = true;
         };
         # broken, see hyprwm/Hyprland#10278
         #xwayland = {
